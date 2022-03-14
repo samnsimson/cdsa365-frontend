@@ -12,6 +12,7 @@ import Authenticate from "./views/authenticate";
 import AuthSetup from "./views/auth-setup";
 import WebFont from "webfontloader";
 import { useEffect } from "react";
+import AddNewTrainers from "./views/add-new-trainers";
 
 // APPLICATION
 const App = () => {
@@ -36,6 +37,11 @@ const App = () => {
                 <Route exact path="/authenticate" element={<Authenticate />} />
                 <Route element={<Dashboard />}>
                     <Route exact path="/dashboard" element={<Home />} />
+                    <Route
+                        exact
+                        path="/dashboard/trainers/add-new"
+                        element={<AddNewTrainers />}
+                    />
                 </Route>
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>

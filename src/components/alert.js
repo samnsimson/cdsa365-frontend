@@ -2,7 +2,8 @@ import React from "react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
 const Alert = (props) => {
-    const { type, message } = props;
+    console.log(props);
+    const { type, message, className } = props;
     const typeList = [
         "success",
         "warning",
@@ -16,7 +17,11 @@ const Alert = (props) => {
     let alertMessage = message ?? "";
 
     return (
-        <div className={`flex items-center text-md justify-start ${alertType}`}>
+        <div
+            className={`flex items-center text-md justify-start ${alertType} ${
+                className ?? ""
+            }`}
+        >
             <div className="w-1/12">
                 <ExclamationIcon className="h-5 w-5 mr-2" />
             </div>

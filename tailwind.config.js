@@ -2,6 +2,9 @@ const colors = require("tailwindcss/colors");
 
 module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    purge: {
+        safelist: ["alert-danger"],
+    },
     theme: {
         extend: {
             minHeight: {
@@ -16,7 +19,7 @@ module.exports = {
         },
         fontFamily: {
             sans: [
-                "Montserrat",
+                // "Montserrat",
                 "Source Sans Pro",
                 "Roboto",
                 "Helvetica",

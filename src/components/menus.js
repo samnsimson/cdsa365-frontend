@@ -7,6 +7,7 @@ import {
     UserGroupIcon,
     UserIcon,
 } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 
 const Menus = () => {
     return (
@@ -18,27 +19,33 @@ const Menus = () => {
                     </div>
                     <div>
                         <ul className="py-2">
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <PlusIcon className="h-4 w-4" />
-                                    <p>Add New </p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <AcademicCapIcon className="h-4 w-4" />
-                                    <p>All Trainers</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <UserGroupIcon className="h-4 w-4" />
-                                    <p>Trainer Category</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
+                            <Link to="dashboard/trainers/add-new">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <PlusIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Add New </p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/trainers/view-all">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <AcademicCapIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>All Trainers</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/trainers/category">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Trainer Category</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
                         </ul>
                     </div>
                 </li>
@@ -48,23 +55,23 @@ const Menus = () => {
                     </div>
                     <div>
                         <ul className="py-2">
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
                                 <div className="flex justify-start items-center space-x-2">
-                                    <PlusIcon className="h-4 w-4" />
+                                    <PlusIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                     <p>Add New </p>
                                 </div>
                                 <ChevronRightIcon className="h-5 w-5" />
                             </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
                                 <div className="flex justify-start items-center space-x-2">
-                                    <UserIcon className="h-4 w-4" />
+                                    <UserIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                     <p>All Students</p>
                                 </div>
                                 <ChevronRightIcon className="h-5 w-5" />
                             </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
                                 <div className="flex justify-start items-center space-x-2">
-                                    <UserGroupIcon className="h-4 w-4" />
+                                    <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                     <p>Student Category</p>
                                 </div>
                                 <ChevronRightIcon className="h-5 w-5" />
@@ -78,27 +85,33 @@ const Menus = () => {
                     </div>
                     <div>
                         <ul className="py-2">
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <PlusIcon className="h-4 w-4" />
-                                    <p>Add New </p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <BookOpenIcon className="h-4 w-4" />
-                                    <p>All Classes</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <li className="p-2 flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <UserGroupIcon className="h-4 w-4" />
-                                    <p>Class Category</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
+                            <Link to="dashboard/classes/add-new">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <PlusIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Add New </p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/classes/view-all">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <BookOpenIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>All Classes</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/classes/category">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Class Category</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
                         </ul>
                     </div>
                 </li>

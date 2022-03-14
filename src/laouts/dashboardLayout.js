@@ -11,7 +11,9 @@ const Dashboard = () => {
             </div>
             <div className="col-span-8">
                 <Header />
-                <Outlet />
+                <div className="bg-slate-100 min-h-screen">
+                    <Outlet />
+                </div>
             </div>
         </div>
     );
