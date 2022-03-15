@@ -1,25 +1,25 @@
-import React from "react";
-import { ExclamationIcon } from "@heroicons/react/outline";
+import React from 'react'
+import { ExclamationIcon } from '@heroicons/react/outline'
 
 const Alert = (props) => {
-    console.log(props);
-    const { type, message, className } = props;
+    console.log(props)
+    const { type, message, className } = props
     const typeList = [
-        "success",
-        "warning",
-        "danger",
-        "info",
-        "default",
-        "primary",
-    ];
-    let alertType = type && typeList.includes(type) ? type : "default";
-    alertType = `alert-${alertType.toLowerCase()}`;
-    let alertMessage = message ?? "";
+        'success',
+        'warning',
+        'danger',
+        'info',
+        'default',
+        'primary',
+    ]
+    let alertType = type && typeList.includes(type) ? type : 'default'
+    alertType = `alert-${alertType.toLowerCase()}`
+    let alertMessage = message ?? ''
 
     return (
         <div
             className={`flex items-center text-md justify-start ${alertType} ${
-                className ?? ""
+                className ?? ''
             }`}
         >
             <div className="w-1/12">
@@ -27,7 +27,7 @@ const Alert = (props) => {
             </div>
             <div className="w-11/12">{alertMessage}</div>
         </div>
-    );
-};
+    )
+}
 
-export default Alert;
+export default Alert
