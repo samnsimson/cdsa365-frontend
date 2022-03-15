@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
     AcademicCapIcon,
     BookOpenIcon,
@@ -6,8 +6,8 @@ import {
     PlusIcon,
     UserGroupIcon,
     UserIcon,
-} from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
+} from '@heroicons/react/solid'
+import { Link } from 'react-router-dom'
 
 const Menus = () => {
     return (
@@ -117,7 +117,7 @@ const Menus = () => {
                 </li>
             </ul>
         </div>
-    );
-};
+    )
+}
 
-export default Menus;
+export default Menus
