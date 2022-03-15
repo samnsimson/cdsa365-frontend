@@ -36,7 +36,10 @@ const userMenu = [
 ];
 
 const Header = () => {
-  const { minimiseSidebar } = useSelector((state) => state.dashboard);
+  const {
+    dashboard: { minimiseSidebar },
+    user: { currentUser },
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
   return (
     <div className="flex items-center justify-between h-20 px-4 w-full border-b-1 border-gray-300 font-sans">
@@ -69,7 +72,7 @@ const Header = () => {
                   className="h-5 w-5 text-gray-500 hover:text-sky-500 cursor-pointer"
                   fill="currentColor"
                 />
-                <p>Sam Cladson</p>
+                <p>{`${currentUser.first_name} ${currentUser.last_name}`}</p>
               </Menu.Button>
               {open && (
                 <Menu.Items

@@ -3,10 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Alert from "../components/alert";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import { useDispatch } from "react-redux";
-import { toggleLogin } from "../models";
+import { batch, useDispatch, useSelector } from "react-redux";
+import { toggleLogin, updateUser } from "../models";
 
 const Login = () => {
+  const { isLoggedIn } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const [userId, setUserId] = useState(null);
   const [errors, setErrors] = useState([]);
@@ -27,7 +28,10 @@ const Login = () => {
       const { data } = await axios.post(url, formData);
       if (data) {
         setUserId(data.id);
-        dispatch(toggleLogin(true));
+        batch(() => {
+          dispatch(toggleLogin(true));
+          dispatch(updateUser(data));
+        });
         navigate("/authenticate", { state: { id: data.id } });
       }
     } catch (error) {
@@ -41,6 +45,11 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (isLoggedIn) navigate("/dashboard");
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     if (formData.email && formData.password) {
       setButtonDisabled(false);
     }
@@ -48,7 +57,7 @@ const Login = () => {
 
   useEffect(() => {
     if (errors.length) setErrors([]);
-  }, [userId, errors.length]);
+  }, [userId]);
 
   return (
     <div className="container-fluid w-full bg-blueGray-800 max-h-screen justify-center content-center">

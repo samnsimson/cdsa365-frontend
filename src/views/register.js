@@ -50,7 +50,7 @@ const Register = () => {
 
   useEffect(() => {
     if (errors.length) setErrors([]);
-  }, [userId, errors.length]);
+  }, [userId]);
 
   return (
     <div className="container-fluid w-full p-6 bg-blueGray-800 min-h-screen justify-center content-center">

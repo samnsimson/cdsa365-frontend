@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 // LAYOUTS
 import Dashboard from "./laouts/dashboardLayout";
@@ -11,12 +13,13 @@ import Home from "./views/home";
 import Authenticate from "./views/authenticate";
 import AuthSetup from "./views/auth-setup";
 import WebFont from "webfontloader";
-import { useEffect } from "react";
 import AddNewTrainers from "./views/add-new-trainers";
 import PrivateRoute from "./components/PrivateRoute";
 
 // APPLICATION
 const App = () => {
+  const { isLoggedIn } = useSelector((state) => state.user);
+
   useEffect(() => {
     WebFont.load({
       google: {

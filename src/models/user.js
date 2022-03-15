@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoggedIn: false,
-  id: "",
+  currentUser: null,
 };
 
 const UserModel = createSlice({
@@ -13,7 +13,7 @@ const UserModel = createSlice({
       state.isLoggedIn = payload;
     },
     updateUser(state, { payload }) {
-      state.id = payload;
+      state.currentUser = payload;
     },
   },
 });
