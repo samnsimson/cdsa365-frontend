@@ -3,22 +3,28 @@
 @tailwind utilities;
 
 @layer components {
-  .btn {
-    @apply flex items-center justify-center py-2 px-4 disabled:cursor-not-allowed cursor-pointer;
-  }
-  .btn-info {
-    @apply bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:bg-blue-300;
-  }
-  .btn-primary {
-    @apply bg-blueGray-600 text-white font-semibold rounded-md shadow-md hover:bg-blueGray-800 focus:outline-none focus:ring-2 focus:ring-blueGray-900 focus:ring-opacity-75;
-  }
-  .btn-success {
-    @apply bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75;
-  }
-  .form-control {
-    @apply w-full p-2 outline-gray-400 border-1 border-gray-400 rounded-md;
-  }
-  .alert-danger {
-    @apply p-2 my-2 rounded-md border-1 border-red-400 bg-red-200 text-red-600;
-  }
+    .btn {
+        @apply flex items-center justify-center py-2 px-4 disabled:cursor-not-allowed cursor-pointer;
+    }
+    .btn-info {
+        @apply bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:bg-blue-300;
+    }
+    .btn-primary {
+        @apply bg-blueGray-600 text-white font-semibold rounded-md shadow-md hover:bg-blueGray-800 focus:outline-none focus:ring-2 focus:ring-blueGray-900 focus:ring-opacity-75;
+    }
+    .btn-success {
+        @apply bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75;
+    }
+    .form-control {
+        @apply w-full p-2 outline-gray-400 border-1 border-gray-400 rounded-md;
+    }
+    .alert-danger {
+        @apply p-2 my-2 rounded-md border-1 border-red-400 bg-red-200 text-red-600;
+    }
+    .thead {
+        @apply px-6 py-4 text-left text-xs uppercase text-sky-800 border-b-1 border-sky-200 bg-sky-100;
+    }
+    .table-hover {
+        @apply hover:bg-slate-100;
+    }
 }
