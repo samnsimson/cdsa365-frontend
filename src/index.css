@@ -4,10 +4,10 @@
 
 @layer components {
     .btn {
-        @apply flex items-center justify-center py-2 px-4;
+        @apply flex items-center justify-center py-2 px-4 disabled:cursor-not-allowed;
     }
     .btn-info {
-        @apply bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+        @apply bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:bg-blue-300;
     }
     .btn-primary {
         @apply bg-blueGray-600 text-white font-semibold rounded-md shadow-md hover:bg-blueGray-800 focus:outline-none focus:ring-2 focus:ring-blueGray-900 focus:ring-opacity-75;
