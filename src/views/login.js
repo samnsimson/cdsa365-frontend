@@ -57,6 +57,7 @@ const Login = () => {
 
   useEffect(() => {
     if (errors.length) setErrors([]);
+    //eslint-disable-next-line
   }, [userId]);
 
   return (

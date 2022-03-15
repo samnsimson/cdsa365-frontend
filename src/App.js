@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 // LAYOUTS
@@ -18,8 +17,6 @@ import PrivateRoute from "./components/PrivateRoute";
 
 // APPLICATION
 const App = () => {
-  const { isLoggedIn } = useSelector((state) => state.user);
-
   useEffect(() => {
     WebFont.load({
       google: {
