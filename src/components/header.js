@@ -72,7 +72,7 @@ const Header = () => {
                   className="h-5 w-5 text-gray-500 hover:text-sky-500 cursor-pointer"
                   fill="currentColor"
                 />
-                <p>{`${currentUser.first_name} ${currentUser.last_name}`}</p>
+                <p>{`${currentUser?.first_name} ${currentUser?.last_name}`}</p>
               </Menu.Button>
               {open && (
                 <Menu.Items
