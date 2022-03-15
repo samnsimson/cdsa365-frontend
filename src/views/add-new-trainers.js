@@ -37,13 +37,18 @@ const AddNewTrainers = () => {
 
     const fetchTrainers = () => {
         const url = "http://localhost:4000/v1/dev/admin/trainers";
-        axios.get(url).then(({ data }) => {
-            if (data) {
-                let filtered = data.filter((t) => +t.invite_status === 0);
-                filtered.map((e) => (e.isChecked = false));
-                setTrainers(filtered);
-            }
-        });
+        axios
+            .get(url)
+            .then(({ data }) => {
+                if (data) {
+                    let filtered = data.filter((t) => +t.invite_status === 0);
+                    filtered.map((e) => (e.isChecked = false));
+                    setTrainers(filtered);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleAllChecked = (e) => {
@@ -62,9 +67,22 @@ const AddNewTrainers = () => {
         setTrainers([...trainersCheckbox]);
     };
 
+    const sendInvite = async (id) => {
+        try {
+            const url = `http://localhost:4000/v1/dev/admin/trainer/send-invite`;
+            const { data } = await axios.post(url, { id: [id] });
+            if (data) fetchTrainers();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
-        if (formData.first_name && formData.last_name && formData.email)
+        if (formData.first_name && formData.last_name && formData.email) {
             setButtonDisabled(false);
+        } else {
+            setButtonDisabled(true);
+        }
     }, [formData]);
 
     useEffect(() => {
@@ -220,7 +238,12 @@ const AddNewTrainers = () => {
                                             <p className="font-normal text-sm text-gray-700">{`${trainer.first_name} ${trainer.last_name}`}</p>
                                         </td>
                                         <td className="p-4 px-6 align-middle text-sm whitespace-nowrap">
-                                            <button className="btn btn-success text-xs font-normal px-2 py-1 shadow-none">
+                                            <button
+                                                className="btn btn-success text-xs font-normal px-2 py-1 shadow-none"
+                                                onClick={() =>
+                                                    sendInvite(trainer.id)
+                                                }
+                                            >
                                                 <ExternalLinkIcon className="w-4 h-4 mr-2" />
                                                 Send invite
                                             </button>
