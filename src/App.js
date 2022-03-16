@@ -15,6 +15,7 @@ import WebFont from 'webfontloader'
 import AddNewTrainers from './views/add-new-trainers'
 import PrivateRoute from './components/PrivateRoute'
 import ListTrainers from './views/list-trainers'
+import ErrorPage from './views/ErrorPage'
 
 // APPLICATION
 const App = () => {
@@ -35,24 +36,8 @@ const App = () => {
             <Routes>
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/register" element={<Register />} />
-                <Route
-                    exact
-                    path="/auth-setup"
-                    element={
-                        <PrivateRoute>
-                            <AuthSetup />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    exact
-                    path="/authenticate"
-                    element={
-                        <PrivateRoute>
-                            <Authenticate />
-                        </PrivateRoute>
-                    }
-                />
+                <Route exact path="/auth-setup" element={<AuthSetup />} />
+                <Route exact path="/authenticate" element={<Authenticate />} />
                 <Route element={<Dashboard />}>
                     <Route
                         exact
@@ -82,7 +67,7 @@ const App = () => {
                         }
                     />
                 </Route>
-                <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="*" element={<ErrorPage />} />
             </Routes>
         </BrowserRouter>
     )

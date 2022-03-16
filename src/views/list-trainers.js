@@ -32,7 +32,7 @@ const ListTrainers = () => {
             <div className="py-4 w-full flex justify-between">
                 <h4 className="font-semibold text-gray-500">All trainers</h4>
             </div>
-            <div className="w-full sm:rounded-lg overflow-hidden bg-white">
+            <div className="w-full h-[75vh] sm:rounded-lg overflow-hidden bg-white overflow-y-scroll">
                 <table className="items-center w-full bg-transparent border-collapse border-1 shadow-sm">
                     <thead>
                         <tr>
