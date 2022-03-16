@@ -38,6 +38,7 @@ const App = () => {
                 <Route exact path="/register" element={<Register />} />
                 <Route exact path="/auth-setup" element={<AuthSetup />} />
                 <Route exact path="/authenticate" element={<Authenticate />} />
+                <Route exact path="/page-not-found" element={<ErrorPage />} />
                 <Route element={<Dashboard />}>
                     <Route
                         exact
@@ -67,7 +68,7 @@ const App = () => {
                         }
                     />
                 </Route>
-                <Route path="*" element={<ErrorPage />} />
+                <Route path="*" element={<Navigate to="/page-not-found" />} />
             </Routes>
         </BrowserRouter>
     )
