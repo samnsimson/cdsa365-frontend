@@ -9,7 +9,8 @@ export const config = {
         fetchTrainers: BASE_URL + '/admin/trainers',
         sendTrainerInvite: BASE_URL + '/admin/trainer/send-invite',
         verifyOtp: BASE_URL + '/admin/verify-otp',
-        register: BASE_URL + '/admin/login',
+        register: BASE_URL + '/admin/register',
         login: BASE_URL + '/admin/login',
+        verifyEmail: BASE_URL + '/admin/email/verify',
     },
 }

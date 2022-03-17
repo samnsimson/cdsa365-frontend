@@ -13,6 +13,7 @@ import AddNewTrainers from './views/add-new-trainers'
 import { PrivateOutlet } from './components/PrivateRoute'
 import ListTrainers from './views/list-trainers'
 import ErrorPage from './views/ErrorPage'
+import EmailVerify from './views/email-verify'
 
 // ROUTE PATHS
 const path = {
@@ -24,6 +25,7 @@ const path = {
     dashboard: '/dashboard',
     addTrainers: '/dashboard/trainers/add-new',
     viewAllTrainers: '/dashboard/trainers/view-all',
+    emailVerify: '/email/verify/:token',
 }
 
 // APPLICATION
@@ -48,6 +50,11 @@ const App = () => {
                 <Route exact path={path.authSetup} element={<AuthSetup />} />
                 <Route exact path={path.auth} element={<Authenticate />} />
                 <Route exact path={path.pageNotFound} element={<ErrorPage />} />
+                <Route
+                    exact
+                    path={path.emailVerify}
+                    element={<EmailVerify />}
+                />
                 <Route path="/" element={<PrivateOutlet />}>
                     <Route exact path={path.dashboard} element={<Home />} />
                     <Route
