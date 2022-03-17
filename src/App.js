@@ -2,9 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import { useEffect } from 'react'
 
-// LAYOUTS
-import Dashboard from './laouts/dashboardLayout'
-
 // VIEWS
 import Login from './views/login'
 import Register from './views/register'
@@ -13,9 +10,21 @@ import Authenticate from './views/authenticate'
 import AuthSetup from './views/auth-setup'
 import WebFont from 'webfontloader'
 import AddNewTrainers from './views/add-new-trainers'
-import PrivateRoute from './components/PrivateRoute'
+import { PrivateOutlet } from './components/PrivateRoute'
 import ListTrainers from './views/list-trainers'
 import ErrorPage from './views/ErrorPage'
+
+// ROUTE PATHS
+const path = {
+    login: '/login',
+    register: '/register',
+    authSetup: '/auth-setup',
+    auth: '/authenticate',
+    pageNotFound: '/page-not-found',
+    dashboard: '/dashboard',
+    addTrainers: '/dashboard/trainers/add-new',
+    viewAllTrainers: '/dashboard/trainers/view-all',
+}
 
 // APPLICATION
 const App = () => {
@@ -34,41 +43,28 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/register" element={<Register />} />
-                <Route exact path="/auth-setup" element={<AuthSetup />} />
-                <Route exact path="/authenticate" element={<Authenticate />} />
-                <Route exact path="/page-not-found" element={<ErrorPage />} />
-                <Route element={<Dashboard />}>
+                <Route exact path={path.login} element={<Login />} />
+                <Route exact path={path.register} element={<Register />} />
+                <Route exact path={path.authSetup} element={<AuthSetup />} />
+                <Route exact path={path.auth} element={<Authenticate />} />
+                <Route exact path={path.pageNotFound} element={<ErrorPage />} />
+                <Route path="/" element={<PrivateOutlet />}>
+                    <Route exact path={path.dashboard} element={<Home />} />
                     <Route
                         exact
-                        path="/dashboard"
-                        element={
-                            <PrivateRoute>
-                                <Home />
-                            </PrivateRoute>
-                        }
+                        path={path.addTrainers}
+                        element={<AddNewTrainers />}
                     />
                     <Route
                         exact
-                        path="/dashboard/trainers/add-new"
-                        element={
-                            <PrivateRoute>
-                                <AddNewTrainers />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        exact
-                        path="/dashboard/trainers/view-all"
-                        element={
-                            <PrivateRoute>
-                                <ListTrainers />
-                            </PrivateRoute>
-                        }
+                        path={path.viewAllTrainers}
+                        element={<ListTrainers />}
                     />
                 </Route>
-                <Route path="*" element={<Navigate to="/page-not-found" />} />
+                <Route
+                    path="*"
+                    element={<Navigate to={path.pageNotFound} replace={true} />}
+                />
             </Routes>
         </BrowserRouter>
     )

@@ -3,6 +3,7 @@ import { ExternalLinkIcon, UserAddIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Alert from '../components/alert'
+import { config } from '../config/config'
 
 const AddNewTrainers = () => {
     const [formData, setFormData] = useState({})
@@ -20,7 +21,7 @@ const AddNewTrainers = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const url = 'http://localhost:4000/v1/dev/admin/trainer/create'
+            const url = config.api.createTrainer
             const { data } = await axios.post(url, formData)
             if (data) {
                 setErrors([])
@@ -36,9 +37,8 @@ const AddNewTrainers = () => {
     }
 
     const fetchTrainers = () => {
-        const url = 'http://localhost:4000/v1/dev/admin/trainers'
         axios
-            .get(url)
+            .get(config.api.fetchTrainers)
             .then(({ data }) => {
                 if (data) {
                     let filtered = data.filter((t) => +t.invite_status === 0)
@@ -69,7 +69,7 @@ const AddNewTrainers = () => {
 
     const sendInvite = async (id) => {
         try {
-            const url = `http://localhost:4000/v1/dev/admin/trainer/send-invite`
+            const url = config.api.sendTrainerInvite
             const { data } = await axios.post(url, { id: [id] })
             if (data) fetchTrainers()
         } catch (error) {
@@ -83,7 +83,7 @@ const AddNewTrainers = () => {
             if (trainer.isChecked) selectedTrainers.push(trainer.id)
         })
         try {
-            const url = `http://localhost:4000/v1/dev/admin/trainer/send-invite`
+            const url = config.api.sendTrainerInvite
             const { data } = await axios.post(url, { id: selectedTrainers })
             if (data) fetchTrainers()
         } catch (error) {

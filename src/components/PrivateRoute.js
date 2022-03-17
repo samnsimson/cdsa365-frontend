@@ -1,9 +1,13 @@
 import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Dashboard from '../laouts/dashboardLayout'
 
-const PrivateRoute = ({ children }) => {
+export const PrivateRoute = ({ children }) => {
     const { isLoggedIn } = useSelector((state) => state.user)
     return isLoggedIn ? children : <Navigate to="/login" />
 }
 
-export default PrivateRoute
+export const PrivateOutlet = () => {
+    const { isLoggedIn } = useSelector((state) => state.user)
+    return isLoggedIn ? <Dashboard /> : <Navigate to="/login" />
+}

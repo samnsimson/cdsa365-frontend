@@ -7,14 +7,14 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Badge from '../components/badge'
+import { config } from '../config/config'
 
 const ListTrainers = () => {
     const [trainers, setTrainers] = useState([])
 
     const fetchTrainers = () => {
-        const url = 'http://localhost:4000/v1/dev/admin/trainers'
         axios
-            .get(url)
+            .get(config.api.fetchTrainers)
             .then(({ data }) => {
                 if (data) setTrainers(data)
             })
