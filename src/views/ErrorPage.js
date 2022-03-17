@@ -1,8 +1,9 @@
 import React from 'react'
 import { InformationCircleIcon } from '@heroicons/react/outline'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const ErrorPage = () => {
+    const navigate = useNavigate()
     return (
         <div className="h-screen w-screen flex items-center justify-center">
             <div className="space-y-8">
@@ -11,7 +12,12 @@ const ErrorPage = () => {
                     404
                 </h1>
                 <h2 className="text-5xl font-semibold">Page Not Found</h2>
-                <Link to="/login">Login</Link>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => navigate(-1)}
+                >
+                    Go Back
+                </button>
             </div>
         </div>
     )

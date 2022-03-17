@@ -27,4 +27,7 @@
     .table-hover {
         @apply hover:bg-slate-100;
     }
+    .card {
+        @apply p-4 rounded-md shadow-sm border-1 bg-white;
+    }
 }

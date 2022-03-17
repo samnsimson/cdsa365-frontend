@@ -14,6 +14,7 @@ import { PrivateOutlet } from './components/PrivateRoute'
 import ListTrainers from './views/list-trainers'
 import ErrorPage from './views/ErrorPage'
 import EmailVerify from './views/email-verify'
+import Category from './views/category'
 
 // ROUTE PATHS
 const path = {
@@ -26,6 +27,7 @@ const path = {
     addTrainers: '/dashboard/trainers/add-new',
     viewAllTrainers: '/dashboard/trainers/view-all',
     emailVerify: '/email/verify/:token',
+    trainerCat: '/dashboard/category/:entity',
 }
 
 // APPLICATION
@@ -66,6 +68,11 @@ const App = () => {
                         exact
                         path={path.viewAllTrainers}
                         element={<ListTrainers />}
+                    />
+                    <Route
+                        exact
+                        path={path.trainerCat}
+                        element={<Category />}
                     />
                 </Route>
                 <Route

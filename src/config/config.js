@@ -12,5 +12,6 @@ export const config = {
         register: BASE_URL + '/admin/register',
         login: BASE_URL + '/admin/login',
         verifyEmail: BASE_URL + '/admin/email/verify',
+        createCategory: BASE_URL + '/admin/category/create',
     },
 }

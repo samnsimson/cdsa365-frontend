@@ -37,7 +37,7 @@ const Menus = () => {
                                     <ChevronRightIcon className="h-5 w-5" />
                                 </li>
                             </Link>
-                            <Link to="dashboard/trainers/category">
+                            <Link to="dashboard/category/trainer">
                                 <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
                                     <div className="flex justify-start items-center space-x-2">
                                         <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
@@ -69,13 +69,15 @@ const Menus = () => {
                                 </div>
                                 <ChevronRightIcon className="h-5 w-5" />
                             </li>
-                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
-                                    <p>Student Category</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
+                            <Link to="dashboard/category/student">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Student Category</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
                         </ul>
                     </div>
                 </li>
@@ -103,7 +105,7 @@ const Menus = () => {
                                     <ChevronRightIcon className="h-5 w-5" />
                                 </li>
                             </Link>
-                            <Link to="dashboard/classes/category">
+                            <Link to="dashboard/category/class">
                                 <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-md">
                                     <div className="flex justify-start items-center space-x-2">
                                         <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
