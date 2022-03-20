@@ -6,7 +6,7 @@ const ErrorPage = () => {
     const navigate = useNavigate()
     return (
         <div className="h-screen w-screen flex items-center justify-center">
-            <div className="space-y-8">
+            <div className="space-y-8 justify-center">
                 <InformationCircleIcon className="text-red-400 h-10 w-10 mx-auto" />
                 <h1 className="text-center text-6xl font-bold text-gray-500">
                     404

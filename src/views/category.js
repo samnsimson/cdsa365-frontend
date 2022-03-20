@@ -9,6 +9,7 @@ const Category = () => {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({})
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const [categories, setCategories] = useState([])
 
     const handleOnChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -18,12 +19,22 @@ const Category = () => {
         try {
             const url = config.api.createCategory
             const { data } = await axios.post(url, { ...formData, entity })
-            if (data) console.log(data)
+            if (data) fetchCategories()
         } catch (error) {
             console.log(error)
         } finally {
             setFormData({})
         }
+    }
+
+    const fetchCategories = () => {
+        const url = config.api.getCategory + `/${entity}`
+        axios
+            .get(url)
+            .then(({ data }) => {
+                setCategories(data)
+            })
+            .catch((err) => console.log(err))
     }
 
     useEffect(() => {
@@ -32,7 +43,8 @@ const Category = () => {
         if (!allowedCategory.includes(entity)) {
             navigate('/page-not-found', { replace: true })
         }
-    }, [entity])
+        fetchCategories()
+    }, [, entity])
 
     useEffect(() => {
         if (formData?.name?.length && formData?.description?.length) {
@@ -46,11 +58,14 @@ const Category = () => {
         <div className="px-6 py-4">
             <div className="py-4 w-full flex justify-between">
                 <h4 className="font-semibold text-gray-500">
-                    <span className="capitalize">{entity}</span> Category
+                    <span className="capitalize">{entity}</span> Category{' '}
+                    <span className="text-xs font-normal ml-2">
+                        - Create category for {entity}
+                    </span>
                 </h4>
             </div>
-            <div className="flex w-full space-x-6">
-                <div className="card w-1/2 space-y-6">
+            <div className="md:flex w-full md:space-x-6">
+                <div className="card md:w-1/2 w-full space-y-6">
                     <div>
                         <label
                             htmlFor="name"
@@ -92,26 +107,6 @@ const Category = () => {
                         </p>
                     </div>
                     <div>
-                        <label
-                            className="block mb-2 text-sm font-medium text-gray-900 "
-                            htmlFor="image"
-                        >
-                            Upload image
-                        </label>
-                        <input
-                            className="form-control"
-                            aria-describedby="image"
-                            id="image"
-                            name="image"
-                            type="file"
-                            value={formData.image ?? ''}
-                            onChange={handleOnChange}
-                        />
-                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                            Choose an image for the category
-                        </p>
-                    </div>
-                    <div>
                         <button
                             className="btn btn-info"
                             onClick={handleSubmit}
@@ -122,7 +117,33 @@ const Category = () => {
                         </button>
                     </div>
                 </div>
-                <div className="card w-1/2"></div>
+                <div className="table-card md:w-1/2 w-full">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className="thead">ID</th>
+                                <th className="thead">Category Name</th>
+                                <th className="thead">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {categories.map((category, key) => (
+                                <tr className="table-hover">
+                                    <td className="p-4 w-4">{key + 1}</td>
+                                    <td className="p-4">
+                                        <p>{category.name}</p>
+                                        <div className="font-normal text-xs text-gray-400">
+                                            {category.description}
+                                        </div>
+                                    </td>
+                                    <td className="p-4 w-4 text-center">
+                                        {category.count}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

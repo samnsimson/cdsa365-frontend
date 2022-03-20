@@ -13,5 +13,7 @@ export const config = {
         login: BASE_URL + '/admin/login',
         verifyEmail: BASE_URL + '/admin/email/verify',
         createCategory: BASE_URL + '/admin/category/create',
+        getCategory: BASE_URL + '/admin/category',
+        addUserToCategory: BASE_URL + '/admin/category/add',
     },
 }
