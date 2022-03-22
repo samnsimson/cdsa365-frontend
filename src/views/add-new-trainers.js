@@ -237,7 +237,7 @@ const AddNewTrainers = () => {
                                         key={key}
                                         className="hover:bg-slate-100"
                                     >
-                                        <td className="p-4 px-6 align-middle text-sm whitespace-nowrap">
+                                        <td className="p-4 w-4 align-middle text-sm whitespace-nowrap">
                                             <input
                                                 type="checkbox"
                                                 name={`checkbox-${key}`}
@@ -247,10 +247,10 @@ const AddNewTrainers = () => {
                                                 onClick={handleCheckboxChange}
                                             />
                                         </td>
-                                        <td className="p-4 px-6 align-middle text-sm whitespace-nowrap">
+                                        <td className="p-4 align-middle text-sm whitespace-nowrap">
                                             <p className="font-normal text-sm text-gray-700">{`${trainer.first_name} ${trainer.last_name}`}</p>
                                         </td>
-                                        <td className="p-4 px-6 align-middle text-sm whitespace-nowrap">
+                                        <td className="p-4 w-5 align-middle text-sm whitespace-nowrap">
                                             <button
                                                 className="btn btn-success text-xs font-normal px-2 py-1 shadow-none"
                                                 onClick={() =>
@@ -267,7 +267,7 @@ const AddNewTrainers = () => {
                         </table>
                     </div>
                 ) : (
-                    <div className="flex bg-slate-100 p-4 h-40 rounded-md border-2 border-dashed border-gray-300 justify-center items-center">
+                    <div className="flex bg-slate-100 p-4 h-40 rounded-sm border-2 border-dashed border-gray-300 justify-center items-center">
                         <div>
                             <ViewGridAddIcon className="h-8 w-8 text-slate-400 block mx-auto" />
                             <h2 className="block text-slate-400 text-center my-2">

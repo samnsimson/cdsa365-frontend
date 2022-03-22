@@ -52,12 +52,12 @@ const Header = () => {
                 <p className="font-bold">Dashboard</p>
             </div>
             <div className="middleSection w-1/3">
-                <input
+                {/* <input
                     type="text"
                     name="search"
                     placeholder="search"
                     className="w-full rounded-lg form-control"
-                />
+                /> */}
             </div>
             <div className="rightSection flex items-center space-x-5">
                 <CogIcon

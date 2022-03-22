@@ -15,6 +15,9 @@ import ListTrainers from './views/list-trainers'
 import ErrorPage from './views/ErrorPage'
 import EmailVerify from './views/email-verify'
 import Category from './views/category'
+import ViewTrainer from './views/view-trainer'
+import AddNewClasses from './views/add-new-classes'
+import ListClasses from './views/list-classes'
 
 // ROUTE PATHS
 const path = {
@@ -28,6 +31,9 @@ const path = {
     viewAllTrainers: '/dashboard/trainers/view-all',
     emailVerify: '/email/verify/:token',
     trainerCat: '/dashboard/category/:entity',
+    viewTrainer: '/dashboard/trainers/view/:id',
+    addClass: '/dashboard/classes/add-new',
+    listClasses: '/dashboard/classes/view-all',
 }
 
 // APPLICATION
@@ -73,6 +79,21 @@ const App = () => {
                         exact
                         path={path.trainerCat}
                         element={<Category />}
+                    />
+                    <Route
+                        exact
+                        path={path.viewTrainer}
+                        element={<ViewTrainer />}
+                    />
+                    <Route
+                        exact
+                        path={path.addClass}
+                        element={<AddNewClasses />}
+                    />
+                    <Route
+                        exact
+                        path={path.listClasses}
+                        element={<ListClasses />}
                     />
                 </Route>
                 <Route

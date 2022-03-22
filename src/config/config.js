@@ -15,5 +15,10 @@ export const config = {
         createCategory: BASE_URL + '/admin/category/create',
         getCategory: BASE_URL + '/admin/category',
         addUserToCategory: BASE_URL + '/admin/category/add',
+        viewTrainer: BASE_URL + '/admin/trainer/',
+        createClass: BASE_URL + '/admin/classes',
+        fetchClasses: BASE_URL + '/admin/classes',
+        deleteClass: BASE_URL + '/admin/classes',
+        updateClassStatus: BASE_URL + '/admin/classes',
     },
 }

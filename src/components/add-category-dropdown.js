@@ -30,10 +30,12 @@ const AddCategoryDropdown = (props) => {
                 user_list: userList.map((user) => user.id),
             })
             if (data) {
-                setLoading(false)
                 callback()
             }
-        } catch (error) {}
+        } catch (error) {
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -47,7 +49,7 @@ const AddCategoryDropdown = (props) => {
                 Choose a category
             </div>
             <Listbox value={selectedCategory} onChange={setSelectedCategory}>
-                <Listbox.Button className="flex justify-between item-center p-2 w-full rounded-md border-2 border-gray-400">
+                <Listbox.Button className="flex justify-between item-center p-2 w-full rounded-sm border-2 border-gray-400">
                     <p>{selectedCategory.name}</p>
                     <SelectorIcon
                         className="w-5 h-5 text-gray-400 hover:text-sky-500"

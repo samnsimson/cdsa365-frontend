@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import AddCategoryDropdown from '../components/add-category-dropdown'
 import Badge from '../components/badge'
 import Modal from '../components/modal'
+import ProfilePicture from '../components/profile-picture'
 import { config } from '../config/config'
 
 const ListTrainers = () => {
@@ -134,12 +135,12 @@ const ListTrainers = () => {
                                         to={`/dashboard/trainers/view/${trainer.id}`}
                                     >
                                         <span className="flex">
-                                            <img
-                                                className="h-10 w-10 rounded-full"
-                                                src={`https://i.pravatar.cc/150?img=${
-                                                    key + 1
-                                                }`}
-                                                alt=""
+                                            <ProfilePicture
+                                                name={
+                                                    trainer.first_name +
+                                                    ' ' +
+                                                    trainer.last_name
+                                                }
                                             />
                                             <div className="ml-3 overflow-hidden">
                                                 <p className="text-sm font-medium text-slate-900 group-hover:text-sky-500">
@@ -155,7 +156,7 @@ const ListTrainers = () => {
                                 </td>
                                 <td className="p-4">
                                     {trainer.categories
-                                        .slice(0, 1)
+                                        .slice(0, 2)
                                         .map((category, key) => (
                                             <Badge
                                                 key={key}
@@ -163,7 +164,7 @@ const ListTrainers = () => {
                                                 message={category.name}
                                             />
                                         ))}
-                                    {trainer.categories.length > 1 && (
+                                    {trainer.categories.length > 2 && (
                                         <Badge
                                             color="gray"
                                             message={`+${

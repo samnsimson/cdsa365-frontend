@@ -56,7 +56,7 @@ const Register = () => {
         <div className="container-fluid w-full p-6 bg-blueGray-800 min-h-screen justify-center content-center">
             <div className="container mx-auto flex h-screen items-center">
                 <div className="felx w-1/3 mx-auto">
-                    <div className="w-full bg-blueGray-100 p-4 rounded-md shadow-black shadow-sm">
+                    <div className="w-full bg-blueGray-100 p-4 rounded-sm shadow-black shadow-sm">
                         <div className="p-1 pb-4 text-center uppercase text-lg font-bold">
                             <h5>Create an account</h5>
                         </div>
