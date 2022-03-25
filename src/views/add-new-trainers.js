@@ -26,7 +26,7 @@ const AddNewTrainers = () => {
             if (data) {
                 setErrors([])
                 setFormData({})
-                fetchTrainers()
+                fetchAllTrainers()
             }
         } catch (error) {
             const { data } = error.response
@@ -36,9 +36,9 @@ const AddNewTrainers = () => {
         }
     }
 
-    const fetchTrainers = () => {
+    const fetchAllTrainers = () => {
         axios
-            .get(config.api.fetchTrainers)
+            .get(config.api.fetchAllTrainers)
             .then(({ data }) => {
                 if (data) {
                     let filtered = data.filter((t) => +t.invite_status === 0)
@@ -71,7 +71,7 @@ const AddNewTrainers = () => {
         try {
             const url = config.api.sendTrainerInvite
             const { data } = await axios.post(url, { id: [id] })
-            if (data) fetchTrainers()
+            if (data) fetchAllTrainers()
         } catch (error) {
             console.log(error)
         }
@@ -85,14 +85,19 @@ const AddNewTrainers = () => {
         try {
             const url = config.api.sendTrainerInvite
             const { data } = await axios.post(url, { id: selectedTrainers })
-            if (data) fetchTrainers()
+            if (data) fetchAllTrainers()
         } catch (error) {
             console.log(error)
         }
     }
 
     useEffect(() => {
-        if (formData.first_name && formData.last_name && formData.email) {
+        if (
+            formData.first_name &&
+            formData.last_name &&
+            formData.email &&
+            formData.salary
+        ) {
             setButtonDisabled(false)
         } else {
             setButtonDisabled(true)
@@ -100,7 +105,7 @@ const AddNewTrainers = () => {
     }, [formData])
 
     useEffect(() => {
-        fetchTrainers()
+        fetchAllTrainers()
     }, [])
 
     useEffect(() => {
@@ -183,11 +188,19 @@ const AddNewTrainers = () => {
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-500" htmlFor="role">
-                            Role
+                            Salary
                         </label>
-                        <select name="role" className="form-control mb-4">
-                            <option value="trainer">Trainer</option>
-                        </select>
+                        <input
+                            type="number"
+                            name="salary"
+                            min={1}
+                            className="form-control"
+                            value={formData.salary ?? null}
+                            onChange={handleOnChange}
+                        />
+                        <p className="text-xs text-gray-400">
+                            Enter salary of the trainer. (**per hour rate)
+                        </p>
                     </div>
                     <button
                         className="flex items-center btn btn-info font-normal"

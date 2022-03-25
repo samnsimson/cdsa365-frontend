@@ -34,6 +34,7 @@ const path = {
     viewTrainer: '/dashboard/trainers/view/:id',
     addClass: '/dashboard/classes/add-new',
     listClasses: '/dashboard/classes/view-all',
+    editClasses: '/dashboard/classes/edit/:id',
 }
 
 // APPLICATION
@@ -63,8 +64,8 @@ const App = () => {
                     path={path.emailVerify}
                     element={<EmailVerify />}
                 />
-                <Route path="/" element={<PrivateOutlet />}>
-                    <Route exact path={path.dashboard} element={<Home />} />
+                <Route element={<PrivateOutlet />}>
+                    <Route exact path="/" element={<Home />} />
                     <Route
                         exact
                         path={path.addTrainers}
@@ -94,6 +95,11 @@ const App = () => {
                         exact
                         path={path.listClasses}
                         element={<ListClasses />}
+                    />
+                    <Route
+                        exact
+                        path={path.editClasses}
+                        element={<AddNewClasses />}
                     />
                 </Route>
                 <Route

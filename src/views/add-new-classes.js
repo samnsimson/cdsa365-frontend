@@ -1,15 +1,36 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { config } from '../config/config'
 import moment from 'moment'
-import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'
+import {
+    LightningBoltIcon,
+    PhoneIcon,
+    SaveIcon,
+    VideoCameraIcon,
+} from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
+import InputRadioGroup from '../components/radio-group'
+import Badge from '../components/badge'
 
 const AddNewClasses = () => {
     const [trainers, setTrainers] = useState([])
     const [formData, setFormData] = useState({})
     const [categories, setCategories] = useState([])
+    const [showButton, setShowButton] = useState(false)
+
+    const radioGroupList = [
+        {
+            name: 'Phone Call',
+            value: 'phone',
+            icon: <PhoneIcon className="h-5 w-5 mr-2" />,
+        },
+        {
+            name: 'Video Call',
+            value: 'video',
+            icon: <VideoCameraIcon className="h-5 w-5 mr-2" />,
+        },
+    ]
 
     const handleChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -49,6 +70,28 @@ const AddNewClasses = () => {
             .get(`${config.api.getCategory}/class`)
             .then(({ data }) => setCategories(data))
     }, [])
+
+    useEffect(() => {
+        let videoLinkOk = false
+        if (formData.type === 'video') {
+            if (formData.video_link) videoLinkOk = true
+        } else {
+            videoLinkOk = true
+        }
+        if (
+            formData.title &&
+            formData.description &&
+            formData.type &&
+            formData.start &&
+            formData.end &&
+            formData.trainer &&
+            videoLinkOk
+        ) {
+            setShowButton(true)
+        } else {
+            setShowButton(false)
+        }
+    }, [formData])
 
     return (
         <div className="px-6 py-4">
@@ -98,6 +141,45 @@ const AddNewClasses = () => {
                                 Enter a description for the class
                             </p>
                         </div>
+                        <div className="flex space-x-4">
+                            <div className="w-1/2">
+                                <label
+                                    htmlFor="name"
+                                    className="block mb-2 text-sm font-medium text-gray-900"
+                                >
+                                    Class Type
+                                </label>
+                                <InputRadioGroup
+                                    list={radioGroupList}
+                                    onChange={setFormData}
+                                />
+                                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    Choose the type of class
+                                </p>
+                            </div>
+                            {formData.type === 'video' && (
+                                <div className="w-1/2">
+                                    <div>
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900"
+                                        >
+                                            Video Link
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="video_link"
+                                            className="form-control"
+                                            onChange={handleChange}
+                                        />
+                                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                            Enter link to the video
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <div className="flex space-x-6">
                             <div className="w-1/2">
                                 <label
@@ -223,6 +305,18 @@ const AddNewClasses = () => {
                                         </p>
                                     </div>
                                 )}
+                                {formData.type && (
+                                    <div>
+                                        <h4 className="text-slate-500">
+                                            Class Type{' '}
+                                            <Badge
+                                                color="red"
+                                                message={formData.type}
+                                                className="capitalize"
+                                            />
+                                        </h4>
+                                    </div>
+                                )}
                                 {formData.start && (
                                     <div>
                                         <h4 className="text-slate-500">
@@ -267,28 +361,24 @@ const AddNewClasses = () => {
                                         </p>
                                     </div>
                                 )}
-                                {formData.title &&
-                                    formData.description &&
-                                    formData.start &&
-                                    formData.end &&
-                                    formData.trainer && (
-                                        <div className="space-y-4">
-                                            <button
-                                                className="btn btn-danger w-full"
-                                                onClick={createClass}
-                                            >
-                                                <LightningBoltIcon className="w-5 h-5 mr-2" />
-                                                Publish class
-                                            </button>
-                                            <button
-                                                className="btn btn-gray w-full"
-                                                onClick={publishLater}
-                                            >
-                                                <SaveIcon className="w-5 h-5 mr-2" />{' '}
-                                                Save and publish later
-                                            </button>
-                                        </div>
-                                    )}
+                                {showButton && (
+                                    <div className="space-y-4">
+                                        <button
+                                            className="btn btn-danger w-full"
+                                            onClick={createClass}
+                                        >
+                                            <LightningBoltIcon className="w-5 h-5 mr-2" />
+                                            Publish class
+                                        </button>
+                                        <button
+                                            className="btn btn-gray w-full"
+                                            onClick={publishLater}
+                                        >
+                                            <SaveIcon className="w-5 h-5 mr-2" />{' '}
+                                            Save and publish later
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <Placeholder message="Enter class details to preview" />

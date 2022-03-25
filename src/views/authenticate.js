@@ -25,7 +25,7 @@ const Authenticate = () => {
                 code: formData.code,
             })
             if (data.verified) {
-                navigate('/dashboard')
+                navigate('/')
             } else {
                 const error = { error: true, message: 'Authentication Failed' }
                 setErrors([error])

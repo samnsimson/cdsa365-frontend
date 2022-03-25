@@ -1,4 +1,4 @@
-import { CalendarIcon, TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
+import { TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,10 +13,13 @@ const ListTrainers = () => {
     const [showActions, setShowActions] = useState(false)
     const [openModel, setOpenModel] = useState(false)
     const [slectedUsers, setSlectedUsers] = useState([])
+    const defaultCategory = { name: 'Select a category', disabled: true }
+    const [categories, setCategories] = useState([defaultCategory])
+    const [selectedCategory, setSelectedCategory] = useState(categories[0])
 
-    const fetchTrainers = () => {
+    const fetchAllTrainers = () => {
         axios
-            .get(config.api.fetchTrainers)
+            .get(config.api.fetchAllTrainers)
             .then(({ data }) => {
                 if (data) {
                     data.map((d) => (d.isChecked = false))
@@ -26,6 +29,27 @@ const ListTrainers = () => {
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    const fetchCategories = async () => {
+        try {
+            const url = config.api.getCategory + '/trainer'
+            const { data } = await axios.get(url)
+            if (data.length) setCategories((state) => [...state, ...data])
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const addToCategory = async () => {
+        try {
+            const url = config.api.addUserToCategory + '/trainer'
+            const { data } = await axios.post(url, {
+                cat_id: selectedCategory.id,
+                user_list: slectedUsers.map((user) => user.id),
+            })
+            if (data) fetchAllTrainers()
+        } catch (error) {}
     }
 
     const handleAllChecked = (e) => {
@@ -51,13 +75,15 @@ const ListTrainers = () => {
     }
 
     useEffect(() => {
-        fetchTrainers()
+        fetchAllTrainers()
+        fetchCategories()
     }, [])
 
     useEffect(() => {
         console.log(trainers)
         const checkedItem = trainers.filter((t) => t.isChecked)
         setShowActions(checkedItem.length > 0)
+        if (openModel) setOpenModel(false)
     }, [trainers])
 
     return (
@@ -178,7 +204,7 @@ const ListTrainers = () => {
                                         {trainer.invite_status === 1 &&
                                             trainer.status === 0 && (
                                                 <Badge
-                                                    color="green"
+                                                    color="yellow"
                                                     message="Invite sent"
                                                 />
                                             )}
@@ -197,7 +223,7 @@ const ListTrainers = () => {
                                 </td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
-                                        <CalendarIcon className="h-5 w-5 text-gray-400" />
+                                        <TrashIcon className="h-5 w-5 text-red-400" />
                                     </div>
                                 </td>
                             </tr>
@@ -208,8 +234,10 @@ const ListTrainers = () => {
             {openModel && (
                 <Modal setOpenModel={setOpenModel}>
                     <AddCategoryDropdown
-                        userList={slectedUsers}
-                        callback={fetchTrainers}
+                        categories={categories}
+                        selectedCategory={selectedCategory}
+                        setSelectedCategory={setSelectedCategory}
+                        onClick={addToCategory}
                     />
                 </Modal>
             )}

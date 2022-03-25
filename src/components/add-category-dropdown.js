@@ -1,55 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, PlusCircleIcon, SelectorIcon } from '@heroicons/react/solid'
-import { config } from '../config/config'
-import axios from 'axios'
 
 const AddCategoryDropdown = (props) => {
-    const { userList, callback } = props
-    const defaultItem = { name: 'Select a category', disabled: true }
-    const [categories, setCategories] = useState([defaultItem])
-    const [selectedCategory, setSelectedCategory] = useState(categories[0])
-    const [loading, setLoading] = useState(false)
-
-    const fetchCategories = async () => {
-        try {
-            const url = config.api.getCategory + '/trainer'
-            const { data } = await axios.get(url)
-            if (data.length) setCategories((state) => [...state, ...data])
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const addToCategory = async () => {
-        try {
-            setLoading(true)
-            const url = config.api.addUserToCategory + '/trainer'
-            const { data } = await axios.post(url, {
-                cat_id: selectedCategory.id,
-                user_list: userList.map((user) => user.id),
-            })
-            if (data) {
-                callback()
-            }
-        } catch (error) {
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchCategories()
-        return () => setCategories([defaultItem])
-    }, [])
-
+    const { categories, selectedCategory, setSelectedCategory, onClick } = props
+    console.log(categories)
     return (
         <div className="space-y-4">
             <div className="bg-blue-100 p-3 -mt-6 -mx-6 text-center font-semibold uppercase text-sky-800">
                 Choose a category
             </div>
             <Listbox value={selectedCategory} onChange={setSelectedCategory}>
-                <Listbox.Button className="flex justify-between item-center p-2 w-full rounded-sm border-2 border-gray-400">
+                <Listbox.Button className="flex justify-between item-center p-2 w-full rounded-md border-2 border-gray-400">
                     <p>{selectedCategory.name}</p>
                     <SelectorIcon
                         className="w-5 h-5 text-gray-400 hover:text-sky-500"
@@ -58,9 +20,9 @@ const AddCategoryDropdown = (props) => {
                 </Listbox.Button>
 
                 <Listbox.Options className="listbox-option">
-                    {categories.map((category) => (
+                    {categories.map((category, key) => (
                         <Listbox.Option
-                            key={category.id}
+                            key={key}
                             className={({ active }) =>
                                 `cursor-default select-none relative py-2 pl-10 pr-4 ${
                                     active
@@ -98,8 +60,8 @@ const AddCategoryDropdown = (props) => {
             </Listbox>
             <button
                 className="btn btn-info mx-auto"
-                disabled={selectedCategory.disabled ?? loading ?? false}
-                onClick={addToCategory}
+                disabled={selectedCategory.disabled ?? false}
+                onClick={onClick}
             >
                 <PlusCircleIcon className="w-5 h-5 mr-2" />
                 Add to category

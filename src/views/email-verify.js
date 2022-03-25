@@ -15,7 +15,7 @@ const EmailVerify = () => {
             .then(({ data }) => {
                 const { verified, message } = data
                 if (verified) {
-                    navigate('/dashboard', { replace: true })
+                    navigate('/', { replace: true })
                 } else {
                     setError(message)
                 }

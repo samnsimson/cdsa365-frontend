@@ -13,6 +13,8 @@ module.exports = {
             'text-green-800',
             'bg-gray-100',
             'text-gray-800',
+            'bg-sky-100',
+            'text-sky-800',
         ],
     },
     theme: {

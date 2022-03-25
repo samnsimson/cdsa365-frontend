@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (isLoggedIn) navigate('/dashboard')
+        if (isLoggedIn) navigate('/')
         //eslint-disable-next-line
     }, [])
 
