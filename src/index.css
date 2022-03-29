@@ -25,7 +25,7 @@
         @apply bg-neutral-100 border-1 border-neutral-300 focus:outline-none focus:border-neutral-400 hover:bg-neutral-200 hover:shadow-sm;
     }
     .form-control {
-        @apply w-full p-2 outline-gray-400 border-1 border-gray-400 rounded-sm;
+        @apply w-full p-2 outline-gray-400 border-1 border-gray-400 rounded-sm disabled:bg-gray-200 disabled:cursor-not-allowed;
     }
     .form-control-sm {
         @apply w-full p-2 py-1 text-xs outline-gray-400 border-1 border-gray-400 rounded-sm;
@@ -74,5 +74,11 @@
     }
     .radio-group-checked {
         @apply bg-sky-900 bg-opacity-75 text-white;
+    }
+    .progress-container {
+        @apply w-full bg-gray-200 rounded-full h-2 flex;
+    }
+    .progress {
+        @apply bg-transparent text-xs font-medium text-gray-800 text-center p-0 leading-none rounded-full;
     }
 }

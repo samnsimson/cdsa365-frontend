@@ -22,8 +22,10 @@ export const config = {
         fetchClasses: BASE_URL + '/admin/classes',
         fetchAllClasses: BASE_URL + '/admin/classes/all',
         deleteClass: BASE_URL + '/admin/classes',
+        updateClass: BASE_URL + '/classes',
         updateClassStatus: BASE_URL + '/admin/classes',
         getAssignedClasses: BASE_URL + '/trainer/classes',
         unassignClassesToTrainer: BASE_URL + '/trainer/classes',
+        getAttendance: BASE_URL + '/trainer/attendance',
     },
 }

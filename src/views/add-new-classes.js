@@ -1,36 +1,33 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { config } from '../config/config'
 import moment from 'moment'
-import {
-    LightningBoltIcon,
-    PhoneIcon,
-    SaveIcon,
-    VideoCameraIcon,
-} from '@heroicons/react/solid'
+import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
-import InputRadioGroup from '../components/radio-group'
 import Badge from '../components/badge'
 
 const AddNewClasses = () => {
+    const { state, pathname } = useLocation()
     const [trainers, setTrainers] = useState([])
-    const [formData, setFormData] = useState({})
     const [categories, setCategories] = useState([])
     const [showButton, setShowButton] = useState(false)
-
-    const radioGroupList = [
-        {
-            name: 'Phone Call',
-            value: 'phone',
-            icon: <PhoneIcon className="h-5 w-5 mr-2" />,
-        },
-        {
-            name: 'Video Call',
-            value: 'video',
-            icon: <VideoCameraIcon className="h-5 w-5 mr-2" />,
-        },
-    ]
+    const [formData, setFormData] = useState(() => {
+        if (!state) {
+            return {}
+        } else {
+            let timeFormat = 'yyyy-MM-DDThh:mm'
+            return {
+                id: state.class.id,
+                title: state.class.title,
+                description: state.class.description,
+                type: state.class.type,
+                start: moment(state.class.start_time).format(timeFormat),
+                end: moment(state.class.end_time).format(timeFormat),
+                video_link: state.class.video_link,
+            }
+        }
+    })
 
     const handleChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -72,6 +69,13 @@ const AddNewClasses = () => {
     }, [])
 
     useEffect(() => {
+        if (pathname.includes('add-new')) {
+            setFormData({})
+        }
+    }, [pathname])
+
+    useEffect(() => {
+        console.log(formData)
         let videoLinkOk = false
         if (formData.type === 'video') {
             if (formData.video_link) videoLinkOk = true
@@ -149,35 +153,40 @@ const AddNewClasses = () => {
                                 >
                                     Class Type
                                 </label>
-                                <InputRadioGroup
-                                    list={radioGroupList}
-                                    onChange={setFormData}
-                                />
+                                <select
+                                    name="type"
+                                    className="form-control"
+                                    value={formData.type ?? 'phone'}
+                                    onChange={handleChange}
+                                >
+                                    <option value="phone">Phone</option>
+                                    <option value="video">Video</option>
+                                </select>
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                                     Choose the type of class
                                 </p>
                             </div>
-                            {formData.type === 'video' && (
-                                <div className="w-1/2">
-                                    <div>
-                                        <label
-                                            htmlFor="name"
-                                            className="block mb-2 text-sm font-medium text-gray-900"
-                                        >
-                                            Video Link
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="video_link"
-                                            className="form-control"
-                                            onChange={handleChange}
-                                        />
-                                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                            Enter link to the video
-                                        </p>
-                                    </div>
+                            <div className="w-1/2">
+                                <div>
+                                    <label
+                                        htmlFor="name"
+                                        className="block mb-2 text-sm font-medium text-gray-900"
+                                    >
+                                        Video Link
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="video_link"
+                                        className="form-control"
+                                        value={formData.video_link ?? ''}
+                                        onChange={handleChange}
+                                        disabled={formData.type !== 'video'}
+                                    />
+                                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                        Enter link to the video
+                                    </p>
                                 </div>
-                            )}
+                            </div>
                         </div>
 
                         <div className="flex space-x-6">
@@ -192,6 +201,7 @@ const AddNewClasses = () => {
                                     type="datetime-local"
                                     name="start"
                                     className="form-control"
+                                    value={formData.start ?? '0000-00-00T00:00'}
                                     onChange={handleChange}
                                 />
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -209,6 +219,7 @@ const AddNewClasses = () => {
                                     type="datetime-local"
                                     name="end"
                                     className="form-control"
+                                    value={formData.end ?? '0000-00-00T00:00'}
                                     onChange={handleChange}
                                 />
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

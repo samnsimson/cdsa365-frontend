@@ -21,6 +21,7 @@
         "react-scripts": "5.0.0",
         "redux-persist": "^6.0.0",
         "redux-persist-transform-encrypt": "^3.0.1",
+        "tw-elements": "*",
         "web-vitals": "^2.1.4",
         "webfontloader": "^1.6.28"
     },

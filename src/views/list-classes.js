@@ -23,9 +23,8 @@ const ListClasses = () => {
     const [selectedCategory, setSelectedCategory] = useState(categories[0])
 
     const updateClassStatus = (id, status) => {
-        axios
-            .patch(config.api.updateClassStatus, { id, status })
-            .then(({ data }) => fetchClasses())
+        const url = config.api.updateClass + `/${id}`
+        axios.put(url, { status: status }).then(() => fetchClasses())
     }
 
     const fetchClasses = () => {
@@ -58,9 +57,13 @@ const ListClasses = () => {
     }
 
     const deleteClass = (id) => {
+        if (typeof id === 'number' || typeof id === 'string') {
+            id = [id]
+        }
+        console.log(id)
         axios
-            .delete(config.api.deleteClass + `/${id}`)
-            .then(({ data }) => fetchClasses())
+            .delete(config.api.deleteClass, { data: id })
+            .then(() => fetchClasses())
             .catch((err) => console.log(err))
     }
 
@@ -86,6 +89,11 @@ const ListClasses = () => {
         setOpenModal(true)
     }
 
+    const bulkDeleteClasses = () => {
+        const selected = classes.filter((c) => c.isChecked).map((o) => o.id)
+        deleteClass(selected)
+    }
+
     useEffect(() => {
         fetchClasses()
         fetchCategories()
@@ -93,6 +101,7 @@ const ListClasses = () => {
     }, [])
 
     useEffect(() => {
+        console.log(classes)
         const checkedCount = classes.filter((o) => o.isChecked)
         setShowActionButton(checkedCount.length > 0)
         if (openModal) setOpenModal(false)
@@ -104,14 +113,27 @@ const ListClasses = () => {
                 <h4 className="font-semibold text-gray-500">All Classes</h4>
                 <div className="action-section flex justify-end space-x-2">
                     {showActionButton && (
-                        <button
-                            type="button"
-                            className="btn-sm btn-gray"
-                            onClick={triggerModal}
-                        >
-                            <FolderAddIcon className="w-4 h-4 mr-2" />
-                            Add category
-                        </button>
+                        <>
+                            <button
+                                type="button"
+                                className="btn-sm btn-gray"
+                                onClick={triggerModal}
+                            >
+                                <FolderAddIcon className="w-4 h-4 mr-2" />
+                                Add category
+                            </button>
+                            <button
+                                type="button"
+                                className="btn-sm btn-gray"
+                                onClick={bulkDeleteClasses}
+                            >
+                                <TrashIcon
+                                    className="w-4 h-4 mr-2 text-red-500"
+                                    fill="currentColor"
+                                />
+                                Delete
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
@@ -128,6 +150,7 @@ const ListClasses = () => {
                                 />
                             </th>
                             <th className="thead">Title</th>
+                            <th className="thead">Trainer</th>
                             <th className="thead">Date</th>
                             <th className="thead">Time</th>
                             <th className="thead">Status</th>
@@ -164,6 +187,14 @@ const ListClasses = () => {
                                             </p>
                                         </td>
                                     </Link>
+                                    <td className="p-4">
+                                        <Link
+                                            to={`/dashboard/trainers/view/${c.trainer_id}`}
+                                            className="hover:text-sky-500"
+                                        >
+                                            {c.trainer_name}
+                                        </Link>
+                                    </td>
                                     <td className="p-4">
                                         {moment(c.start_time)
                                             .tz('Asia/Kolkata')

@@ -117,7 +117,7 @@ const ListTrainers = () => {
                     </div>
                 )}
             </div>
-            <div className="w-full h-[75vh] table-card overflow-y-scroll">
+            <div className="w-full max-h-[75vh] table-card overflow-y-scroll">
                 <table className="items-center w-full bg-transparent border-collapse border-1 shadow-sm">
                     <thead>
                         <tr>
