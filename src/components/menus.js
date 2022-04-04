@@ -55,21 +55,23 @@ const Menus = () => {
                     </div>
                     <div>
                         <ul className="py-2">
-                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                            {/* <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
                                 <div className="flex justify-start items-center space-x-2">
                                     <PlusIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                     <p>Add New </p>
                                 </div>
                                 <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
-                                <div className="flex justify-start items-center space-x-2">
-                                    <UserIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
-                                    <p>All Students</p>
-                                </div>
-                                <ChevronRightIcon className="h-5 w-5" />
-                            </li>
-                            <Link to="dashboard/category/student">
+                            </li> */}
+                            <Link to="/dashboard/students/view-all">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UserIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>All Students</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="/dashboard/category/student">
                                 <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
                                     <div className="flex justify-start items-center space-x-2">
                                         <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />

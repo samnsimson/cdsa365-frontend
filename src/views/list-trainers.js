@@ -11,7 +11,7 @@ import { config } from '../config/config'
 const ListTrainers = () => {
     const [trainers, setTrainers] = useState([])
     const [showActions, setShowActions] = useState(false)
-    const [openModel, setOpenModel] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
     const [slectedUsers, setSlectedUsers] = useState([])
     const defaultCategory = { name: 'Select a category', disabled: true }
     const [categories, setCategories] = useState([defaultCategory])
@@ -71,7 +71,7 @@ const ListTrainers = () => {
     const triggerModal = async () => {
         const usersToAdd = trainers.filter((u) => u.isChecked)
         setSlectedUsers(usersToAdd)
-        setOpenModel(true)
+        setOpenModal(true)
     }
 
     useEffect(() => {
@@ -83,7 +83,7 @@ const ListTrainers = () => {
         console.log(trainers)
         const checkedItem = trainers.filter((t) => t.isChecked)
         setShowActions(checkedItem.length > 0)
-        if (openModel) setOpenModel(false)
+        if (openModal) setOpenModal(false)
     }, [trainers])
 
     return (
@@ -231,8 +231,8 @@ const ListTrainers = () => {
                     </tbody>
                 </table>
             </div>
-            {openModel && (
-                <Modal setOpenModel={setOpenModel}>
+            {openModal && (
+                <Modal setOpenModal={setOpenModal}>
                     <AddCategoryDropdown
                         categories={categories}
                         selectedCategory={selectedCategory}

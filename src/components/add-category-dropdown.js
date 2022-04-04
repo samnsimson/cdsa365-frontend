@@ -4,7 +4,6 @@ import { CheckIcon, PlusCircleIcon, SelectorIcon } from '@heroicons/react/solid'
 
 const AddCategoryDropdown = (props) => {
     const { categories, selectedCategory, setSelectedCategory, onClick } = props
-    console.log(categories)
     return (
         <div className="space-y-4">
             <div className="bg-blue-100 p-3 -mt-6 -mx-6 text-center font-semibold uppercase text-sky-800">

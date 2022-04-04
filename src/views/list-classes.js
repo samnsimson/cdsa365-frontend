@@ -7,6 +7,7 @@ import {
     EyeOffIcon,
     FolderAddIcon,
     LightningBoltIcon,
+    PencilIcon,
     TrashIcon,
 } from '@heroicons/react/solid'
 import AddCategoryDropdown from '../components/add-category-dropdown'
@@ -139,7 +140,7 @@ const ListClasses = () => {
             </div>
             <div className="w-full">
                 <div className="table-card">
-                    <table className="items-center w-full bg-transparent border-collapse border-1 shadow-sm">
+                    <table className="items-center min-w-full bg-transparent border-collapse border-1 shadow-sm">
                         <thead>
                             <th className="thead w-4">
                                 <input
@@ -159,7 +160,7 @@ const ListClasses = () => {
                         <tbody>
                             {classes.map((c, key) => (
                                 <tr key={key}>
-                                    <td className="p-4 w-4">
+                                    <td nowrap className="p-4 w-4">
                                         <input
                                             className="checkbox"
                                             type="checkbox"
@@ -170,10 +171,13 @@ const ListClasses = () => {
                                         />
                                     </td>
                                     <Link
-                                        to={`/dashboard/classes/edit/${c.id}`}
+                                        to={`/dashboard/classes/view/${c.slug}`}
                                         state={{ class: c }}
                                     >
-                                        <td className="p-4 w-1/2 space-y-2">
+                                        <td
+                                            nowrap
+                                            className="p-4 w-1/2 space-y-2 text-truncate"
+                                        >
                                             <p className="text-slate-700">
                                                 {c.title}
                                             </p>
@@ -187,7 +191,7 @@ const ListClasses = () => {
                                             </p>
                                         </td>
                                     </Link>
-                                    <td className="p-4">
+                                    <td nowrap className="p-4 text-sm">
                                         <Link
                                             to={`/dashboard/trainers/view/${c.trainer_id}`}
                                             className="hover:text-sky-500"
@@ -195,12 +199,12 @@ const ListClasses = () => {
                                             {c.trainer_name}
                                         </Link>
                                     </td>
-                                    <td className="p-4">
+                                    <td nowrap className="p-4 text-sm">
                                         {moment(c.start_time)
                                             .tz('Asia/Kolkata')
                                             .format('LL')}
                                     </td>
-                                    <td className="p-4">
+                                    <td nowrap className="p-4 text-sm">
                                         {moment(c.start_time)
                                             .tz('Asia/Kolkata')
                                             .format('LT') +
@@ -209,7 +213,7 @@ const ListClasses = () => {
                                                 .tz('Asia/Kolkata')
                                                 .format('LT')}
                                     </td>
-                                    <td className="p-4">
+                                    <td nowrap className="p-4">
                                         {
                                             <Badge
                                                 color={
@@ -225,8 +229,17 @@ const ListClasses = () => {
                                             />
                                         }
                                     </td>
-                                    <td className="p-4">
+                                    <td nowrap className="p-4">
                                         <div className="flex justify-end space-x-4">
+                                            <Link
+                                                to={`/dashboard/classes/edit/${c.id}`}
+                                                state={{ class: c }}
+                                            >
+                                                <PencilIcon
+                                                    className="h-5 w-5 cursor-pointer"
+                                                    fill="currentColor"
+                                                />
+                                            </Link>
                                             {!c.status ? (
                                                 <LightningBoltIcon
                                                     className="h-5 w-5 text-teal-500 hover:cursor-pointer"

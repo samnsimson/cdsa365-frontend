@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
 const Modal = (props) => {
-    const { setOpenModel, children } = props
+    const { setOpenModal, children } = props
     const [isOpen, setIsOpen] = useState(true)
 
     const closeDialog = () => {
@@ -10,7 +10,7 @@ const Modal = (props) => {
     }
 
     useEffect(() => {
-        if (!isOpen) setOpenModel(false)
+        if (!isOpen) setOpenModal(false)
     }, [isOpen])
 
     return (
