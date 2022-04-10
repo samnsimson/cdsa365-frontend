@@ -17,9 +17,21 @@ import { Chart } from 'react-google-charts'
 import SectionTitle from '../components/section-title'
 import ListAssignedClasses from '../components/list-assigned-classes'
 import ResourceTimeline from '../components/resource-timeline'
+import moment from 'moment-timezone'
+import MonthlyPayoutData from '../components/monthly-payout-data'
+import Card from '../components/card'
 
 const ViewTrainer = () => {
     const [trainer, setTrainer] = useState({})
+    const [selectedWeek, setSelectedWeek] = useState(() => {
+        let currentTime = moment()
+        let year = currentTime.format('YYYY')
+        let week = currentTime.isoWeek()
+        let selected = `${year}-W${week}`
+        return selected
+    })
+    const [selectedMonth] = useState(() => moment(selectedWeek).month() + 1)
+    const [selectedYear] = useState(() => moment(selectedWeek).year())
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -159,21 +171,39 @@ const ViewTrainer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full">
+                <div className="w-full space-y-6">
                     <div className="flex justify-between items-center">
                         <SectionTitle title="Attendance" />
                         <input
                             className="form-control-sm w-1/3"
                             type="week"
                             name="week"
+                            value={selectedWeek}
+                            onChange={(e) => setSelectedWeek(e.target.value)}
                         />
                     </div>
                     <div className="card p-0 bg-transparent shadow-none border-0">
-                        <ResourceTimeline id={id} />
+                        <ResourceTimeline
+                            id={id}
+                            selectedWeek={selectedWeek}
+                            selectedMonth={selectedMonth}
+                            salary={trainer.salary}
+                        />
                     </div>
-                    <SectionTitle title="Assigned Classes" />
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <ListAssignedClasses user_id={id} />
+                    <div className="card p-0 bg-transparent shadow-none border-0">
+                        <Card>
+                            <MonthlyPayoutData
+                                id={id}
+                                year={selectedYear}
+                                salary={trainer.salary}
+                            />
+                        </Card>
+                    </div>
+                    <div>
+                        <SectionTitle title="Assigned Classes" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <ListAssignedClasses user_id={id} />
+                        </div>
                     </div>
                 </div>
             </div>

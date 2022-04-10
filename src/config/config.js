@@ -30,5 +30,9 @@ export const config = {
         getAllStudents: BASE_URL + '/admin/students/all',
         updateStudent: BASE_URL + '/admin/student',
         addStudentToClass: BASE_URL + '/admin/student/assign-to-class',
+        getStudentClasses: BASE_URL + '/student/classes',
+        getPaymentHistory: BASE_URL + '/payments',
+        getMonthlyDurations: BASE_URL + '/trainer/attendance/month',
+        getYearlyDuration: BASE_URL + '/trainer/attendance/year',
     },
 }

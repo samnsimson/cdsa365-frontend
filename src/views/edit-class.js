@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { config } from '../config/config'
 import moment from 'moment'
-import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'
+import { LightningBoltIcon } from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
 import Badge from '../components/badge'
 
-const AddNewClasses = () => {
+const EditClass = () => {
     const { state, pathname } = useLocation()
     const [trainers, setTrainers] = useState([])
     const [categories, setCategories] = useState([])
@@ -43,19 +43,11 @@ const AddNewClasses = () => {
         return category ? category.name : ''
     }
 
-    const createClass = () => {
-        const data = { ...formData, status: 1 }
+    const updateClass = (id) => {
+        const data = { ...formData }
         axios
-            .post(config.api.createClass, data)
-            .then(({ data }) => setFormData({}))
-            .catch((err) => console.log(err))
-    }
-
-    const publishLater = () => {
-        const data = { ...formData, status: 0 }
-        axios
-            .post(config.api.createClass, data)
-            .then(({ data }) => setFormData({}))
+            .put(config.api.updateClass + `/${id}`, data)
+            .then(() => setShowButton(false))
             .catch((err) => console.log(err))
     }
 
@@ -378,17 +370,12 @@ const AddNewClasses = () => {
                                     <div className="space-y-4">
                                         <button
                                             className="btn btn-danger w-full"
-                                            onClick={createClass}
+                                            onClick={() =>
+                                                updateClass(state.class.id)
+                                            }
                                         >
                                             <LightningBoltIcon className="w-5 h-5 mr-2" />
                                             Publish class
-                                        </button>
-                                        <button
-                                            className="btn btn-gray w-full"
-                                            onClick={publishLater}
-                                        >
-                                            <SaveIcon className="w-5 h-5 mr-2" />{' '}
-                                            Save and publish later
                                         </button>
                                     </div>
                                 )}
@@ -403,4 +390,4 @@ const AddNewClasses = () => {
     )
 }
 
-export default AddNewClasses
+export default EditClass

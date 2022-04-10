@@ -5,6 +5,7 @@ import { config } from '../config/config'
 import {
     FolderIcon,
     MailIcon,
+    PencilIcon,
     ThumbDownIcon,
     ThumbUpIcon,
     UserGroupIcon,
@@ -16,6 +17,8 @@ import LoadingPlaceholder from '../components/loading-placeholder'
 import Placeholder from '../components/placeholder'
 import Badge from '../components/badge'
 import AddClassDropdown from '../components/add-class-dropdown'
+import SetStudentFee from '../components/set-student-fee'
+import { Link } from 'react-router-dom'
 
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
@@ -25,6 +28,7 @@ const ListStudents = () => {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedStudents, setSelectedStudents] = useState([])
     const [targetStudent, setTargetStudent] = useState(null)
+    const [openFeeModal, setOpenFeeModal] = useState(false)
     const [openCatModal, setOpenCatModal] = useState(false)
     const [openClassModal, setOpenClassModal] = useState(false)
     const defaultCategory = { name: 'Select a category', disabled: true }
@@ -88,12 +92,8 @@ const ListStudents = () => {
         })
     }
 
-    const activateStudent = (id) => {
-        const url = config.api.updateStudent + `/${id}`
-        axios
-            .put(url, { status: 1 })
-            .then(() => fetchStudents())
-            .catch((err) => console.log(err))
+    const handleThumbsUp = (id) => {
+        triggerModal('fee', id)
     }
 
     const rejectStudent = (id) => {
@@ -112,6 +112,9 @@ const ListStudents = () => {
                 break
             case 'class':
                 fetchClasses().finally(() => setOpenClassModal(true))
+                break
+            case 'fee':
+                setOpenFeeModal(true)
                 break
             default:
                 break
@@ -158,6 +161,8 @@ const ListStudents = () => {
             if (data) fetchStudents()
         } catch (error) {
             console.log(error)
+        } finally {
+            if (openCatModal) setOpenCatModal(false)
         }
     }
 
@@ -290,6 +295,7 @@ const ListStudents = () => {
                                                     checkbox
                                                 </label>
                                             </th>
+                                            <th className="thead">Edit</th>
                                             <th className="thead">Name</th>
                                             <th className="thead">
                                                 Categories
@@ -323,18 +329,35 @@ const ListStudents = () => {
                                                                 />
                                                             </div>
                                                         </td>
-                                                        <td className="p-4 flex flex-col">
-                                                            <span>
-                                                                {std.first_name}{' '}
-                                                                {std.last_name}
-                                                            </span>
-                                                            <span className="text-sm text-gray-400 flex space-x-2 items-center">
-                                                                <MailIcon className="w-4 h-4" />
-                                                                <span>
-                                                                    {std.email}
-                                                                </span>
-                                                            </span>
+                                                        <td className="p-4 w-3 text-gray-400 hover:text-blue-600">
+                                                            <PencilIcon className="w-5 h-5 cursor-pointer" />
                                                         </td>
+                                                        <Link
+                                                            to={`/dashboard/students/view/${std.id}`}
+                                                            state={{
+                                                                student: std,
+                                                            }}
+                                                            className="group"
+                                                        >
+                                                            <td className="p-4 flex flex-col">
+                                                                <span className="group-hover:text-sky-600">
+                                                                    {
+                                                                        std.first_name
+                                                                    }{' '}
+                                                                    {
+                                                                        std.last_name
+                                                                    }
+                                                                </span>
+                                                                <span className="text-sm text-gray-400 flex space-x-2 items-center ">
+                                                                    <MailIcon className="w-4 h-4" />
+                                                                    <span>
+                                                                        {
+                                                                            std.email
+                                                                        }
+                                                                    </span>
+                                                                </span>
+                                                            </td>
+                                                        </Link>
                                                         <td className="p-4">
                                                             {std.categories.map(
                                                                 (cat) => (
@@ -360,7 +383,7 @@ const ListStudents = () => {
                                                                         <button
                                                                             className="btn btn-success btn-sm"
                                                                             onClick={() =>
-                                                                                activateStudent(
+                                                                                handleThumbsUp(
                                                                                     std.id
                                                                                 )
                                                                             }
@@ -412,7 +435,7 @@ const ListStudents = () => {
                                                                         <button
                                                                             className="btn btn-success btn-sm"
                                                                             onClick={() =>
-                                                                                activateStudent(
+                                                                                handleThumbsUp(
                                                                                     std.id
                                                                                 )
                                                                             }
@@ -428,7 +451,7 @@ const ListStudents = () => {
                                             ) : (
                                                 <tr>
                                                     <td
-                                                        colSpan={5}
+                                                        colSpan={6}
                                                         className="p-4 pb-0"
                                                     >
                                                         <Placeholder
@@ -484,6 +507,15 @@ const ListStudents = () => {
                         selectedClass={selectedClass}
                         setSelectedClass={setSelectedClass}
                         onClick={addToClass}
+                    />
+                </Modal>
+            )}
+            {openFeeModal && (
+                <Modal setOpenModal={setOpenFeeModal}>
+                    <SetStudentFee
+                        id={targetStudent}
+                        callback={fetchStudents}
+                        setOpenFeeModal={setOpenFeeModal}
                     />
                 </Modal>
             )}

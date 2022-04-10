@@ -35,7 +35,7 @@ const ListAssignedClasses = ({ user_id }) => {
 
     return classes.length > 0 ? (
         classes.map((c, i) => (
-            <div className="w-full">
+            <div className="w-full" key={i}>
                 <div className="card flex flex-col space-y-4 justify-between min-h-full">
                     <div className="flex flex-col space-y-4">
                         <div>
