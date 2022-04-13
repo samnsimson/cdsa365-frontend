@@ -5,6 +5,7 @@ import { config } from '../config/config'
 import moment from 'moment-timezone'
 import {
     EyeOffIcon,
+    FilterIcon,
     FolderAddIcon,
     LightningBoltIcon,
     PencilIcon,
@@ -13,10 +14,16 @@ import {
 import AddCategoryDropdown from '../components/add-category-dropdown'
 import Modal from '../components/modal'
 import { Link } from 'react-router-dom'
+import LoadingPlaceholder from '../components/loading-placeholder'
 
 const ListClasses = () => {
     const [classes, setClasses] = useState([])
+    const [cls, setCls] = useState(classes)
     const [showActionButton, setShowActionButton] = useState(false)
+    const [showFilter, setShowFilter] = useState(false)
+    const [titleToFilter, setTitleToFilter] = useState('')
+    const [nameToFilter, setNameToFilter] = useState('')
+    const [statusToFilter, setStatusToFilter] = useState('')
     const [selectedClasses, setSelectedClasses] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const defaultCategory = { name: 'Select a category', disabled: true }
@@ -69,13 +76,13 @@ const ListClasses = () => {
     }
 
     const handleAllChecked = (e) => {
-        const classesCheckbox = classes
+        const classesCheckbox = cls
         classesCheckbox.forEach((o) => (o.isChecked = e.target.checked))
         setClasses([...classesCheckbox])
     }
 
     const handleCheckboxChange = (e) => {
-        const classesCheckbox = classes
+        const classesCheckbox = cls
         classesCheckbox.forEach((o) => {
             if (+o.id === +e.target.value) {
                 o.isChecked = e.target.checked
@@ -85,14 +92,40 @@ const ListClasses = () => {
     }
 
     const triggerModal = () => {
-        const selected = classes.filter((o) => o.isChecked)
+        const selected = cls.filter((o) => o.isChecked)
         setSelectedClasses(selected)
         setOpenModal(true)
     }
 
     const bulkDeleteClasses = () => {
-        const selected = classes.filter((c) => c.isChecked).map((o) => o.id)
+        const selected = cls.filter((c) => c.isChecked).map((o) => o.id)
         deleteClass(selected)
+    }
+
+    const filterClassByTitle = (array, key) => {
+        return key.length
+            ? array.filter((item) =>
+                  item.title.toLowerCase().includes(key.toLowerCase())
+              )
+            : array
+    }
+
+    const filterClassByName = (array, key) => {
+        return key.length
+            ? array.filter((item) =>
+                  item.trainer_name.toLowerCase().includes(key.toLowerCase())
+              )
+            : array
+    }
+
+    const filterClassByStatus = (array, key) => {
+        return key ? array.filter((item) => item.status === Number(key)) : array
+    }
+
+    const clearFilter = () => {
+        setTitleToFilter('')
+        setNameToFilter('')
+        setStatusToFilter('')
     }
 
     useEffect(() => {
@@ -102,17 +135,44 @@ const ListClasses = () => {
     }, [])
 
     useEffect(() => {
-        console.log(classes)
-        const checkedCount = classes.filter((o) => o.isChecked)
+        setCls(classes)
+    }, [classes])
+
+    useEffect(() => {
+        const checkedCount = cls.filter((o) => o.isChecked)
         setShowActionButton(checkedCount.length > 0)
         if (openModal) setOpenModal(false)
-    }, [classes])
+    }, [cls])
+
+    useEffect(() => {
+        let classToFilter = classes
+        classToFilter = filterClassByTitle(classToFilter, titleToFilter)
+        classToFilter = filterClassByName(classToFilter, nameToFilter)
+        classToFilter = filterClassByStatus(classToFilter, statusToFilter)
+        setCls(classToFilter)
+    }, [titleToFilter, nameToFilter, statusToFilter])
+
+    useEffect(() => {
+        if (!showFilter) {
+            titleToFilter.length && setTitleToFilter('')
+            nameToFilter.length && setNameToFilter('')
+            statusToFilter.length && setStatusToFilter('')
+        }
+    }, [showFilter])
 
     return (
         <div className="px-6 py-4">
             <div className="flex w-full justify-between py-4">
-                <h4 className="font-semibold text-gray-500">All Classes</h4>
+                <h4 className="font-semibold text-gray-500">
+                    All Classes ({cls.length})
+                </h4>
                 <div className="action-section flex justify-end space-x-2">
+                    <button
+                        className="btn-sm btn-gray text-blue-400"
+                        onClick={() => setShowFilter(!showFilter)}
+                    >
+                        <FilterIcon className="w-4 h-4" fill="currentColor" />
+                    </button>
                     {showActionButton && (
                         <>
                             <button
@@ -158,122 +218,198 @@ const ListClasses = () => {
                             <th className="thead">Action</th>
                         </thead>
                         <tbody>
-                            {classes.map((c, key) => (
-                                <tr key={key}>
-                                    <td nowrap className="p-4 w-4">
+                            {showFilter && (
+                                <tr className="border-b bg-gray-100">
+                                    <td></td>
+                                    <td className="p-4">
                                         <input
-                                            className="checkbox"
-                                            type="checkbox"
-                                            name="sellect-class"
-                                            value={c.id}
-                                            checked={c.isChecked}
-                                            onChange={handleCheckboxChange}
+                                            type="text"
+                                            name="title"
+                                            value={titleToFilter}
+                                            className="form-control-sm"
+                                            placeholder="Enter title to filter"
+                                            onChange={(e) =>
+                                                setTitleToFilter(e.target.value)
+                                            }
                                         />
                                     </td>
-                                    <Link
-                                        to={`/dashboard/classes/view/${c.slug}`}
-                                        state={{ class: c }}
-                                    >
-                                        <td
-                                            nowrap
-                                            className="p-4 w-1/2 space-y-2 text-truncate"
+                                    <td className="p-4">
+                                        <input
+                                            type="text"
+                                            name="trainer_name"
+                                            value={nameToFilter}
+                                            className="form-control-sm"
+                                            placeholder="Enter name to filter"
+                                            onChange={(e) =>
+                                                setNameToFilter(e.target.value)
+                                            }
+                                        />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="p-4">
+                                        <select
+                                            name="status"
+                                            value={statusToFilter}
+                                            className="form-control-sm"
+                                            onChange={(e) =>
+                                                setStatusToFilter(
+                                                    e.target.value
+                                                )
+                                            }
                                         >
-                                            <p className="text-slate-700">
-                                                {c.title}
-                                            </p>
-                                            <p className="text-xs text-slate-400">
-                                                {c.categories.map((cat) => (
-                                                    <Badge
-                                                        color="sky"
-                                                        message={cat.name}
-                                                    />
-                                                ))}
-                                            </p>
-                                        </td>
-                                    </Link>
-                                    <td nowrap className="p-4 text-sm">
-                                        <Link
-                                            to={`/dashboard/trainers/view/${c.trainer_id}`}
-                                            className="hover:text-sky-500"
+                                            <option value={''}>Select</option>
+                                            <option value={0}>Draft</option>
+                                            <option value={1}>Published</option>
+                                        </select>
+                                    </td>
+                                    <td className="text-center text-sm text-red-400">
+                                        <span
+                                            onClick={clearFilter}
+                                            className="cursor-pointer"
                                         >
-                                            {c.trainer_name}
-                                        </Link>
-                                    </td>
-                                    <td nowrap className="p-4 text-sm">
-                                        {moment(c.start_time)
-                                            .tz('Asia/Kolkata')
-                                            .format('LL')}
-                                    </td>
-                                    <td nowrap className="p-4 text-sm">
-                                        {moment(c.start_time)
-                                            .tz('Asia/Kolkata')
-                                            .format('LT') +
-                                            ' - ' +
-                                            moment(c.end_time)
-                                                .tz('Asia/Kolkata')
-                                                .format('LT')}
-                                    </td>
-                                    <td nowrap className="p-4">
-                                        {
-                                            <Badge
-                                                color={
-                                                    c.status
-                                                        ? 'green'
-                                                        : 'yellow'
-                                                }
-                                                message={
-                                                    c.status
-                                                        ? 'Published'
-                                                        : 'Draft'
-                                                }
-                                            />
-                                        }
-                                    </td>
-                                    <td nowrap className="p-4">
-                                        <div className="flex justify-end space-x-4">
-                                            <Link
-                                                to={`/dashboard/classes/edit/${c.id}`}
-                                                state={{ class: c }}
-                                            >
-                                                <PencilIcon
-                                                    className="h-5 w-5 cursor-pointer"
-                                                    fill="currentColor"
-                                                />
-                                            </Link>
-                                            {!c.status ? (
-                                                <LightningBoltIcon
-                                                    className="h-5 w-5 text-teal-500 hover:cursor-pointer"
-                                                    fill="currentColor"
-                                                    onClick={() =>
-                                                        updateClassStatus(
-                                                            c.id,
-                                                            1
-                                                        )
-                                                    }
-                                                />
-                                            ) : (
-                                                <EyeOffIcon
-                                                    className="h-5 w-5 text-sky-500 hover:cursor-pointer"
-                                                    fill="currentColor"
-                                                    onClick={() =>
-                                                        updateClassStatus(
-                                                            c.id,
-                                                            0
-                                                        )
-                                                    }
-                                                />
-                                            )}
-                                            <TrashIcon
-                                                className="h-5 w-5 text-red-500 hover:cursor-pointer"
-                                                fill="currentColor"
-                                                onClick={() =>
-                                                    deleteClass(c.id)
-                                                }
-                                            />
-                                        </div>
+                                            Clear filter
+                                        </span>
                                     </td>
                                 </tr>
-                            ))}
+                            )}
+                            {cls.length > 0
+                                ? cls.map((c, key) => (
+                                      <tr
+                                          key={key}
+                                          className="transition-transform"
+                                      >
+                                          <td nowrap className="p-4 w-4">
+                                              <input
+                                                  className="checkbox"
+                                                  type="checkbox"
+                                                  name="sellect-class"
+                                                  value={c.id}
+                                                  checked={c.isChecked}
+                                                  onChange={
+                                                      handleCheckboxChange
+                                                  }
+                                              />
+                                          </td>
+                                          <Link
+                                              to={`/dashboard/classes/view/${c.slug}`}
+                                              state={{ class: c }}
+                                          >
+                                              <td
+                                                  nowrap
+                                                  className="p-4 w-1/2 space-y-2 text-truncate"
+                                              >
+                                                  <p className="text-slate-700">
+                                                      {c.title}
+                                                  </p>
+                                                  <p className="text-xs text-slate-400">
+                                                      {c.categories.map(
+                                                          (cat) => (
+                                                              <Badge
+                                                                  color="sky"
+                                                                  message={
+                                                                      cat.name
+                                                                  }
+                                                              />
+                                                          )
+                                                      )}
+                                                  </p>
+                                              </td>
+                                          </Link>
+                                          <td nowrap className="p-4 text-sm">
+                                              <Link
+                                                  to={`/dashboard/trainers/view/${c.trainer_id}`}
+                                                  className="hover:text-sky-500"
+                                              >
+                                                  {c.trainer_name}
+                                              </Link>
+                                          </td>
+                                          <td nowrap className="p-4 text-sm">
+                                              {moment(c.start_time)
+                                                  .tz('Asia/Kolkata')
+                                                  .format('LL')}
+                                          </td>
+                                          <td nowrap className="p-4 text-sm">
+                                              {moment(c.start_time)
+                                                  .tz('Asia/Kolkata')
+                                                  .format('LT') +
+                                                  ' - ' +
+                                                  moment(c.end_time)
+                                                      .tz('Asia/Kolkata')
+                                                      .format('LT')}
+                                          </td>
+                                          <td nowrap className="p-4">
+                                              {
+                                                  <Badge
+                                                      color={
+                                                          c.status
+                                                              ? 'green'
+                                                              : 'yellow'
+                                                      }
+                                                      message={
+                                                          c.status
+                                                              ? 'Published'
+                                                              : 'Draft'
+                                                      }
+                                                  />
+                                              }
+                                          </td>
+                                          <td nowrap className="p-4">
+                                              <div className="flex justify-end space-x-4">
+                                                  <Link
+                                                      to={`/dashboard/classes/edit/${c.id}`}
+                                                      state={{ class: c }}
+                                                  >
+                                                      <PencilIcon
+                                                          className="h-5 w-5 cursor-pointer"
+                                                          fill="currentColor"
+                                                      />
+                                                  </Link>
+                                                  {!c.status ? (
+                                                      <LightningBoltIcon
+                                                          className="h-5 w-5 text-teal-500 hover:cursor-pointer"
+                                                          fill="currentColor"
+                                                          onClick={() =>
+                                                              updateClassStatus(
+                                                                  c.id,
+                                                                  1
+                                                              )
+                                                          }
+                                                      />
+                                                  ) : (
+                                                      <EyeOffIcon
+                                                          className="h-5 w-5 text-sky-500 hover:cursor-pointer"
+                                                          fill="currentColor"
+                                                          onClick={() =>
+                                                              updateClassStatus(
+                                                                  c.id,
+                                                                  0
+                                                              )
+                                                          }
+                                                      />
+                                                  )}
+                                                  <TrashIcon
+                                                      className="h-5 w-5 text-red-500 hover:cursor-pointer"
+                                                      fill="currentColor"
+                                                      onClick={() =>
+                                                          deleteClass(c.id)
+                                                      }
+                                                  />
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  ))
+                                : [...Array(8)].map((key) => {
+                                      return (
+                                          <tr key={key}>
+                                              {[...Array(7)].map((key) => (
+                                                  <td key={key} className="p-4">
+                                                      <LoadingPlaceholder />
+                                                  </td>
+                                              ))}
+                                          </tr>
+                                      )
+                                  })}
                         </tbody>
                     </table>
                 </div>

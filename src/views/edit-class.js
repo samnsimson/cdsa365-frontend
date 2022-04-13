@@ -9,6 +9,7 @@ import Badge from '../components/badge'
 
 const EditClass = () => {
     const { state, pathname } = useLocation()
+    console.log(state.class)
     const [trainers, setTrainers] = useState([])
     const [categories, setCategories] = useState([])
     const [showButton, setShowButton] = useState(false)
@@ -16,7 +17,7 @@ const EditClass = () => {
         if (!state) {
             return {}
         } else {
-            let timeFormat = 'yyyy-MM-DDThh:mm'
+            let timeFormat = 'yyyy-MM-DDTHH:mm'
             return {
                 id: state.class.id,
                 title: state.class.title,
@@ -25,6 +26,8 @@ const EditClass = () => {
                 start: moment(state.class.start_time).format(timeFormat),
                 end: moment(state.class.end_time).format(timeFormat),
                 video_link: state.class.video_link,
+                trainer: state.class.trainer_id,
+                categories: state.class.categories,
             }
         }
     })
@@ -45,6 +48,7 @@ const EditClass = () => {
 
     const updateClass = (id) => {
         const data = { ...formData }
+        delete data.categories
         axios
             .put(config.api.updateClass + `/${id}`, data)
             .then(() => setShowButton(false))
@@ -212,6 +216,7 @@ const EditClass = () => {
                                     name="end"
                                     className="form-control"
                                     value={formData.end ?? '0000-00-00T00:00'}
+                                    min={formData.start}
                                     onChange={handleChange}
                                 />
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -229,6 +234,7 @@ const EditClass = () => {
                             <select
                                 className="form-control"
                                 name="trainer"
+                                value={formData.trainer ?? null}
                                 onChange={handleChange}
                             >
                                 <option value={null}>Select trainer</option>
@@ -258,6 +264,15 @@ const EditClass = () => {
                             >
                                 Choose Class Category
                             </label>
+                            <div className="flex mb-3">
+                                {formData.categories.map((cat) => {
+                                    return (
+                                        <div className="p-1 px-2 bg-blue-100 text-blue-500 rounded-full text-xs">
+                                            {cat.name}
+                                        </div>
+                                    )
+                                })}
+                            </div>
                             <select
                                 className="form-control"
                                 name="category"

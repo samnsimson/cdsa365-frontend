@@ -34,5 +34,8 @@ export const config = {
         getPaymentHistory: BASE_URL + '/payments',
         getMonthlyDurations: BASE_URL + '/trainer/attendance/month',
         getYearlyDuration: BASE_URL + '/trainer/attendance/year',
+        extendDueDate: BASE_URL + '/payments/extend',
+        getClassBySlug: BASE_URL + '/class/slug',
+        getStudentsInClass: BASE_URL + '/classes/students',
     },
 }

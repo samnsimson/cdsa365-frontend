@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Card = ({ title, children, className }) => {
+const Card = ({ title, children, className, bodyClass }) => {
     return (
         <div
             className={`flex flex-col shadow-lg rounded-lg overflow-hidden w-full ${
@@ -14,7 +14,7 @@ const Card = ({ title, children, className }) => {
                     </h5>
                 </div>
             )}
-            <div className="p-6 bg-white">{children}</div>
+            <div className={`p-6 bg-white ${bodyClass ?? ''}`}>{children}</div>
         </div>
     )
 }

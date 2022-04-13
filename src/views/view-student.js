@@ -1,16 +1,24 @@
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import Badge from '../components/badge'
 import Card from '../components/card'
+import ExtendDueDate from '../components/extend-due-date'
+import Modal from '../components/modal'
 import Rupee from '../components/rupee'
 import ListStudentClasses from './list-student-classes'
 import StudentPaymentDetails from './student-payment-details'
 
 const ViewStudent = () => {
+    const [openModal, setOpenModal] = useState(false)
     const {
         state: { student },
     } = useLocation()
+
+    const toggleModal = () => {
+        setOpenModal(!openModal)
+    }
 
     return (
         <div className="px-6 py-4">
@@ -39,6 +47,17 @@ const ViewStudent = () => {
                     <Card>
                         <table className="w-full">
                             <tbody className="text-sm text-slate-600">
+                                <tr>
+                                    <td className="p-1 font-semibold">
+                                        Account Status
+                                    </td>
+                                    <td className="p-1">
+                                        {student.status === 0 &&
+                                            'Pending Activation'}
+                                        {student.status === 1 && 'Active'}
+                                        {student.status === 2 && 'Rejected'}
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td className="p-1 font-semibold">
                                         Joining Date
@@ -118,13 +137,32 @@ const ViewStudent = () => {
                                 </tr>
                                 <tr>
                                     <td className="p-1 font-semibold">
-                                        Status
+                                        Payment Status
                                     </td>
                                     <td className="p-1">
-                                        {student.status === 0 &&
-                                            'Pending Activation'}
-                                        {student.status === 1 && 'Active'}
-                                        {student.status === 2 && 'Rejected'}
+                                        {moment().isBefore(
+                                            moment(student.next_due)
+                                        ) ? (
+                                            <Badge
+                                                color="green"
+                                                message="Paid"
+                                            />
+                                        ) : (
+                                            <Badge
+                                                color="red"
+                                                message="Unpaid"
+                                            />
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2} className="pt-3">
+                                        <button
+                                            className="w-full btn-sm btn-info"
+                                            onClick={toggleModal}
+                                        >
+                                            Extend next payment due
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -140,6 +178,15 @@ const ViewStudent = () => {
                     </Card>
                 </div>
             </div>
+            {openModal && (
+                <Modal setOpenModal={setOpenModal}>
+                    <ExtendDueDate
+                        payment_id={student.payment_id}
+                        currentDue={student.next_due}
+                        callback={toggleModal}
+                    />
+                </Modal>
+            )}
         </div>
     )
 }

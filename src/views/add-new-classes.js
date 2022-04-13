@@ -6,6 +6,7 @@ import moment from 'moment'
 import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
 import Badge from '../components/badge'
+import ListStudentCategories from '../components/list-student-categories'
 
 const AddNewClasses = () => {
     const { state, pathname } = useLocation()
@@ -188,7 +189,6 @@ const AddNewClasses = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="flex space-x-6">
                             <div className="w-1/2">
                                 <label
@@ -227,37 +227,45 @@ const AddNewClasses = () => {
                                 </p>
                             </div>
                         </div>
-                        <div>
-                            <label
-                                htmlFor="name"
-                                className="block mb-2 text-sm font-medium text-gray-900"
-                            >
-                                Choose Trainer
-                            </label>
-                            <select
-                                className="form-control"
-                                name="trainer"
-                                onChange={handleChange}
-                            >
-                                <option value={null}>Select trainer</option>
-                                {trainers.map((trainer, i) => (
-                                    <option value={trainer.id} key={i}>
-                                        {trainer.first_name +
-                                            ' ' +
-                                            trainer.last_name}
-                                    </option>
-                                ))}
-                            </select>
-                            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                Assign a trainer to the class. If no trainers
-                                listed, please create a trainer{' '}
-                                <Link
-                                    to="/dashboard/trainers/add-new"
-                                    className="underline text-blue-500"
+                        <div className="flex space-x-6">
+                            <div className="w-1/2">
+                                <label
+                                    htmlFor="name"
+                                    className="block mb-2 text-sm font-medium text-gray-900"
                                 >
-                                    here
-                                </Link>
-                            </p>
+                                    Choose Trainer
+                                </label>
+                                <select
+                                    className="form-control"
+                                    name="trainer"
+                                    onChange={handleChange}
+                                >
+                                    <option value={null}>Select trainer</option>
+                                    {trainers.map((trainer, i) => (
+                                        <option value={trainer.id} key={i}>
+                                            {trainer.first_name +
+                                                ' ' +
+                                                trainer.last_name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    Assign a trainer to the class. If no
+                                    trainers listed, please create a trainer{' '}
+                                    <Link
+                                        to="/dashboard/trainers/add-new"
+                                        className="underline text-blue-500"
+                                    >
+                                        here
+                                    </Link>
+                                </p>
+                            </div>
+                            <div className="w-1/2">
+                                <ListStudentCategories
+                                    handleChange={handleChange}
+                                    formData={formData}
+                                />
+                            </div>
                         </div>
                         <div>
                             <label

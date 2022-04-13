@@ -38,8 +38,8 @@ const ListStudents = () => {
     const [selectedClass, setSelectedClass] = useState(classes[0])
     const [showLoader, setShowLoader] = useState(true)
     const [students, setStudents] = useState({
-        Pending: [],
         Active: [],
+        Pending: [],
         Rejected: [],
     })
 
@@ -49,8 +49,8 @@ const ListStudents = () => {
             .then(({ data }) => {
                 data.map((item) => (item.isChecked = false))
                 setStudents({
-                    Pending: data.filter((o) => o.status === 0),
                     Active: data.filter((o) => o.status === 1),
+                    Pending: data.filter((o) => o.status === 0),
                     Rejected: data.filter((o) => o.status === 2),
                 })
             })
@@ -64,12 +64,12 @@ const ListStudents = () => {
         let { Pending, Active, Rejected } = students
         switch (selectedIndex) {
             case 0:
-                Pending.forEach((o) => (o.isChecked = e.target.checked))
-                setStudents((state) => ({ ...state, Pending: Pending }))
-                break
-            case 1:
                 Active.forEach((o) => (o.isChecked = e.target.checked))
                 setStudents((state) => ({ ...state, Active: Active }))
+                break
+            case 1:
+                Pending.forEach((o) => (o.isChecked = e.target.checked))
+                setStudents((state) => ({ ...state, Pending: Pending }))
                 break
             case 2:
                 Rejected.forEach((o) => (o.isChecked = e.target.checked))
@@ -192,10 +192,10 @@ const ListStudents = () => {
     }, [selectedIndex])
 
     useEffect(() => {
-        const pending = students.Pending.filter((o) => o.isChecked)
         const active = students.Active.filter((o) => o.isChecked)
+        const pending = students.Pending.filter((o) => o.isChecked)
         const rejected = students.Rejected.filter((o) => o.isChecked)
-        setSelectedStudents([...pending, ...active, ...rejected])
+        setSelectedStudents([...active, ...pending, ...rejected])
         if (openCatModal) setOpenCatModal(false)
         if (openClassModal) setOpenClassModal(false)
     }, [students])
@@ -207,17 +207,6 @@ const ListStudents = () => {
                 {selectedStudents.length > 0 && (
                     <div className="flex space-x-1">
                         {selectedIndex === 0 && (
-                            <>
-                                <button className="btn btn-success btn-sm">
-                                    <ThumbUpIcon className="w-4 h-4" />
-                                </button>
-                                <button className="btn btn-danger btn-sm">
-                                    <ThumbDownIcon className="w-4 h-4" />
-                                </button>
-                            </>
-                        )}
-
-                        {selectedIndex === 1 && (
                             <>
                                 <button
                                     className="btn btn-gray btn-sm"
@@ -232,6 +221,16 @@ const ListStudents = () => {
                                 >
                                     <UserGroupIcon className="w-4 h-4 mr-2" />
                                     Add to class
+                                </button>
+                            </>
+                        )}
+                        {selectedIndex === 1 && (
+                            <>
+                                <button className="btn btn-success btn-sm">
+                                    <ThumbUpIcon className="w-4 h-4" />
+                                </button>
+                                <button className="btn btn-danger btn-sm">
+                                    <ThumbDownIcon className="w-4 h-4" />
                                 </button>
                             </>
                         )}
@@ -465,21 +464,16 @@ const ListStudents = () => {
                                         ) : (
                                             [...Array(8)].map((key) => (
                                                 <tr key={key}>
-                                                    <td className="p-4">
-                                                        <LoadingPlaceholder />
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <LoadingPlaceholder />
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <LoadingPlaceholder />
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <LoadingPlaceholder />
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <LoadingPlaceholder />
-                                                    </td>
+                                                    {[...Array(5)].map(
+                                                        (key) => (
+                                                            <td
+                                                                className="p-4"
+                                                                key={key}
+                                                            >
+                                                                <LoadingPlaceholder />
+                                                            </td>
+                                                        )
+                                                    )}
                                                 </tr>
                                             ))
                                         )}

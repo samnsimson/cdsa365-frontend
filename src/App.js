@@ -21,6 +21,7 @@ import ListClasses from './views/list-classes'
 import ListStudents from './views/list-students'
 import ViewStudent from './views/view-student'
 import EditClass from './views/edit-class'
+import ViewClass from './views/view-class'
 
 // ROUTE PATHS
 const path = {
@@ -40,6 +41,7 @@ const path = {
     editClasses: '/dashboard/classes/edit/:id',
     listStudents: '/dashboard/students/view-all',
     viewStudent: '/dashboard/students/view/:id',
+    viewClass: '/dashboard/classes/view/:slug',
 }
 
 // APPLICATION
@@ -115,6 +117,11 @@ const App = () => {
                         exact
                         path={path.viewStudent}
                         element={<ViewStudent />}
+                    />
+                    <Route
+                        exact
+                        path={path.viewClass}
+                        element={<ViewClass />}
                     />
                 </Route>
                 <Route
