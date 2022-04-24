@@ -464,7 +464,7 @@ const ListStudents = () => {
                                         ) : (
                                             [...Array(8)].map((key) => (
                                                 <tr key={key}>
-                                                    {[...Array(5)].map(
+                                                    {[...Array(6)].map(
                                                         (key) => (
                                                             <td
                                                                 className="p-4"

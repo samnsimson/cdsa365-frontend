@@ -37,5 +37,8 @@ export const config = {
         extendDueDate: BASE_URL + '/payments/extend',
         getClassBySlug: BASE_URL + '/class/slug',
         getStudentsInClass: BASE_URL + '/classes/students',
+        fetchRemarks: BASE_URL + '/classes/remarks',
+        getLeads: BASE_URL + '/leads',
+        getAttendanceReport: BASE_URL + '/student/attendance/report',
     },
 }

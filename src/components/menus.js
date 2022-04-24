@@ -2,10 +2,12 @@ import React from 'react'
 import {
     AcademicCapIcon,
     BookOpenIcon,
+    CalendarIcon,
     ChevronRightIcon,
     PlusIcon,
     UserGroupIcon,
     UserIcon,
+    UsersIcon,
 } from '@heroicons/react/solid'
 import { Link } from 'react-router-dom'
 
@@ -112,6 +114,42 @@ const Menus = () => {
                                     <div className="flex justify-start items-center space-x-2">
                                         <UserGroupIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                         <p>Class Category</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                        </ul>
+                    </div>
+                </li>
+                <li className=" p-2">
+                    <div className="w-full font-semibold">
+                        <p>Dashboard</p>
+                    </div>
+                    <div>
+                        <ul className="py-2">
+                            <Link to="dashboard/users">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UserIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Users</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/leads">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <UsersIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Leads</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/students/attendance">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <CalendarIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Attendance Report</p>
                                     </div>
                                     <ChevronRightIcon className="h-5 w-5" />
                                 </li>

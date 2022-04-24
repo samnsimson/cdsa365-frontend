@@ -3,6 +3,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Card from '../components/card'
+import ListRemarks from '../components/list-remarks'
 import StudentsAttendingClass from '../components/students-attending-class'
 import { config } from '../config/config'
 
@@ -38,7 +39,7 @@ const ViewClass = () => {
                     <StudentsAttendingClass class_id={cls.id} />
                 </Card>
             </div>
-            <div className="w-1/3">
+            <div className="w-1/3 space-y-6">
                 <Card title={'Details'}>
                     <table className="w-full">
                         <tbody>
@@ -74,6 +75,9 @@ const ViewClass = () => {
                             </tr>
                         </tbody>
                     </table>
+                </Card>
+                <Card title={'Remarks'}>
+                    <ListRemarks class_id={cls.id} />
                 </Card>
             </div>
         </div>

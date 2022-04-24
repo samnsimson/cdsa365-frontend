@@ -15,14 +15,21 @@ const ResourceTimeline = ({ id, selectedWeek, selectedMonth, salary }) => {
     const getDuration = (d, attendance) => {
         if (d && attendance[d]) {
             let seconds = attendance[d].duration
-            return moment.utc(seconds * 1000).format('HH:mm:ss')
+            return secondsToHours(seconds)
         } else {
             return '0:00:00'
         }
     }
 
-    const secondsToHours = (seconds) => {
-        return moment.utc(seconds * 1000).format('HH:mm:ss')
+    const secondsToHours = (secs) => {
+        let dur = moment.duration(secs, 'seconds')
+        let hours = Math.floor(dur.asHours())
+        let mins = Math.floor(dur.asMinutes()) - hours * 60
+        let sec = Math.floor(dur.asSeconds()) - hours * 60 * 60 - mins * 60
+        let minutes = mins > 9 ? mins : '0' + mins
+        let seconds = sec > 9 ? sec : '0' + sec
+        let result = hours + ':' + minutes + ':' + seconds
+        return result
     }
 
     const calcPayout = (salary, hours) => {
@@ -38,6 +45,7 @@ const ResourceTimeline = ({ id, selectedWeek, selectedMonth, salary }) => {
         const monthlyData = durations
             .filter((o) => (o.month = selectedMonth))
             .map((o) => o.duration)
+        console.log(monthlyData)
         const seconds = monthlyData.reduce((a, b) => a + b, 0)
         setMonthlyHours(seconds)
     }
@@ -67,7 +75,9 @@ const ResourceTimeline = ({ id, selectedWeek, selectedMonth, salary }) => {
         getMonthlyHours()
     }, [attendance, durations])
 
-    useEffect(() => {}, [weeklyHours, monthlyHours])
+    useEffect(() => {
+        console.log(weeklyHours, monthlyHours)
+    }, [weeklyHours, monthlyHours])
 
     return (
         <Card>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Menus from './menus'
 
 const Sidebar = () => {
@@ -15,7 +16,9 @@ const Sidebar = () => {
                     minimiseSidebar && 'justify-center'
                 } space-x-4 h-20 max-h-full -mt-4 -mx-4 px-4 `}
             >
-                <h4>CDSA 365</h4>
+                <h4>
+                    <Link to={'/'}>CDSA 365</Link>
+                </h4>
             </div>
             <div>
                 <Menus />
