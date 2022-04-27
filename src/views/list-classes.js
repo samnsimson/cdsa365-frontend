@@ -136,6 +136,7 @@ const ListClasses = () => {
 
     useEffect(() => {
         setCls(classes)
+        console.log(classes)
     }, [classes])
 
     useEffect(() => {
@@ -215,6 +216,7 @@ const ListClasses = () => {
                             <th className="thead">Date</th>
                             <th className="thead">Time</th>
                             <th className="thead">Status</th>
+                            <th className="thead">Progress</th>
                             <th className="thead">Action</th>
                         </thead>
                         <tbody>
@@ -261,6 +263,29 @@ const ListClasses = () => {
                                             <option value={''}>Select</option>
                                             <option value={0}>Draft</option>
                                             <option value={1}>Published</option>
+                                        </select>
+                                    </td>
+                                    <td className="p-4">
+                                        <select
+                                            name="progress_state"
+                                            value={statusToFilter}
+                                            className="form-control-sm"
+                                            onChange={(e) =>
+                                                setStatusToFilter(
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option value={''}>Select</option>
+                                            <option value={'SCHEDULED'}>
+                                                Scheduled
+                                            </option>
+                                            <option value={'IN PROGRESS'}>
+                                                In progress
+                                            </option>
+                                            <option value={'COMPLETED'}>
+                                                Completed
+                                            </option>
                                         </select>
                                     </td>
                                     <td className="text-center text-sm text-red-400">
@@ -353,6 +378,29 @@ const ListClasses = () => {
                                                       }
                                                   />
                                               }
+                                          </td>
+                                          <td className="p-4 capitalize text-xs">
+                                              {c.progress_state ===
+                                                  'COMPLETED' && (
+                                                  <Badge
+                                                      color="red"
+                                                      message={c.progress_state.toLowerCase()}
+                                                  />
+                                              )}
+                                              {c.progress_state ===
+                                                  'SCHEDULED' && (
+                                                  <Badge
+                                                      color="blue"
+                                                      message={c.progress_state.toLowerCase()}
+                                                  />
+                                              )}
+                                              {c.progress_state ===
+                                                  'IN PROGRESS' && (
+                                                  <Badge
+                                                      color="green"
+                                                      message={c.progress_state.toLowerCase()}
+                                                  />
+                                              )}
                                           </td>
                                           <td nowrap className="p-4">
                                               <div className="flex justify-end space-x-4">

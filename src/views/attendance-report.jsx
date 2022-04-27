@@ -35,7 +35,7 @@ const AttendanceReport = () => {
                     <thead>
                         <th className="thead p-2">Name</th>
                         <th className="thead p-2">Class</th>
-                        <table className="table border-0 shadow-none">
+                        <table className="table border-1 border-sky-200 shadow-none">
                             <tr>
                                 <th
                                     className="thead p-2 text-center"
@@ -48,7 +48,10 @@ const AttendanceReport = () => {
                                 {dayFiller.map((date) => {
                                     date = date + 1
                                     return (
-                                        <th className="thead p-2" key={date}>
+                                        <th
+                                            className="thead p-2 border-1 border-sky-200"
+                                            key={date}
+                                        >
                                             <div className="w-[20px]">
                                                 {date}
                                             </div>
@@ -62,20 +65,24 @@ const AttendanceReport = () => {
                         {students.map(([key, value], i) => (
                             <tr
                                 key={i}
-                                className="text-xs border-b-1 last:border-b-0"
+                                className="text-xs border-0 last:border-b-0"
                             >
-                                <td className="whitespace-nowrap p-2">{key}</td>
+                                <td className="whitespace-nowrap p-2">
+                                    <div className="w-32">{key}</div>
+                                </td>
                                 <td>
-                                    <table>
+                                    <table className="border-1">
                                         {Object.entries(value).map(
                                             ([key, value], i) => {
                                                 return (
                                                     <tr
                                                         key={i}
-                                                        className="border-b-1 last:border-b-0"
+                                                        className="border-1"
                                                     >
                                                         <td className="whitespace-nowrap p-2">
-                                                            {key}
+                                                            <div className="w-64">
+                                                                {key}
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 )
@@ -84,7 +91,7 @@ const AttendanceReport = () => {
                                     </table>
                                 </td>
                                 <td>
-                                    <table className="table shadow-none border-0 h-full">
+                                    <table className="table shadow-none border-1 h-full border-collapse">
                                         {Object.values(value).map((item, i) => {
                                             return (
                                                 <tr
@@ -96,7 +103,7 @@ const AttendanceReport = () => {
 
                                                         return (
                                                             <td
-                                                                className="p-2 text-center"
+                                                                className="p-2 text-center border-1"
                                                                 key={i}
                                                             >
                                                                 <div className="w-[20px]">
