@@ -40,5 +40,6 @@ export const config = {
         fetchRemarks: BASE_URL + '/classes/remarks',
         getLeads: BASE_URL + '/leads',
         getAttendanceReport: BASE_URL + '/student/attendance/report',
+        getCountReport: BASE_URL + '/report/count-report',
     },
 }

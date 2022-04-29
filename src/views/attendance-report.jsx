@@ -4,29 +4,86 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import Card from '../components/card'
 import { config } from '../config/config'
+import { months, monthsOfYear } from '../constants/constant'
+import { capitalize } from '../helpers/helper'
 
 const AttendanceReport = () => {
     const [data, setData] = useState([])
-    const daysInMonth = moment().daysInMonth()
+    const [years, setYears] = useState([])
+    const [formData, setFormData] = useState({
+        month: moment().month() + 1,
+        year: moment().year(),
+    })
+    const daysInMonth = moment(
+        `${formData.year}-${formData.month}`
+    ).daysInMonth()
     const dayFiller = [...Array.from(Array(daysInMonth).keys())]
     const students = Object.entries(data)
 
     const fetchAttendanceData = () => {
         const url = config.api.getAttendanceReport
-        const month = moment().month() + 1
-        const year = moment().year()
         axios
-            .post(url, { year, month })
+            .post(url, { year: formData.year, month: formData.month })
             .then(({ data }) => setData(data))
             .catch((err) => console.log(err))
     }
 
+    const getYearOptions = (period) => {
+        const years = []
+        const startYear = moment().subtract(period, 'years').year()
+        const endYear = moment().add(period, 'years').year()
+        for (let i = startYear; i <= endYear; i++) years.push(i)
+        setYears(years)
+    }
+
+    const handleChange = (e) => {
+        setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
+    }
+
+    useEffect(() => {
+        getYearOptions(10)
+    }, [])
+
     useEffect(() => {
         fetchAttendanceData()
-    }, [])
+    }, [formData])
 
     return (
         <div className="px-6 py-4">
+            <div className="flex items-center mb-4 space-x-4">
+                <label htmlFor="year">Year:</label>
+                <select
+                    name="year"
+                    className="form-control-sm w-32"
+                    value={formData.year ?? moment().year()}
+                    onChange={handleChange}
+                >
+                    {years.map((year) => (
+                        <option key={year} value={year}>
+                            {year}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor="year">Month:</label>
+                <select
+                    name="month"
+                    className="form-control-sm w-32"
+                    value={
+                        formData.month ?? months[monthsOfYear[moment().month()]]
+                    }
+                    onChange={handleChange}
+                >
+                    {Object.entries(months).map(([key, value]) => (
+                        <option
+                            key={key}
+                            value={value}
+                            style={{ textTransform: 'capitalize' }}
+                        >
+                            {capitalize(key)}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <Card
                 title={'Student attendance Report'}
                 bodyClass="p-0 overflow-x-auto scroll-m-0"
@@ -41,7 +98,7 @@ const AttendanceReport = () => {
                                     className="thead p-2 text-center"
                                     colSpan={31}
                                 >
-                                    {moment().format('MMMM')}
+                                    {monthsOfYear[formData.month - 1]}
                                 </th>
                             </tr>
                             <tr>

@@ -24,6 +24,7 @@ const ListClasses = () => {
     const [titleToFilter, setTitleToFilter] = useState('')
     const [nameToFilter, setNameToFilter] = useState('')
     const [statusToFilter, setStatusToFilter] = useState('')
+    const [progressToFilter, setProgressToFilter] = useState('')
     const [selectedClasses, setSelectedClasses] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const defaultCategory = { name: 'Select a category', disabled: true }
@@ -122,10 +123,19 @@ const ListClasses = () => {
         return key ? array.filter((item) => item.status === Number(key)) : array
     }
 
+    const filterClassByProgress = (array, key) => {
+        return key
+            ? array.filter((item) =>
+                  item.progress_state.toLowerCase().includes(key.toLowerCase())
+              )
+            : array
+    }
+
     const clearFilter = () => {
         setTitleToFilter('')
         setNameToFilter('')
         setStatusToFilter('')
+        setProgressToFilter('')
     }
 
     useEffect(() => {
@@ -150,14 +160,16 @@ const ListClasses = () => {
         classToFilter = filterClassByTitle(classToFilter, titleToFilter)
         classToFilter = filterClassByName(classToFilter, nameToFilter)
         classToFilter = filterClassByStatus(classToFilter, statusToFilter)
+        classToFilter = filterClassByProgress(classToFilter, progressToFilter)
         setCls(classToFilter)
-    }, [titleToFilter, nameToFilter, statusToFilter])
+    }, [titleToFilter, nameToFilter, statusToFilter, progressToFilter])
 
     useEffect(() => {
         if (!showFilter) {
             titleToFilter.length && setTitleToFilter('')
             nameToFilter.length && setNameToFilter('')
             statusToFilter.length && setStatusToFilter('')
+            progressToFilter.length && setProgressToFilter('')
         }
     }, [showFilter])
 
@@ -268,10 +280,10 @@ const ListClasses = () => {
                                     <td className="p-4">
                                         <select
                                             name="progress_state"
-                                            value={statusToFilter}
+                                            value={progressToFilter}
                                             className="form-control-sm"
                                             onChange={(e) =>
-                                                setStatusToFilter(
+                                                setProgressToFilter(
                                                     e.target.value
                                                 )
                                             }
@@ -298,7 +310,7 @@ const ListClasses = () => {
                                     </td>
                                 </tr>
                             )}
-                            {cls.length > 0
+                            {classes.length > 0
                                 ? cls.map((c, key) => (
                                       <tr
                                           key={key}
@@ -450,7 +462,7 @@ const ListClasses = () => {
                                 : [...Array(8)].map((key) => {
                                       return (
                                           <tr key={key}>
-                                              {[...Array(7)].map((key) => (
+                                              {[...Array(8)].map((key) => (
                                                   <td key={key} className="p-4">
                                                       <LoadingPlaceholder />
                                                   </td>
