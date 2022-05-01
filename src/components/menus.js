@@ -4,6 +4,7 @@ import {
     BookOpenIcon,
     CalendarIcon,
     ChevronRightIcon,
+    CreditCardIcon,
     PlusIcon,
     UserGroupIcon,
     UserIcon,
@@ -150,6 +151,15 @@ const Menus = () => {
                                     <div className="flex justify-start items-center space-x-2">
                                         <CalendarIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                         <p>Attendance Report</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/payments">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <CreditCardIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Payments</p>
                                     </div>
                                     <ChevronRightIcon className="h-5 w-5" />
                                 </li>

@@ -41,5 +41,7 @@ export const config = {
         getLeads: BASE_URL + '/leads',
         getAttendanceReport: BASE_URL + '/student/attendance/report',
         getCountReport: BASE_URL + '/report/count-report',
+        getPaymentDataForManualEntry: BASE_URL + '/payments/make-entry',
+        captureManualPayment: BASE_URL + '/payment/create-manual-order',
     },
 }
