@@ -2,6 +2,7 @@ import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
+import Alert from '../components/alert'
 import Card from '../components/card'
 import { config } from '../config/config'
 
@@ -10,6 +11,7 @@ const Payments = () => {
     const [studentEmail, setStudentEmail] = useState('')
     const [studentPhone, setStudentPhone] = useState('')
     const [paymentData, setPaymentData] = useState({})
+    const [error, setError] = useState(null)
     const [formData, setFormData] = useState({
         fee: paymentData.fee || 0,
         paid: paymentData.fee || 0,
@@ -17,20 +19,35 @@ const Payments = () => {
     })
     const url = config.api.getPaymentDataForManualEntry
 
-    const searchPaymentDataForStudentID = () => {
+    const searchPaymentDataForStudentID = (noReload = false) => {
+        if (!noReload) setPaymentData({})
         axios
             .get(url + `/student_id/${studentId}`)
-            .then(({ data }) => setPaymentData(data))
+            .then(({ data }) => {
+                if (error) setError(null)
+                setPaymentData(data)
+            })
+            .catch((err) => setError(err.response.data.message))
     }
     const searchPaymentDataForStudentEmail = () => {
+        setPaymentData({})
         axios
             .get(url + `/student_email/${studentEmail}`)
-            .then(({ data }) => setPaymentData(data))
+            .then(({ data }) => {
+                if (error) setError(null)
+                setPaymentData(data)
+            })
+            .catch((err) => setError(err.response.data.message))
     }
     const searchPaymentDataForStudentPhone = () => {
+        setPaymentData({})
         axios
             .get(url + `/student_phone/${studentPhone}`)
-            .then(({ data }) => setPaymentData(data))
+            .then(({ data }) => {
+                if (error) setError(null)
+                setPaymentData(data)
+            })
+            .catch((err) => setError(err.response.data.message))
     }
 
     const handleClick = (student_id) => {
@@ -44,7 +61,7 @@ const Payments = () => {
                 gap: paymentData.gap || 0,
                 period: paymentData.period || 0,
             })
-            .then(() => searchPaymentDataForStudentID())
+            .then(() => searchPaymentDataForStudentID(true))
             .catch((err) => console.log(err))
     }
 
@@ -138,6 +155,7 @@ const Payments = () => {
                             </td>
                         </tr>
                     </table>
+                    {error && <Alert type="danger" message={error} />}
                     {Object.keys(paymentData).length > 0 && (
                         <>
                             <Card title="Student Detail" className="mt-4 mb-2">
