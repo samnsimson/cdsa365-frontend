@@ -43,5 +43,8 @@ export const config = {
         getCountReport: BASE_URL + '/report/count-report',
         getPaymentDataForManualEntry: BASE_URL + '/payments/make-entry',
         captureManualPayment: BASE_URL + '/payment/create-manual-order',
+        makeAnnouncement: BASE_URL + '/announcement',
+        getAnnouncements: BASE_URL + '/announcement',
+        deleteAnnouncement: BASE_URL + '/announcement',
     },
 }

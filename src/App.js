@@ -25,6 +25,7 @@ import ViewClass from './views/view-class'
 import ViewLeads from './views/view-leads'
 import AttendanceReport from './views/attendance-report'
 import Payments from './views/payments'
+import Announcements from './views/announcements'
 
 // ROUTE PATHS
 const path = {
@@ -48,6 +49,7 @@ const path = {
     viewLeads: '/dashboard/leads',
     viewAttendanceReport: '/dashboard/students/attendance',
     paymentsPage: '/dashboard/payments',
+    announcements: '/dashboard/announcements',
 }
 
 // APPLICATION
@@ -143,6 +145,11 @@ const App = () => {
                         exact
                         path={path.paymentsPage}
                         element={<Payments />}
+                    />
+                    <Route
+                        exact
+                        path={path.announcements}
+                        element={<Announcements />}
                     />
                 </Route>
                 <Route

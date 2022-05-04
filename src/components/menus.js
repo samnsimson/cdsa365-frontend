@@ -6,6 +6,7 @@ import {
     ChevronRightIcon,
     CreditCardIcon,
     PlusIcon,
+    SpeakerphoneIcon,
     UserGroupIcon,
     UserIcon,
     UsersIcon,
@@ -142,6 +143,15 @@ const Menus = () => {
                                     <div className="flex justify-start items-center space-x-2">
                                         <UsersIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
                                         <p>Leads</p>
+                                    </div>
+                                    <ChevronRightIcon className="h-5 w-5" />
+                                </li>
+                            </Link>
+                            <Link to="dashboard/announcements">
+                                <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                    <div className="flex justify-start items-center space-x-2">
+                                        <SpeakerphoneIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                        <p>Announcements</p>
                                     </div>
                                     <ChevronRightIcon className="h-5 w-5" />
                                 </li>
