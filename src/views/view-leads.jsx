@@ -3,6 +3,7 @@ import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
 import Card from '../components/card'
 import { config } from '../config/config'
+import { capitalize } from '../helpers/helper'
 
 const ViewLeads = () => {
     const [leads, setLeads] = useState([])
@@ -29,13 +30,15 @@ const ViewLeads = () => {
                             <th className="thead">Name</th>
                             <th className="thead">Email</th>
                             <th className="thead">Phone</th>
+                            <th className="thead">Program</th>
+                            <th className="thead">Message</th>
                             <th className="thead">Lead captured at</th>
                         </tr>
                     </thead>
                     <tbody>
                         {leads.map((lead, key) => {
                             return (
-                                <tr key={key}>
+                                <tr key={key} className="text-sm">
                                     <td className="p-4">
                                         {lead.first_name} {lead.last_name}
                                     </td>
@@ -50,9 +53,19 @@ const ViewLeads = () => {
                                         </a>
                                     </td>
                                     <td className="p-4">
+                                        {lead.program
+                                            ? capitalize(lead.program)
+                                            : '-'}
+                                    </td>
+                                    <td className="p-4">
+                                        {lead.message
+                                            ? lead.message.substring(0, 50)
+                                            : '-'}
+                                    </td>
+                                    <td className="p-4">
                                         {moment(lead.created_at)
                                             .tz('Asia/Kolkata')
-                                            .format('LL')}
+                                            .format('LLL')}
                                     </td>
                                 </tr>
                             )

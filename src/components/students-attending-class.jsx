@@ -13,7 +13,7 @@ const StudentsAttendingClass = ({ class_id }) => {
     }
 
     useEffect(() => {
-        fetchStudentsAttendingClass(class_id)
+        if (class_id) fetchStudentsAttendingClass(class_id)
     }, [class_id])
 
     return (

@@ -5,29 +5,24 @@ import {
     CogIcon,
     ShieldCheckIcon,
     UserCircleIcon,
+    ArrowLeftIcon,
 } from '@heroicons/react/solid'
 import { LogoutIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleSidebar, toggleLogin } from '../models'
 import { Menu } from '@headlessui/react'
+import { useNavigate } from 'react-router-dom'
 
 const userMenu = [
     {
         id: 1,
-        name: 'Account',
-        icon: (
-            <ShieldCheckIcon className="h-5 w-5 text-gray-500 group-hover:text-white" />
-        ),
-    },
-    {
-        id: 2,
         name: 'Profile',
         icon: (
             <UserCircleIcon className="h-5 w-5 text-gray-500 group-hover:text-white" />
         ),
     },
     {
-        id: 3,
+        id: 2,
         name: 'Sign out',
         icon: (
             <LogoutIcon className="h-5 w-5 text-gray-500 group-hover:text-white" />
@@ -41,13 +36,14 @@ const Header = () => {
         user: { currentUser },
     } = useSelector((state) => state)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     return (
         <div className="flex items-center justify-between h-20 px-4 w-full border-b-1 border-gray-300 font-sans">
             <div className="leftSection flex items-center">
-                <MenuAlt1Icon
+                <ArrowLeftIcon
                     className="h-5 w-5 text-gray-500 hover:text-slate-700 mr-2 cursor-pointer"
                     fill="currentColor"
-                    onClick={() => dispatch(toggleSidebar(!minimiseSidebar))}
+                    onClick={() => navigate(-1)}
                 />
                 <p className="font-bold">Dashboard</p>
             </div>
@@ -60,10 +56,10 @@ const Header = () => {
                 /> */}
             </div>
             <div className="rightSection flex items-center space-x-5">
-                <CogIcon
+                {/* <CogIcon
                     className="h-5 w-5 text-gray-500 hover:text-sky-500 cursor-pointer"
                     fill="currentColor"
-                />
+                /> */}
                 <Menu as="div" className="relative">
                     {({ open }) => (
                         <>
@@ -76,7 +72,7 @@ const Header = () => {
                             </Menu.Button>
                             {open && (
                                 <Menu.Items
-                                    className={`origin-top-right absolute right-0 mt-8 w-44 p-3 bg-white space-y-3`}
+                                    className={`origin-top-right absolute right-0 mt-8 w-44 p-3 bg-gray-50 shadow-md space-y-3`}
                                 >
                                     {userMenu.map((item) => (
                                         <Menu.Item
