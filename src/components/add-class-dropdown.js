@@ -10,6 +10,7 @@ const AddClassDropdown = ({
     onClick,
 }) => {
     const [query, setQuery] = useState('')
+    classes = classes.filter((cls) => cls.progress_state === 'SCHEDULED')
     const [filteredClasses, setFilteredClasses] = useState(classes)
 
     useEffect(() => {
@@ -27,6 +28,10 @@ const AddClassDropdown = ({
             <div className="bg-blue-100 p-3 -mt-6 -mx-6 text-center font-semibold uppercase text-sky-800">
                 Choose a class
             </div>
+            <p className="text-sm text-gray-600 text-center">
+                <span className="text-red-500">*</span>Only scheduled classes
+                will be shown in the dropdown
+            </p>
             <Combobox value={selectedClass} onChange={setSelectedClass}>
                 <Combobox.Input
                     onChange={(event) => setQuery(event.target.value)}
@@ -43,7 +48,7 @@ const AddClassDropdown = ({
                             as={Fragment}
                             // className="py-2 px-4 cursor-pointer text-sm hover:bg-yellow-50 hover:text-yellow-700 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-gray-100"
                         >
-                            {({ active, selected }) => (
+                            {({ active, selected, disabled }) => (
                                 <li
                                     className={`flex space-x-3 p-2 cursor-pointer text-sm ${
                                         active
@@ -52,6 +57,10 @@ const AddClassDropdown = ({
                                     } ${
                                         selected
                                             ? 'bg-yellow-50 text-yellow-700'
+                                            : ''
+                                    } ${
+                                        disabled
+                                            ? 'pointer-events-none bg-gray-50'
                                             : ''
                                     }`}
                                 >
