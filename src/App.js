@@ -26,6 +26,8 @@ import ViewLeads from './views/view-leads'
 import AttendanceReport from './views/attendance-report'
 import Payments from './views/payments'
 import Announcements from './views/announcements'
+import ForgotPassword from './views/forgot-password'
+import ResetPassword from './views/reset-password'
 
 // ROUTE PATHS
 const path = {
@@ -50,6 +52,8 @@ const path = {
     viewAttendanceReport: '/dashboard/students/attendance',
     paymentsPage: '/dashboard/payments',
     announcements: '/dashboard/announcements',
+    forgotPassword: '/forgot-password',
+    resetPassword: '/reset-password/:token',
 }
 
 // APPLICATION
@@ -78,6 +82,16 @@ const App = () => {
                     exact
                     path={path.emailVerify}
                     element={<EmailVerify />}
+                />
+                <Route
+                    exact
+                    path={path.forgotPassword}
+                    element={<ForgotPassword />}
+                />
+                <Route
+                    exact
+                    path={path.resetPassword}
+                    element={<ResetPassword />}
                 />
                 <Route element={<PrivateOutlet />}>
                     <Route exact path="/" element={<Home />} />

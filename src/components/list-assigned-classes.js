@@ -15,7 +15,7 @@ const ListAssignedClasses = ({ user_id }) => {
 
     const unassignTrainer = (trainer, class_id) => {
         const url = config.api.unassignClassesToTrainer
-        const params = `/${trainer}` + `/${class_id}`
+        const params = `/${trainer}/${class_id}`
         const endpoint = url + params
         axios
             .delete(endpoint)

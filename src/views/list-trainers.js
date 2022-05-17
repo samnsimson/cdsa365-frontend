@@ -1,6 +1,6 @@
 import { TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
 import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AddCategoryDropdown from '../components/add-category-dropdown'
 import Badge from '../components/badge'

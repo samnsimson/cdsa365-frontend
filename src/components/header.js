@@ -1,15 +1,8 @@
 import React from 'react'
-import {
-    MenuAlt1Icon,
-    UserIcon,
-    CogIcon,
-    ShieldCheckIcon,
-    UserCircleIcon,
-    ArrowLeftIcon,
-} from '@heroicons/react/solid'
+import { UserIcon, UserCircleIcon, ArrowLeftIcon } from '@heroicons/react/solid'
 import { LogoutIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleSidebar, toggleLogin } from '../models'
+import { toggleLogin } from '../models'
 import { Menu } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom'
 
@@ -32,7 +25,6 @@ const userMenu = [
 
 const Header = () => {
     const {
-        dashboard: { minimiseSidebar },
         user: { currentUser },
     } = useSelector((state) => state)
     const dispatch = useDispatch()
@@ -79,7 +71,7 @@ const Header = () => {
                                             key={item.id}
                                             className="group flex hover:cursor-pointer  space-x-2 items-center hover:bg-sky-500 hover:text-white p-2 rounded"
                                             onClick={() =>
-                                                item.id === 3 &&
+                                                item.id === 2 &&
                                                 dispatch(toggleLogin(false))
                                             }
                                         >

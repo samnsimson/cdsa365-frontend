@@ -3,7 +3,7 @@ import React from 'react'
 const Badge = (props) => {
     const { color, size, message, className } = props
     const badgeColor = color ?? 'blue'
-    const badgeSize = size ?? 'small'
+    // const badgeSize = size ?? 'small'
 
     return (
         <span

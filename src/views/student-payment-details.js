@@ -3,11 +3,7 @@ import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
 import { config } from '../config/config'
 import Rupee from '../components/rupee'
-import {
-    CheckCircleIcon,
-    ExclamationCircleIcon,
-    ExclamationIcon,
-} from '@heroicons/react/solid'
+import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
 
 const StudentPaymentDetails = ({ id }) => {

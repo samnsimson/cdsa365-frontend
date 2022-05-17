@@ -111,15 +111,9 @@ const Login = () => {
                             </form>
                         </div>
                     </div>
-                    <div className="flex w-full p-4 text-center text-white font-semibold justify-between">
+                    <div className="flex w-full p-4 text-center text-white font-semibold justify-center">
                         <Link
-                            to="/register"
-                            className="text-xs uppercase hover:underline"
-                        >
-                            Create an account
-                        </Link>
-                        <Link
-                            to="/login"
+                            to="/forgot-password"
                             className="text-xs uppercase hover:underline"
                         >
                             Forgot password?

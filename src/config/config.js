@@ -46,5 +46,6 @@ export const config = {
         makeAnnouncement: BASE_URL + '/announcement',
         getAnnouncements: BASE_URL + '/announcement',
         deleteAnnouncement: BASE_URL + '/announcement',
+        sendResetPasswordLink: BASE_URL + '/rest-password/send-email',
     },
 }

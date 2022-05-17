@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, PlusCircleIcon, SelectorIcon } from '@heroicons/react/solid'
 

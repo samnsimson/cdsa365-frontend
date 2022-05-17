@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { config } from '../config/config'
 import moment from 'moment'
 import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'

@@ -9,6 +9,7 @@ module.exports = {
     purge: {
         safelist: [
             'alert-danger',
+            'alert-success',
             'bg-red-100',
             'text-red-800',
             'bg-yellow-100',

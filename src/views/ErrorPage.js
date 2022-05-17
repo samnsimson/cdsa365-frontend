@@ -1,6 +1,6 @@
 import React from 'react'
 import { InformationCircleIcon } from '@heroicons/react/outline'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ArrowLeftIcon } from '@heroicons/react/solid'
 
 const ErrorPage = () => {
