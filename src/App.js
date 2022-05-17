@@ -28,6 +28,7 @@ import Payments from './views/payments'
 import Announcements from './views/announcements'
 import ForgotPassword from './views/forgot-password'
 import ResetPassword from './views/reset-password'
+import ViewLeadDetail from './views/view-lead-detail'
 
 // ROUTE PATHS
 const path = {
@@ -54,6 +55,7 @@ const path = {
     announcements: '/dashboard/announcements',
     forgotPassword: '/forgot-password',
     resetPassword: '/reset-password/:token',
+    viewLeadDetail: '/dashboard/leads/view/:id',
 }
 
 // APPLICATION
@@ -144,6 +146,11 @@ const App = () => {
                         exact
                         path={path.viewClass}
                         element={<ViewClass />}
+                    />
+                    <Route
+                        exact
+                        path={path.viewLeadDetail}
+                        element={<ViewLeadDetail />}
                     />
                     <Route
                         exact

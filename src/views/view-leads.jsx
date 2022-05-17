@@ -1,6 +1,8 @@
+import { EyeIcon, MailIcon, PhoneIcon, TrashIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Card from '../components/card'
 import { config } from '../config/config'
 import { capitalize } from '../helpers/helper'
@@ -31,8 +33,8 @@ const ViewLeads = () => {
                             <th className="thead">Email</th>
                             <th className="thead">Phone</th>
                             <th className="thead">Program</th>
-                            <th className="thead">Message</th>
                             <th className="thead">Lead captured at</th>
+                            <th className="thead">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,12 +45,26 @@ const ViewLeads = () => {
                                         {lead.first_name} {lead.last_name}
                                     </td>
                                     <td className="p-4">
-                                        <a href={`mailto:${lead.email}`}>
+                                        <a
+                                            href={`mailto:${lead.email}`}
+                                            className="flex items-center"
+                                        >
+                                            <MailIcon
+                                                className="w-4 h-4 mr-2 text-sky-500"
+                                                fill="currentColor"
+                                            />
                                             {lead.email}
                                         </a>
                                     </td>
                                     <td className="p-4">
-                                        <a href={`tel:+91${lead.phone}`}>
+                                        <a
+                                            href={`tel:${lead.phone}`}
+                                            className="flex items-center"
+                                        >
+                                            <PhoneIcon
+                                                className="w-4 h-4 mr-2 text-sky-500"
+                                                fill="currentColor"
+                                            />
                                             {lead.phone}
                                         </a>
                                     </td>
@@ -58,14 +74,24 @@ const ViewLeads = () => {
                                             : '-'}
                                     </td>
                                     <td className="p-4">
-                                        {lead.message
-                                            ? lead.message.substring(0, 50)
-                                            : '-'}
-                                    </td>
-                                    <td className="p-4">
                                         {moment(lead.created_at)
                                             .tz('Asia/Kolkata')
                                             .format('LLL')}
+                                    </td>
+                                    <td className="p-4 flex space-x-4">
+                                        <Link
+                                            to={`/dashboard/leads/view/${lead.id}`}
+                                            state={{ ...lead }}
+                                        >
+                                            <div className="flex items-center text-sky-500 hover:text-sky-600">
+                                                <EyeIcon className="w-4 h-4 mr-2" />
+                                                View
+                                            </div>
+                                        </Link>
+                                        <div className="flex items-center text-red-500 hover:text-red-600">
+                                            <TrashIcon className="w-4 h-4 mr-2" />
+                                            Delete
+                                        </div>
                                     </td>
                                 </tr>
                             )

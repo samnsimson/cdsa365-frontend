@@ -9,7 +9,6 @@ import Badge from '../components/badge'
 
 const EditClass = () => {
     const { state, pathname } = useLocation()
-    console.log(state.class)
     const [trainers, setTrainers] = useState([])
     const [categories, setCategories] = useState([])
     const [showButton, setShowButton] = useState(false)
