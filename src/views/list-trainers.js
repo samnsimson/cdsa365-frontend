@@ -9,6 +9,7 @@ import ProfilePicture from '../components/profile-picture'
 import { config } from '../config/config'
 
 const ListTrainers = () => {
+    const [error, setError] = useState(null)
     const [trainers, setTrainers] = useState([])
     const [showActions, setShowActions] = useState(false)
     const [openModal, setOpenModal] = useState(false)
@@ -72,6 +73,13 @@ const ListTrainers = () => {
         const usersToAdd = trainers.filter((u) => u.isChecked)
         setSlectedUsers(usersToAdd)
         setOpenModal(true)
+    }
+
+    const deleteTrainer = (trainer_id) => {
+        axios
+            .delete(config.api.deleteTrainer + `/${trainer_id}`)
+            .then(() => fetchAllTrainers())
+            .catch(() => setError('Unable to delete the trainer'))
     }
 
     useEffect(() => {
@@ -223,7 +231,12 @@ const ListTrainers = () => {
                                 </td>
                                 <td className="p-4">
                                     <div className="flex justify-center">
-                                        <TrashIcon className="h-5 w-5 text-red-400" />
+                                        <TrashIcon
+                                            className="h-5 w-5 text-red-400"
+                                            onClick={() =>
+                                                deleteTrainer(trainer.id)
+                                            }
+                                        />
                                     </div>
                                 </td>
                             </tr>

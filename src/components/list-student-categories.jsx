@@ -42,7 +42,7 @@ const ListStudentCategories = ({ formData, handleChange }) => {
                 Assign students to the class. If no student category listed,
                 please create one{' '}
                 <Link
-                    to="/dashboard/trainers/add-new"
+                    to="/dashboard/category/student"
                     className="underline text-blue-500"
                 >
                     here

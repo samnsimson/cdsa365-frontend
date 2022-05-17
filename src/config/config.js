@@ -18,6 +18,7 @@ export const config = {
         getAllCategory: BASE_URL + '/admin/category/all',
         addUserToCategory: BASE_URL + '/admin/category/add',
         viewTrainer: BASE_URL + '/admin/trainer/',
+        deleteTrainer: BASE_URL + '/admin/trainer',
         createClass: BASE_URL + '/admin/classes',
         fetchClasses: BASE_URL + '/admin/classes',
         fetchAllClasses: BASE_URL + '/admin/classes/all',
