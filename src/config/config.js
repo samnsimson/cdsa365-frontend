@@ -48,5 +48,6 @@ export const config = {
         getAnnouncements: BASE_URL + '/announcement',
         deleteAnnouncement: BASE_URL + '/announcement',
         sendResetPasswordLink: BASE_URL + '/rest-password/send-email',
+        updateDueDate: BASE_URL + '/payments/update',
     },
 }

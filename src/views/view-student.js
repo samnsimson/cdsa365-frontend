@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Badge from '../components/badge'
 import Card from '../components/card'
+import EditFee from '../components/edit-fee'
 import ExtendDueDate from '../components/extend-due-date'
 import Modal from '../components/modal'
 import Rupee from '../components/rupee'
@@ -12,12 +13,17 @@ import StudentPaymentDetails from './student-payment-details'
 
 const ViewStudent = () => {
     const [openModal, setOpenModal] = useState(false)
+    const [editFeeModal, setEditFeeModal] = useState(false)
     const {
         state: { student },
     } = useLocation()
 
-    const toggleModal = () => {
+    const togglePaymentModal = () => {
         setOpenModal(!openModal)
+    }
+
+    const toggleFeeModal = () => {
+        setEditFeeModal(!editFeeModal)
     }
 
     return (
@@ -156,12 +162,20 @@ const ViewStudent = () => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colSpan={2} className="pt-3">
+                                    <td className="pt-3">
                                         <button
                                             className="w-full btn-sm btn-info"
-                                            onClick={toggleModal}
+                                            onClick={togglePaymentModal}
                                         >
-                                            Extend next payment due
+                                            Extend payment due
+                                        </button>
+                                    </td>
+                                    <td className="pt-3">
+                                        <button
+                                            className="w-full btn-sm btn-info"
+                                            onClick={toggleFeeModal}
+                                        >
+                                            Edit Fee
                                         </button>
                                     </td>
                                 </tr>
@@ -183,7 +197,23 @@ const ViewStudent = () => {
                     <ExtendDueDate
                         payment_id={student.payment_id}
                         currentDue={student.next_due}
-                        callback={toggleModal}
+                        callback={togglePaymentModal}
+                    />
+                </Modal>
+            )}
+            {editFeeModal && (
+                <Modal setOpenModal={setEditFeeModal}>
+                    <EditFee
+                        feeData={{
+                            fee: String(student.fee),
+                            gap: String(student.gap),
+                            period: student.period,
+                        }}
+                        student_id={student.id}
+                        payment_id={student.payment_id}
+                        currentDue={student.next_due}
+                        lastPaymentTime={student.order_created_at}
+                        callback={toggleFeeModal}
                     />
                 </Modal>
             )}
