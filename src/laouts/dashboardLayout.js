@@ -5,13 +5,13 @@ import Sidebar from '../components/sidebar'
 
 const Dashboard = () => {
     return (
-        <div className="grid grid-cols-10 max-h-screen">
-            <div className="col-span-2">
-                <Sidebar />
+        <div className={`grid grid-cols-10 max-h-screen`}>
+            <div className={`col-span-2 relative overflow-hidden`}>
+                <Sidebar className="flex-1 overflow-y-scroll" />
             </div>
-            <div className="col-span-8">
-                <Header />
-                <div className="bg-slate-100 h-[89.2vh] overflow-y-scroll">
+            <div className={`col-span-8`}>
+                <div className="h-screen overflow-y-scroll bg-slate-50">
+                    <Header className="bg-white" />
                     <Outlet />
                 </div>
             </div>

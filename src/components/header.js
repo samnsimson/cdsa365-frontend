@@ -23,14 +23,18 @@ const userMenu = [
     },
 ]
 
-const Header = () => {
+const Header = ({ className }) => {
     const {
         user: { currentUser },
     } = useSelector((state) => state)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     return (
-        <div className="flex items-center justify-between h-20 px-4 w-full border-b-1 border-gray-300 font-sans">
+        <div
+            className={`flex items-center justify-between h-20 px-4 w-full border-b-1 border-gray-300 font-sans ${
+                className || ''
+            }`}
+        >
             <div className="leftSection flex items-center">
                 <ArrowLeftIcon
                     className="h-5 w-5 text-gray-500 hover:text-slate-700 mr-2 cursor-pointer"

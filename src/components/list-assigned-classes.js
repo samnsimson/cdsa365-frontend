@@ -9,6 +9,7 @@ import {
     EyeIcon,
 } from '@heroicons/react/solid'
 import Placeholder from './placeholder'
+import { Link } from 'react-router-dom'
 
 const ListAssignedClasses = ({ user_id }) => {
     const [classes, setClasses] = useState([])
@@ -69,10 +70,13 @@ const ListAssignedClasses = ({ user_id }) => {
                         </div>
                     </div>
                     <div className="flex justify-between space-x-4">
-                        <button className="btn-sm btn-info">
+                        <Link
+                            to={`/dashboard/classes/view/${c.slug}`}
+                            className="btn-sm btn-info"
+                        >
                             <EyeIcon className="w-4 h-4 mr-2" />
                             View Class
-                        </button>
+                        </Link>
                         <button
                             className="btn-sm btn-danger"
                             onClick={() => unassignTrainer(user_id, c.id)}

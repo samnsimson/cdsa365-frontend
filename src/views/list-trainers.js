@@ -232,7 +232,7 @@ const ListTrainers = () => {
                                 <td className="p-4">
                                     <div className="flex justify-center">
                                         <TrashIcon
-                                            className="h-5 w-5 text-red-400"
+                                            className="h-5 w-5 text-red-400 hover:text-red-600 cursor-pointer hover:scale-110"
                                             onClick={() =>
                                                 deleteTrainer(trainer.id)
                                             }
