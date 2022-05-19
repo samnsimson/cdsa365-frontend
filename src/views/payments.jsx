@@ -51,6 +51,7 @@ const Payments = () => {
     }
 
     const handleClick = (student_id) => {
+        console.log('STUDENT ID', student_id)
         const url = config.api.captureManualPayment
         axios
             .post(url, {
@@ -70,6 +71,9 @@ const Payments = () => {
     }
 
     useEffect(() => {
+        if (paymentData.id) {
+            setStudentId(paymentData.id)
+        }
         setFormData({
             fee: paymentData.fee || 0,
             paid: paymentData.fee || 0,
@@ -94,6 +98,7 @@ const Payments = () => {
                                     type="text"
                                     name="student_id"
                                     className="form-control-sm"
+                                    value={studentId || null}
                                     onChange={(e) =>
                                         setStudentId(e.target.value)
                                     }
@@ -155,8 +160,7 @@ const Payments = () => {
                             </td>
                         </tr>
                     </table>
-                    {error && <Alert type="danger" message={error} />}
-                    {Object.keys(paymentData).length > 0 && (
+                    {Object.keys(paymentData).length > 0 && !error && (
                         <>
                             <Card title="Student Detail" className="mt-4 mb-2">
                                 <table>
@@ -256,7 +260,8 @@ const Payments = () => {
                     )}
                 </div>
                 <div className="mt-4 w-2/3">
-                    {Object.keys(paymentData).length > 0 && (
+                    {error && <Alert type="danger" message={error} />}
+                    {Object.keys(paymentData).length > 0 && !error && (
                         <Card title={'Payment history'} bodyClass="p-0">
                             <table className="w-full">
                                 <thead>
@@ -273,46 +278,52 @@ const Payments = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {paymentData.payment_data.map((pd) => (
-                                        <tr>
-                                            <td className="p-4 py-2">
-                                                {pd.receipt}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {paymentData.fee}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {pd.amount}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {pd.due}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {pd.status === 'paid' && (
-                                                    <CheckCircleIcon
-                                                        className="w-4 h-4 text-green-400"
-                                                        fill="currentColor"
-                                                    />
-                                                )}
-                                                {pd.status === 'failed' && (
-                                                    <ExclamationCircleIcon
-                                                        className="w-4 h-4 text-red-400"
-                                                        fill="currentColor"
-                                                    />
-                                                )}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {moment(pd.paid_on)
-                                                    .tz('Asia/Kolkata')
-                                                    .format('LL')}
-                                            </td>
-                                            <td className="p-4 py-2">
-                                                {moment(pd.next_due)
-                                                    .tz('Asia/Kolkata')
-                                                    .format('LL')}
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {paymentData.payment_data.map(
+                                        (pd) =>
+                                            pd.receipt &&
+                                            pd.status !== 'created' && (
+                                                <tr>
+                                                    <td className="p-4 py-2">
+                                                        {pd.receipt}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {paymentData.fee}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {pd.amount}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {pd.due}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {pd.status ===
+                                                            'paid' && (
+                                                            <CheckCircleIcon
+                                                                className="w-4 h-4 text-green-400"
+                                                                fill="currentColor"
+                                                            />
+                                                        )}
+                                                        {pd.status ===
+                                                            'failed' && (
+                                                            <ExclamationCircleIcon
+                                                                className="w-4 h-4 text-red-400"
+                                                                fill="currentColor"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {moment(pd.paid_on)
+                                                            .tz('Asia/Kolkata')
+                                                            .format('LL')}
+                                                    </td>
+                                                    <td className="p-4 py-2">
+                                                        {moment(pd.next_due)
+                                                            .tz('Asia/Kolkata')
+                                                            .format('LL')}
+                                                    </td>
+                                                </tr>
+                                            )
+                                    )}
                                 </tbody>
                             </table>
                         </Card>
