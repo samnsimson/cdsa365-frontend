@@ -7,7 +7,7 @@ const Badge = (props) => {
 
     return (
         <div
-            className={`bg-${badgeColor}-100 text-${badgeColor}-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full dark:bg-${badgeColor}-200 dark:text-${badgeColor}-800 ${
+            className={`inline bg-${badgeColor}-100 text-${badgeColor}-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full dark:bg-${badgeColor}-200 dark:text-${badgeColor}-800 ${
                 className ?? ''
             }`}
         >
