@@ -1,7 +1,8 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
+import { PencilIcon, TrashIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { config } from '../config/config'
 
 const Category = () => {
@@ -127,6 +128,7 @@ const Category = () => {
                                     <th className="thead">ID</th>
                                     <th className="thead">Category Name</th>
                                     <th className="thead">Count</th>
+                                    <th className="thead">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,13 +136,34 @@ const Category = () => {
                                     <tr className="table-hover">
                                         <td className="p-4 w-4">{key + 1}</td>
                                         <td className="p-4">
-                                            <p>{category.name}</p>
-                                            <div className="font-normal text-xs text-gray-400">
-                                                {category.description}
-                                            </div>
+                                            <Link
+                                                to={`/dashboard/category/${entity}/view/${category.id}`}
+                                                className="hover:text-sky-500"
+                                            >
+                                                <p>{category.name}</p>
+                                                <div className="font-normal text-xs text-gray-400">
+                                                    {category.description}
+                                                </div>
+                                            </Link>
                                         </td>
                                         <td className="p-4 w-4 text-center">
                                             {category.count}
+                                        </td>
+                                        <td className="p-4 w-4 text-center">
+                                            <div className="flex space-x-3">
+                                                {/* <Link
+                                                    to={`/dashboard/category/${entity}/edit/${category.id}`}
+                                                >
+                                                    <PencilIcon
+                                                        className="text-blue-400 cursor-pointer w-5 h-5 hover:scale-110 hover:text-blue-600"
+                                                        fill="currentColor"
+                                                    />
+                                                </Link> */}
+                                                <TrashIcon
+                                                    className="text-red-400 cursor-pointer w-5 h-5 hover:scale-110 hover:text-red-600"
+                                                    fill="currentColor"
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

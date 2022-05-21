@@ -15,7 +15,9 @@ export const config = {
         verifyEmail: BASE_URL + '/admin/email/verify',
         createCategory: BASE_URL + '/admin/category/create',
         getCategory: BASE_URL + '/admin/category',
+        updateCategory: BASE_URL + '/admin/category',
         getAllCategory: BASE_URL + '/admin/category/all',
+        getCategoryData: BASE_URL + '/admin/category/detail',
         addUserToCategory: BASE_URL + '/admin/category/add',
         viewTrainer: BASE_URL + '/admin/trainer/',
         deleteTrainer: BASE_URL + '/admin/trainer',
@@ -49,5 +51,6 @@ export const config = {
         deleteAnnouncement: BASE_URL + '/announcement',
         sendResetPasswordLink: BASE_URL + '/rest-password/send-email',
         updateDueDate: BASE_URL + '/payments/update',
+        removeEntityFromCategory: BASE_URL + '/admin/category/remove-entity',
     },
 }

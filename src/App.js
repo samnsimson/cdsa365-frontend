@@ -29,6 +29,7 @@ import Announcements from './views/announcements'
 import ForgotPassword from './views/forgot-password'
 import ResetPassword from './views/reset-password'
 import ViewLeadDetail from './views/view-lead-detail'
+import ViewCategory from './views/view-category'
 
 // ROUTE PATHS
 const path = {
@@ -41,6 +42,8 @@ const path = {
     addTrainers: '/dashboard/trainers/add-new',
     viewAllTrainers: '/dashboard/trainers/view-all',
     emailVerify: '/email/verify/:token',
+    viewCategory: '/dashboard/category/:entity/view/:cat_id',
+    editCategory: '/dashboard/category/:entity/edit/:cat_id',
     trainerCat: '/dashboard/category/:entity',
     viewTrainer: '/dashboard/trainers/view/:id',
     addClass: '/dashboard/classes/add-new',
@@ -106,6 +109,16 @@ const App = () => {
                         exact
                         path={path.viewAllTrainers}
                         element={<ListTrainers />}
+                    />
+                    <Route
+                        exact
+                        path={path.viewCategory}
+                        element={<ViewCategory />}
+                    />
+                    <Route
+                        exact
+                        path={path.editCategory}
+                        element={<Category />}
                     />
                     <Route
                         exact
