@@ -3,6 +3,7 @@ import { TrashIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import Alert from '../components/alert'
 import { config } from '../config/config'
 
 const Category = () => {
@@ -11,6 +12,7 @@ const Category = () => {
     const [formData, setFormData] = useState({})
     const [buttonDisabled, setButtonDisabled] = useState(true)
     const [categories, setCategories] = useState([])
+    const [error, setError] = useState(null)
 
     const handleOnChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -38,11 +40,18 @@ const Category = () => {
             .catch((err) => console.log(err))
     }
 
-    const deleteCategory = async (entity, cat_id) => {
+    const deleteCategory = async (entity, cat_id, count) => {
         try {
             const url = config.api.deleteCategory + `/${entity}/${cat_id}/`
-            await axios.delete(url)
-            fetchCategories()
+            if (count) {
+                setError(
+                    `Please remove ${count} ${entity}(s) tagged to this category before deleting.`
+                )
+            } else {
+                if (error) setError(null)
+                await axios.delete(url)
+                fetchCategories()
+            }
         } catch (error) {
             console.log(error)
         }
@@ -131,6 +140,7 @@ const Category = () => {
                     </div>
                 </div>
                 <div className="md:w-1/2 w-full">
+                    {error && <Alert type="danger" message={error} />}
                     <div className="table-card">
                         <table className="table">
                             <thead>
@@ -167,7 +177,8 @@ const Category = () => {
                                                     onClick={() =>
                                                         deleteCategory(
                                                             entity,
-                                                            category.id
+                                                            category.id,
+                                                            category.count
                                                         )
                                                     }
                                                 />
