@@ -50,8 +50,10 @@ export const config = {
         getAnnouncements: BASE_URL + '/announcement',
         deleteAnnouncement: BASE_URL + '/announcement',
         sendResetPasswordLink: BASE_URL + '/rest-password/send-email',
+        updatePassword: BASE_URL + '/update-password',
         updateDueDate: BASE_URL + '/payments/update',
         removeEntityFromCategory: BASE_URL + '/admin/category/remove-entity',
         deleteCategory: BASE_URL + '/admin/category/delete',
+        verifyToken: BASE_URL + '/verify-token',
     },
 }

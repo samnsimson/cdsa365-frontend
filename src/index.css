@@ -33,6 +33,9 @@
     .alert-danger {
         @apply p-2 my-2 rounded-sm border-1 border-red-400 bg-red-200 text-red-600;
     }
+    .alert-success {
+        @apply p-2 my-2 rounded-sm border-1 border-green-400 bg-green-200 text-green-600;
+    }
     .table {
         @apply items-center w-full bg-transparent border-collapse border-1 shadow-sm;
     }
