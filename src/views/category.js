@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from '@heroicons/react/outline'
-import { PencilIcon, TrashIcon } from '@heroicons/react/solid'
+import { TrashIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -36,6 +36,16 @@ const Category = () => {
                 setCategories(data)
             })
             .catch((err) => console.log(err))
+    }
+
+    const deleteCategory = async (entity, cat_id) => {
+        try {
+            const url = config.api.deleteCategory + `/${entity}/${cat_id}/`
+            await axios.delete(url)
+            fetchCategories()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -133,7 +143,7 @@ const Category = () => {
                             </thead>
                             <tbody>
                                 {categories.map((category, key) => (
-                                    <tr className="table-hover">
+                                    <tr key={key} className="table-hover">
                                         <td className="p-4 w-4">{key + 1}</td>
                                         <td className="p-4">
                                             <Link
@@ -151,17 +161,15 @@ const Category = () => {
                                         </td>
                                         <td className="p-4 w-4 text-center">
                                             <div className="flex space-x-3">
-                                                {/* <Link
-                                                    to={`/dashboard/category/${entity}/edit/${category.id}`}
-                                                >
-                                                    <PencilIcon
-                                                        className="text-blue-400 cursor-pointer w-5 h-5 hover:scale-110 hover:text-blue-600"
-                                                        fill="currentColor"
-                                                    />
-                                                </Link> */}
                                                 <TrashIcon
                                                     className="text-red-400 cursor-pointer w-5 h-5 hover:scale-110 hover:text-red-600"
                                                     fill="currentColor"
+                                                    onClick={() =>
+                                                        deleteCategory(
+                                                            entity,
+                                                            category.id
+                                                        )
+                                                    }
                                                 />
                                             </div>
                                         </td>

@@ -15,7 +15,9 @@ const AddNewClasses = () => {
     const [showButton, setShowButton] = useState(false)
     const [formData, setFormData] = useState(() => {
         if (!state) {
-            return {}
+            return {
+                type: 'phone',
+            }
         } else {
             let timeFormat = 'yyyy-MM-DDThh:mm'
             return {
@@ -71,12 +73,11 @@ const AddNewClasses = () => {
 
     useEffect(() => {
         if (pathname.includes('add-new')) {
-            setFormData({})
+            setFormData({ type: 'phone' })
         }
     }, [pathname])
 
     useEffect(() => {
-        console.log(formData)
         let videoLinkOk = false
         if (formData.type === 'video') {
             if (formData.video_link) videoLinkOk = true

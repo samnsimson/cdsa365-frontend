@@ -52,5 +52,6 @@ export const config = {
         sendResetPasswordLink: BASE_URL + '/rest-password/send-email',
         updateDueDate: BASE_URL + '/payments/update',
         removeEntityFromCategory: BASE_URL + '/admin/category/remove-entity',
+        deleteCategory: BASE_URL + '/admin/category/delete',
     },
 }
