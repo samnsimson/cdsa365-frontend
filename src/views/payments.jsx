@@ -1,4 +1,8 @@
-import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
+import {
+    CheckCircleIcon,
+    ExclamationCircleIcon,
+    TrashIcon,
+} from '@heroicons/react/solid'
 import axios from 'axios'
 import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
@@ -68,6 +72,13 @@ const Payments = () => {
 
     const handleOnchange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
+    }
+
+    const deletePaymentEntry = (receipt_no) => {
+        axios
+            .delete(config.api.deletePaymentEntry + `/${receipt_no}`)
+            .then(() => searchPaymentDataForStudentID(true))
+            .catch((err) => console.log(err))
     }
 
     useEffect(() => {
@@ -262,8 +273,11 @@ const Payments = () => {
                 <div className="mt-4 w-2/3">
                     {error && <Alert type="danger" message={error} />}
                     {Object.keys(paymentData).length > 0 && !error && (
-                        <Card title={'Payment history'} bodyClass="p-0">
-                            <table className="w-full">
+                        <Card
+                            title={'Payment history'}
+                            bodyClass="p-0 overflow-x-auto scroll-m-0"
+                        >
+                            <table className="table border-0 shadow-none w-full">
                                 <thead>
                                     <tr>
                                         <th className="thead py-2">
@@ -275,14 +289,18 @@ const Payments = () => {
                                         <th className="thead py-2">Status</th>
                                         <th className="thead py-2">Paid on</th>
                                         <th className="thead py-2">Next due</th>
+                                        <th className="thead py-2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {paymentData.payment_data.map(
-                                        (pd) =>
+                                        (pd, key) =>
                                             pd.receipt &&
                                             pd.status !== 'created' && (
-                                                <tr>
+                                                <tr
+                                                    key={key}
+                                                    className="border-1 border-transparent hover:bg-gray-100 hover:border-t-gray-200 hover:border-b-gray-200"
+                                                >
                                                     <td className="p-4 py-2">
                                                         {pd.receipt}
                                                     </td>
@@ -312,14 +330,35 @@ const Payments = () => {
                                                         )}
                                                     </td>
                                                     <td className="p-4 py-2">
-                                                        {moment(pd.paid_on)
-                                                            .tz('Asia/Kolkata')
-                                                            .format('LL')}
+                                                        <div className="min-w-max">
+                                                            {moment(pd.paid_on)
+                                                                .tz(
+                                                                    'Asia/Kolkata'
+                                                                )
+                                                                .format('LL')}
+                                                        </div>
                                                     </td>
                                                     <td className="p-4 py-2">
-                                                        {moment(pd.next_due)
-                                                            .tz('Asia/Kolkata')
-                                                            .format('LL')}
+                                                        <div className="min-w-max">
+                                                            {moment(pd.next_due)
+                                                                .tz(
+                                                                    'Asia/Kolkata'
+                                                                )
+                                                                .format('LL')}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="flex items-center justify-center">
+                                                            <TrashIcon
+                                                                className="w-4 h-4 text-red-400 hover:scale-110 hover:tex-red-500 cursor-pointer"
+                                                                fill="currentColor"
+                                                                onClick={() =>
+                                                                    deletePaymentEntry(
+                                                                        pd.receipt
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             )

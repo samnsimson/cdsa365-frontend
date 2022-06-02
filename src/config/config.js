@@ -55,5 +55,6 @@ export const config = {
         removeEntityFromCategory: BASE_URL + '/admin/category/remove-entity',
         deleteCategory: BASE_URL + '/admin/category/delete',
         verifyToken: BASE_URL + '/verify-token',
+        deletePaymentEntry: BASE_URL + '/payments/delete',
     },
 }

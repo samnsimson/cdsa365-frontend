@@ -31,24 +31,69 @@ const ViewStudent = () => {
             <div className="flex space-x-4">
                 <div className="w-1/3 space-y-4">
                     <Card title="Profile details">
-                        <ul className="space-y-2 text-sm">
-                            <li>
-                                <h4 className="font-bold">
-                                    {student.first_name} {student.last_name}
-                                </h4>
-                            </li>
-                            <li>{moment(student.dob).format('LL')}</li>
-                            <li>{student.email}</li>
-                            <li>{student.phone}</li>
-                            <li>{student.whatsapp}</li>
-                            <li>{student.address_one}</li>
-                            <li>{student.address_two}</li>
-                            <li>{student.city}</li>
-                            <li>{student.district}</li>
-                            <li>
-                                {student.state} - {student.pincode}
-                            </li>
-                        </ul>
+                        <table
+                            className="table border-0 shadow-none"
+                            cellPadding={4}
+                        >
+                            <tbody className="text-sm text-slate-600">
+                                <tr>
+                                    <td className="py-1">
+                                        <b>ID</b>
+                                    </td>
+                                    <td className="py-1 font-black text-sky-500">
+                                        {student.id}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>Name</b>
+                                    </td>
+                                    <td className="py-1">
+                                        {student.first_name} {student.last_name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>Email</b>
+                                    </td>
+                                    <td className="py-1">{student.email}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>DOB</b>
+                                    </td>
+                                    <td className="py-1">
+                                        {moment(student.dob).format('LL')}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>Phone</b>
+                                    </td>
+                                    <td className="py-1">{student.phone}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>Whatsapp</b>
+                                    </td>
+                                    <td className="py-1">{student.whatsapp}</td>
+                                </tr>
+                                <tr>
+                                    <td className="py-1">
+                                        <b>Address</b>
+                                    </td>
+                                    <td className="py-1">
+                                        {student.address_one},{' '}
+                                        {student.address_two
+                                            ? student.address_two + ', '
+                                            : null}
+                                        {student.city}, {student.district},
+                                        <br />
+                                        {student.state} - {student.pincode}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </Card>
                     <Card>
                         <table className="w-full">
