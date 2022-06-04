@@ -19,16 +19,26 @@ const ViewLeads = () => {
         }
     }
 
+    const deleteLead = (id) => {
+        axios
+            .delete(config.api.deleteLead + `/${id}`)
+            .then(() => fetchLeads())
+            .catch((err) => console.log(err))
+    }
+
     useEffect(() => {
         fetchLeads()
     }, [])
 
     return (
         <div className="px-6 py-4">
-            <Card title={'Leads'} bodyClass="p-0">
+            <Card
+                title={'Leads'}
+                bodyClass="p-0 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300"
+            >
                 <table className="table border-0 shadow-none">
                     <thead>
-                        <tr>
+                        <tr className="border-l-4 border-l-sky-100">
                             <th className="thead">Name</th>
                             <th className="thead">Email</th>
                             <th className="thead">Phone</th>
@@ -37,10 +47,16 @@ const ViewLeads = () => {
                             <th className="thead">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="overflow-y-auto scroll-m-0">
+                    <tbody>
                         {leads.map((lead, key) => {
                             return (
-                                <tr key={key} className="text-sm">
+                                <tr
+                                    key={key}
+                                    className={`text-sm ${
+                                        lead.viewed === 1 &&
+                                        'bg-teal-50 border-l-4 border-l-teal-500'
+                                    }`}
+                                >
                                     <td className="p-4">
                                         <div className="min-w-max">
                                             {lead.first_name} {lead.last_name}
@@ -88,19 +104,26 @@ const ViewLeads = () => {
                                                 .format('LLL')}
                                         </div>
                                     </td>
-                                    <td className="p-4 flex space-x-4">
-                                        <Link
-                                            to={`/dashboard/leads/view/${lead.id}`}
-                                            state={{ ...lead }}
-                                        >
-                                            <div className="flex items-center text-sky-500 hover:text-sky-600">
-                                                <EyeIcon className="w-4 h-4 mr-2" />
-                                                View
+                                    <td className="p-4">
+                                        <div className="flex space-x-4 min-w-max">
+                                            <Link
+                                                to={`/dashboard/leads/view/${lead.id}`}
+                                                state={{ ...lead }}
+                                            >
+                                                <div className="flex items-center text-sky-500 hover:text-sky-600">
+                                                    <EyeIcon className="w-4 h-4 mr-2" />
+                                                    View
+                                                </div>
+                                            </Link>
+                                            <div
+                                                className="flex items-center text-red-500 hover:text-red-600 cursor-pointer"
+                                                onClick={() =>
+                                                    deleteLead(lead.id)
+                                                }
+                                            >
+                                                <TrashIcon className="w-4 h-4 mr-2" />
+                                                Delete
                                             </div>
-                                        </Link>
-                                        <div className="flex items-center text-red-500 hover:text-red-600">
-                                            <TrashIcon className="w-4 h-4 mr-2" />
-                                            Delete
                                         </div>
                                     </td>
                                 </tr>

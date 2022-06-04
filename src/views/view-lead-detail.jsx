@@ -1,10 +1,22 @@
+import axios from 'axios'
 import moment from 'moment-timezone'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Card from '../components/card'
+import { config } from '../config/config'
 
 const ViewLeadDetail = () => {
     const { state } = useLocation()
+
+    const updateViewedStatus = (lead_id) => {
+        axios
+            .put(config.api.updateLead + `/${lead_id}`, { viewed: 1 })
+            .catch((err) => console.log(err))
+    }
+    useEffect(() => {
+        if (!state.viewed) updateViewedStatus(state?.id)
+    }, [state])
+
     return (
         <div className="py-4 px-6 w-full">
             <Card title={'Lead Detail'}>

@@ -43,6 +43,7 @@ export const config = {
         getStudentsInClass: BASE_URL + '/classes/students',
         fetchRemarks: BASE_URL + '/classes/remarks',
         getLeads: BASE_URL + '/leads',
+        deleteLead: BASE_URL + '/leads/delete',
         getAttendanceReport: BASE_URL + '/student/attendance/report',
         getCountReport: BASE_URL + '/report/count-report',
         getPaymentDataForManualEntry: BASE_URL + '/payments/make-entry',
@@ -57,5 +58,6 @@ export const config = {
         deleteCategory: BASE_URL + '/admin/category/delete',
         verifyToken: BASE_URL + '/verify-token',
         deletePaymentEntry: BASE_URL + '/payments/delete',
+        updateLead: BASE_URL + '/leads/update',
     },
 }
