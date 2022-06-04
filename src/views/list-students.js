@@ -3,9 +3,10 @@ import { Tab } from '@headlessui/react'
 import axios from 'axios'
 import { config } from '../config/config'
 import {
+    BanIcon,
+    CheckIcon,
     FolderIcon,
     MailIcon,
-    PencilIcon,
     ThumbDownIcon,
     ThumbUpIcon,
     UserGroupIcon,
@@ -41,6 +42,7 @@ const ListStudents = () => {
         Active: [],
         Pending: [],
         Rejected: [],
+        Inactive: [],
     })
 
     const fetchStudents = () => {
@@ -52,6 +54,7 @@ const ListStudents = () => {
                     Active: data.filter((o) => o.status === 1),
                     Pending: data.filter((o) => o.status === 0),
                     Rejected: data.filter((o) => o.status === 2),
+                    Inactive: data.filter((o) => o.status === 3),
                 })
             })
             .catch((err) => {
@@ -180,6 +183,22 @@ const ListStudents = () => {
             })
     }
 
+    const putOnHold = (id) => {
+        const url = config.api.updateStudent + `/${id}`
+        axios
+            .put(url, { status: 3 })
+            .then(() => fetchStudents())
+            .catch((err) => console.log(err))
+    }
+
+    const activateStudent = (id) => {
+        const url = config.api.updateStudent + `/${id}`
+        axios
+            .put(url, { status: 1 })
+            .then(() => fetchStudents())
+            .catch((err) => console.log(err))
+    }
+
     useEffect(() => {
         fetchStudents()
     }, [])
@@ -294,7 +313,6 @@ const ListStudents = () => {
                                                     checkbox
                                                 </label>
                                             </th>
-                                            <th className="thead">Edit</th>
                                             <th className="thead">Name</th>
                                             <th className="thead">
                                                 Categories
@@ -327,9 +345,6 @@ const ListStudents = () => {
                                                                     }
                                                                 />
                                                             </div>
-                                                        </td>
-                                                        <td className="p-4 w-3 text-gray-400 hover:text-blue-600">
-                                                            <PencilIcon className="w-5 h-5 cursor-pointer" />
                                                         </td>
                                                         <Link
                                                             to={`/dashboard/students/view/${std.id}`}
@@ -426,6 +441,16 @@ const ListStudents = () => {
                                                                         >
                                                                             <UserGroupIcon className="w-4 h-4" />
                                                                         </button>
+                                                                        <button
+                                                                            className="btn btn-danger btn-sm"
+                                                                            onClick={() =>
+                                                                                putOnHold(
+                                                                                    std.id
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <BanIcon className="w-4 h-4" />
+                                                                        </button>
                                                                     </>
                                                                 )}
                                                                 {std.status ===
@@ -440,6 +465,21 @@ const ListStudents = () => {
                                                                             }
                                                                         >
                                                                             <UserGroupIcon className="w-4 h-4" />
+                                                                        </button>
+                                                                    </>
+                                                                )}
+                                                                {std.status ===
+                                                                    3 && (
+                                                                    <>
+                                                                        <button
+                                                                            className="btn btn-success btn-sm"
+                                                                            onClick={() =>
+                                                                                activateStudent(
+                                                                                    std.id
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <CheckIcon className="w-4 h-4" />
                                                                         </button>
                                                                     </>
                                                                 )}
