@@ -84,7 +84,4 @@
     .progress {
         @apply bg-transparent text-xs font-medium text-gray-800 text-center p-0 leading-none rounded-full;
     }
-    .scroll {
-        @apply scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-300;
-    }
 }
