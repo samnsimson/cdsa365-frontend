@@ -53,7 +53,7 @@ const ViewLeads = () => {
                                 <tr
                                     key={key}
                                     className={`text-sm ${
-                                        lead.viewed === 1 &&
+                                        lead.viewed === 0 &&
                                         'bg-teal-50 border-l-4 border-l-teal-500'
                                     }`}
                                 >

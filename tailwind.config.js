@@ -48,5 +48,8 @@ module.exports = {
             serif: ['Merriweather', 'serif'],
         },
     },
-    plugins: [require('tw-elements/dist/plugin')],
+    plugins: [
+        require('tw-elements/dist/plugin'),
+        require('tailwind-scrollbar'),
+    ],
 }
