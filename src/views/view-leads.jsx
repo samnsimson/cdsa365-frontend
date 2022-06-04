@@ -54,7 +54,7 @@ const ViewLeads = () => {
                                     key={key}
                                     className={`text-sm ${
                                         lead.viewed === 0 &&
-                                        'bg-teal-50 border-l-4 border-l-teal-500'
+                                        'bg-teal-50 border-l-4 border-l-teal-500 border-y-1 border-y-teal-300 last:border-b-0'
                                     }`}
                                 >
                                     <td className="p-4">
