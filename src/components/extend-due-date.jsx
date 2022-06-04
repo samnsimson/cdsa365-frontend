@@ -22,10 +22,6 @@ const ExtendDueDate = ({ payment_id, currentDue, callback }) => {
             .catch((err) => console.log(err))
     }
 
-    useEffect(() => {
-        console.log(formData)
-    }, [formData])
-
     return (
         <div className="space-y-4">
             <div className="bg-blue-100 p-3 -mt-6 -mx-6 text-center font-semibold uppercase text-sky-800">

@@ -31,6 +31,7 @@ export const config = {
         unassignClassesToTrainer: BASE_URL + '/trainer/classes',
         getAttendance: BASE_URL + '/trainer/attendance',
         getAllStudents: BASE_URL + '/admin/students/all',
+        getStudent: BASE_URL + '/admin/student',
         updateStudent: BASE_URL + '/admin/student',
         addStudentToClass: BASE_URL + '/admin/student/assign-to-class',
         getStudentClasses: BASE_URL + '/student/classes',

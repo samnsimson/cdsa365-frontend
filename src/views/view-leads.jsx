@@ -37,46 +37,56 @@ const ViewLeads = () => {
                             <th className="thead">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="overflow-y-auto scroll-m-0">
                         {leads.map((lead, key) => {
                             return (
                                 <tr key={key} className="text-sm">
                                     <td className="p-4">
-                                        {lead.first_name} {lead.last_name}
+                                        <div className="min-w-max">
+                                            {lead.first_name} {lead.last_name}
+                                        </div>
                                     </td>
                                     <td className="p-4">
-                                        <a
-                                            href={`mailto:${lead.email}`}
-                                            className="flex items-center"
-                                        >
-                                            <MailIcon
-                                                className="w-4 h-4 mr-2 text-sky-500"
-                                                fill="currentColor"
-                                            />
-                                            {lead.email}
-                                        </a>
+                                        <div className="min-w-max">
+                                            <a
+                                                href={`mailto:${lead.email}`}
+                                                className="flex items-center"
+                                            >
+                                                <MailIcon
+                                                    className="w-4 h-4 mr-2 text-sky-500"
+                                                    fill="currentColor"
+                                                />
+                                                {lead.email}
+                                            </a>
+                                        </div>
                                     </td>
                                     <td className="p-4">
-                                        <a
-                                            href={`tel:${lead.phone}`}
-                                            className="flex items-center"
-                                        >
-                                            <PhoneIcon
-                                                className="w-4 h-4 mr-2 text-sky-500"
-                                                fill="currentColor"
-                                            />
-                                            {lead.phone}
-                                        </a>
+                                        <div className="min-w-max">
+                                            <a
+                                                href={`tel:${lead.phone}`}
+                                                className="flex items-center"
+                                            >
+                                                <PhoneIcon
+                                                    className="w-4 h-4 mr-2 text-sky-500"
+                                                    fill="currentColor"
+                                                />
+                                                {lead.phone}
+                                            </a>
+                                        </div>
                                     </td>
                                     <td className="p-4">
-                                        {lead.program
-                                            ? capitalize(lead.program)
-                                            : '-'}
+                                        <div className="min-w-max">
+                                            {lead.program
+                                                ? capitalize(lead.program)
+                                                : '-'}
+                                        </div>
                                     </td>
                                     <td className="p-4">
-                                        {moment(lead.created_at)
-                                            .tz('Asia/Kolkata')
-                                            .format('LLL')}
+                                        <div className="min-w-max">
+                                            {moment(lead.created_at)
+                                                .tz('Asia/Kolkata')
+                                                .format('LLL')}
+                                        </div>
                                     </td>
                                     <td className="p-4 flex space-x-4">
                                         <Link
