@@ -60,13 +60,13 @@ const ViewLeads = () => {
                                                 'bg-teal-50 border-l-4 border-l-teal-500 '
                                             }`}
                                         >
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="min-w-max">
                                                     {lead.first_name}{' '}
                                                     {lead.last_name}
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="min-w-max">
                                                     <a
                                                         href={`mailto:${lead.email}`}
@@ -80,7 +80,7 @@ const ViewLeads = () => {
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="min-w-max">
                                                     <a
                                                         href={`tel:${lead.phone}`}
@@ -94,7 +94,7 @@ const ViewLeads = () => {
                                                     </a>
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="min-w-max">
                                                     {lead.program
                                                         ? capitalize(
@@ -103,14 +103,14 @@ const ViewLeads = () => {
                                                         : '-'}
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="min-w-max">
                                                     {moment(lead.created_at)
                                                         .tz('Asia/Kolkata')
                                                         .format('LLL')}
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-4 py-2">
                                                 <div className="flex space-x-4 min-w-max">
                                                     <Link
                                                         to={`/dashboard/leads/view/${lead.id}`}

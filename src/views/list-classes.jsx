@@ -212,7 +212,7 @@ const ListClasses = () => {
                 </div>
             </div>
             <div className="w-full">
-                <div className="table-card">
+                <div className="table-card overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300">
                     <table className="items-center min-w-full bg-transparent border-collapse border-1 shadow-sm">
                         <thead>
                             <th className="thead w-4">
@@ -224,6 +224,7 @@ const ListClasses = () => {
                                 />
                             </th>
                             <th className="thead">Title</th>
+                            <th className="thead">Category</th>
                             <th className="thead">Trainer</th>
                             <th className="thead">Date</th>
                             <th className="thead">Time</th>
@@ -317,16 +318,18 @@ const ListClasses = () => {
                                           className="transition-transform"
                                       >
                                           <td nowrap className="px-4 py-2 w-4">
-                                              <input
-                                                  className="checkbox"
-                                                  type="checkbox"
-                                                  name="sellect-class"
-                                                  value={c.id}
-                                                  checked={c.isChecked}
-                                                  onChange={
-                                                      handleCheckboxChange
-                                                  }
-                                              />
+                                              <div className="min-w-max">
+                                                  <input
+                                                      className="checkbox"
+                                                      type="checkbox"
+                                                      name="sellect-class"
+                                                      value={c.id}
+                                                      checked={c.isChecked}
+                                                      onChange={
+                                                          handleCheckboxChange
+                                                      }
+                                                  />
+                                              </div>
                                           </td>
                                           <Link
                                               to={`/dashboard/classes/view/${c.slug}`}
@@ -336,9 +339,15 @@ const ListClasses = () => {
                                                   nowrap
                                                   className="px-4 py-2 w-1/2 space-y-2 text-truncate"
                                               >
-                                                  <p className="text-slate-700">
-                                                      {c.title}
-                                                  </p>
+                                                  <div className="min-w-max">
+                                                      <p className="text-slate-700">
+                                                          {c.title}
+                                                      </p>
+                                                  </div>
+                                              </td>
+                                          </Link>
+                                          <td className="px-4 py-2 text-sm">
+                                              <div className="min-w-max">
                                                   <p className="text-xs text-slate-400">
                                                       {c.categories.map(
                                                           (cat) => (
@@ -351,80 +360,90 @@ const ListClasses = () => {
                                                           )
                                                       )}
                                                   </p>
-                                              </td>
-                                          </Link>
-                                          <td
-                                              nowrap
-                                              className="px-4 py-2 text-sm"
-                                          >
-                                              <Link
-                                                  to={`/dashboard/trainers/view/${c.trainer_id}`}
-                                                  className="hover:text-sky-500"
-                                              >
-                                                  {c.trainer_name}
-                                              </Link>
+                                              </div>
                                           </td>
                                           <td
                                               nowrap
                                               className="px-4 py-2 text-sm"
                                           >
-                                              {moment(c.start_time)
-                                                  .tz('Asia/Kolkata')
-                                                  .format('LL')}
+                                              <div className="min-w-max">
+                                                  <Link
+                                                      to={`/dashboard/trainers/view/${c.trainer_id}`}
+                                                      className="hover:text-sky-500"
+                                                  >
+                                                      {c.trainer_name}
+                                                  </Link>
+                                              </div>
                                           </td>
                                           <td
                                               nowrap
                                               className="px-4 py-2 text-sm"
                                           >
-                                              {moment(c.start_time)
-                                                  .tz('Asia/Kolkata')
-                                                  .format('LT') +
-                                                  ' - ' +
-                                                  moment(c.end_time)
+                                              <div className="min-w-max">
+                                                  {moment(c.start_time)
                                                       .tz('Asia/Kolkata')
-                                                      .format('LT')}
+                                                      .format('LL')}
+                                              </div>
+                                          </td>
+                                          <td
+                                              nowrap
+                                              className="px-4 py-2 text-sm"
+                                          >
+                                              <div className="min-w-max">
+                                                  {moment(c.start_time)
+                                                      .tz('Asia/Kolkata')
+                                                      .format('LT') +
+                                                      ' - ' +
+                                                      moment(c.end_time)
+                                                          .tz('Asia/Kolkata')
+                                                          .format('LT')}
+                                              </div>
                                           </td>
                                           <td nowrap className="px-4 py-2">
-                                              {
-                                                  <Badge
-                                                      color={
-                                                          c.status
-                                                              ? 'green'
-                                                              : 'yellow'
-                                                      }
-                                                      message={
-                                                          c.status
-                                                              ? 'Published'
-                                                              : 'Draft'
-                                                      }
-                                                  />
-                                              }
+                                              <div className="min-w-max">
+                                                  {
+                                                      <Badge
+                                                          color={
+                                                              c.status
+                                                                  ? 'green'
+                                                                  : 'yellow'
+                                                          }
+                                                          message={
+                                                              c.status
+                                                                  ? 'Published'
+                                                                  : 'Draft'
+                                                          }
+                                                      />
+                                                  }
+                                              </div>
                                           </td>
                                           <td className="px-4 py-2 capitalize text-xs">
-                                              {c.progress_state ===
-                                                  'COMPLETED' && (
-                                                  <Badge
-                                                      color="red"
-                                                      message={c.progress_state.toLowerCase()}
-                                                  />
-                                              )}
-                                              {c.progress_state ===
-                                                  'SCHEDULED' && (
-                                                  <Badge
-                                                      color="blue"
-                                                      message={c.progress_state.toLowerCase()}
-                                                  />
-                                              )}
-                                              {c.progress_state ===
-                                                  'IN PROGRESS' && (
-                                                  <Badge
-                                                      color="green"
-                                                      message={c.progress_state.toLowerCase()}
-                                                  />
-                                              )}
+                                              <div className="min-w-max">
+                                                  {c.progress_state ===
+                                                      'COMPLETED' && (
+                                                      <Badge
+                                                          color="red"
+                                                          message={c.progress_state.toLowerCase()}
+                                                      />
+                                                  )}
+                                                  {c.progress_state ===
+                                                      'SCHEDULED' && (
+                                                      <Badge
+                                                          color="blue"
+                                                          message={c.progress_state.toLowerCase()}
+                                                      />
+                                                  )}
+                                                  {c.progress_state ===
+                                                      'IN PROGRESS' && (
+                                                      <Badge
+                                                          color="green"
+                                                          message={c.progress_state.toLowerCase()}
+                                                      />
+                                                  )}
+                                              </div>
                                           </td>
                                           <td nowrap className="px-4 py-2">
-                                              <div className="flex justify-end space-x-4">
+                                              <div className="flex justify-end space-x-4 min-w-max">
                                                   <Link
                                                       to={`/dashboard/classes/edit/${c.id}`}
                                                       state={{ class: c }}
