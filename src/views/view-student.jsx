@@ -213,7 +213,6 @@ const ViewStudent = () => {
                                                 Payment Status
                                             </td>
                                             <td className="p-1">
-                                                {student.next_due + 'hi'}
                                                 {moment().isBefore(
                                                     student.next_due
                                                 ) ? (
