@@ -48,6 +48,10 @@ const ViewStudent = () => {
         fetchStudentData(state?.state?.student?.id)
     }, [state])
 
+    useEffect(() => {
+        console.log(student)
+    }, [student])
+
     return (
         Object.keys(student).length > 0 && (
             <>
@@ -209,8 +213,9 @@ const ViewStudent = () => {
                                                 Payment Status
                                             </td>
                                             <td className="p-1">
+                                                {student.next_due + 'hi'}
                                                 {moment().isBefore(
-                                                    moment(student.next_due)
+                                                    student.next_due
                                                 ) ? (
                                                     <Badge
                                                         color="green"

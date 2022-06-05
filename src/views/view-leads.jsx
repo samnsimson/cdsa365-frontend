@@ -4,6 +4,7 @@ import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from '../components/card'
+import PaginatedItems from '../components/paginated-items'
 import { config } from '../config/config'
 import { capitalize } from '../helpers/helper'
 
@@ -32,106 +33,115 @@ const ViewLeads = () => {
 
     return (
         <div className="px-6 py-4">
-            <Card
-                title={'Leads'}
-                bodyClass="p-0 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300"
-            >
-                <table className="table border-0 shadow-none">
-                    <thead>
-                        <tr className="border-l-4 border-l-sky-100">
-                            <th className="thead">Name</th>
-                            <th className="thead">Email</th>
-                            <th className="thead">Phone</th>
-                            <th className="thead">Program</th>
-                            <th className="thead">Lead captured at</th>
-                            <th className="thead">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {leads.map((lead, key) => {
-                            return (
-                                <tr
-                                    key={key}
-                                    className={`text-sm ${
-                                        lead.viewed === 0 &&
-                                        'bg-teal-50 border-l-4 border-l-teal-500 border-y-1 border-y-teal-300 last:border-b-0'
-                                    }`}
-                                >
-                                    <td className="p-4">
-                                        <div className="min-w-max">
-                                            {lead.first_name} {lead.last_name}
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="min-w-max">
-                                            <a
-                                                href={`mailto:${lead.email}`}
-                                                className="flex items-center"
-                                            >
-                                                <MailIcon
-                                                    className="w-4 h-4 mr-2 text-sky-500"
-                                                    fill="currentColor"
-                                                />
-                                                {lead.email}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="min-w-max">
-                                            <a
-                                                href={`tel:${lead.phone}`}
-                                                className="flex items-center"
-                                            >
-                                                <PhoneIcon
-                                                    className="w-4 h-4 mr-2 text-sky-500"
-                                                    fill="currentColor"
-                                                />
-                                                {lead.phone}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="min-w-max">
-                                            {lead.program
-                                                ? capitalize(lead.program)
-                                                : '-'}
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="min-w-max">
-                                            {moment(lead.created_at)
-                                                .tz('Asia/Kolkata')
-                                                .format('LLL')}
-                                        </div>
-                                    </td>
-                                    <td className="p-4">
-                                        <div className="flex space-x-4 min-w-max">
-                                            <Link
-                                                to={`/dashboard/leads/view/${lead.id}`}
-                                                state={{ ...lead }}
-                                            >
-                                                <div className="flex items-center text-sky-500 hover:text-sky-600">
-                                                    <EyeIcon className="w-4 h-4 mr-2" />
-                                                    View
-                                                </div>
-                                            </Link>
-                                            <div
-                                                className="flex items-center text-red-500 hover:text-red-600 cursor-pointer"
-                                                onClick={() =>
-                                                    deleteLead(lead.id)
-                                                }
-                                            >
-                                                <TrashIcon className="w-4 h-4 mr-2" />
-                                                Delete
-                                            </div>
-                                        </div>
-                                    </td>
+            {leads.length > 0 && (
+                <PaginatedItems itemsPerPage={1} items={leads}>
+                    <Card
+                        title={'Leads'}
+                        bodyClass="p-0 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300"
+                    >
+                        <table className="table border-0 shadow-none">
+                            <thead>
+                                <tr className="border-l-4 border-l-sky-100">
+                                    <th className="thead">Name</th>
+                                    <th className="thead">Email</th>
+                                    <th className="thead">Phone</th>
+                                    <th className="thead">Program</th>
+                                    <th className="thead">Lead captured at</th>
+                                    <th className="thead">Action</th>
                                 </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-            </Card>
+                            </thead>
+                            <tbody className="divide-y">
+                                {leads.map((lead, key) => {
+                                    return (
+                                        <tr
+                                            key={key}
+                                            className={`text-sm divide-x ${
+                                                lead.viewed === 0 &&
+                                                'bg-teal-50 border-l-4 border-l-teal-500 '
+                                            }`}
+                                        >
+                                            <td className="p-4">
+                                                <div className="min-w-max">
+                                                    {lead.first_name}{' '}
+                                                    {lead.last_name}
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="min-w-max">
+                                                    <a
+                                                        href={`mailto:${lead.email}`}
+                                                        className="flex items-center"
+                                                    >
+                                                        <MailIcon
+                                                            className="w-4 h-4 mr-2 text-sky-500"
+                                                            fill="currentColor"
+                                                        />
+                                                        {lead.email}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="min-w-max">
+                                                    <a
+                                                        href={`tel:${lead.phone}`}
+                                                        className="flex items-center"
+                                                    >
+                                                        <PhoneIcon
+                                                            className="w-4 h-4 mr-2 text-sky-500"
+                                                            fill="currentColor"
+                                                        />
+                                                        {lead.phone}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="min-w-max">
+                                                    {lead.program
+                                                        ? capitalize(
+                                                              lead.program
+                                                          )
+                                                        : '-'}
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="min-w-max">
+                                                    {moment(lead.created_at)
+                                                        .tz('Asia/Kolkata')
+                                                        .format('LLL')}
+                                                </div>
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="flex space-x-4 min-w-max">
+                                                    <Link
+                                                        to={`/dashboard/leads/view/${lead.id}`}
+                                                        state={{
+                                                            ...lead,
+                                                        }}
+                                                    >
+                                                        <div className="flex items-center text-sky-500 hover:text-sky-600">
+                                                            <EyeIcon className="w-4 h-4 mr-2" />
+                                                            View
+                                                        </div>
+                                                    </Link>
+                                                    <div
+                                                        className="flex items-center text-red-500 hover:text-red-600 cursor-pointer"
+                                                        onClick={() =>
+                                                            deleteLead(lead.id)
+                                                        }
+                                                    >
+                                                        <TrashIcon className="w-4 h-4 mr-2" />
+                                                        Delete
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </Card>
+                </PaginatedItems>
+            )}
         </div>
     )
 }

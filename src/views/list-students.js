@@ -323,12 +323,12 @@ const ListStudents = () => {
                                             <th className="thead">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="divide-y">
                                         {!showLoader ? (
                                             student.length > 0 ? (
                                                 student.map((std) => (
                                                     <tr>
-                                                        <td className="p-4">
+                                                        <td className="px-4 py-2">
                                                             <div className="flex items-center">
                                                                 <input
                                                                     name="select-one"
@@ -353,7 +353,7 @@ const ListStudents = () => {
                                                             }}
                                                             className="group"
                                                         >
-                                                            <td className="p-4 flex flex-col">
+                                                            <td className="px-4 py-2 flex flex-col">
                                                                 <span className="group-hover:text-sky-600">
                                                                     {
                                                                         std.first_name
@@ -372,7 +372,7 @@ const ListStudents = () => {
                                                                 </span>
                                                             </td>
                                                         </Link>
-                                                        <td className="p-4">
+                                                        <td className="px-4 py-2">
                                                             {std.categories.map(
                                                                 (cat) => (
                                                                     <Badge
@@ -384,12 +384,12 @@ const ListStudents = () => {
                                                                 )
                                                             )}
                                                         </td>
-                                                        <td className="p-4">
+                                                        <td className="px-4 py-2">
                                                             {moment(
                                                                 std.created_at
                                                             ).format('LL')}
                                                         </td>
-                                                        <td className="p-4 w-4">
+                                                        <td className="px-4 py-2 w-4">
                                                             <span className="flex space-x-1">
                                                                 {std.status ===
                                                                     0 && (

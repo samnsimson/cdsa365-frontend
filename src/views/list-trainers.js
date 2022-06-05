@@ -149,10 +149,10 @@ const ListTrainers = () => {
                             <th className="thead">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y">
                         {trainers.map((trainer, key) => (
                             <tr key={key} className="table-hover group">
-                                <td className="p-4 w-4">
+                                <td className="px-4 py-2 w-4">
                                     <div className="flex items-center">
                                         <input
                                             name="checkbox"
@@ -164,7 +164,7 @@ const ListTrainers = () => {
                                         />
                                     </div>
                                 </td>
-                                <td className="p-4">
+                                <td className="px-4 py-2">
                                     <Link
                                         to={`/dashboard/trainers/view/${trainer.id}`}
                                     >
@@ -188,7 +188,7 @@ const ListTrainers = () => {
                                         </span>
                                     </Link>
                                 </td>
-                                <td className="p-4">
+                                <td className="px-4 py-2">
                                     {trainer.categories
                                         .slice(0, 2)
                                         .map((category, key) => (
@@ -207,7 +207,7 @@ const ListTrainers = () => {
                                         />
                                     )}
                                 </td>
-                                <td className="p-4">
+                                <td className="px-4 py-2">
                                     <div className="flex justify-start">
                                         {trainer.invite_status === 1 &&
                                             trainer.status === 0 && (
@@ -229,7 +229,7 @@ const ListTrainers = () => {
                                         )}
                                     </div>
                                 </td>
-                                <td className="p-4">
+                                <td className="px-4 py-2">
                                     <div className="flex justify-center">
                                         <TrashIcon
                                             className="h-5 w-5 text-red-400 hover:text-red-600 cursor-pointer hover:scale-110"

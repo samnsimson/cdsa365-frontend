@@ -231,11 +231,11 @@ const ListClasses = () => {
                             <th className="thead">Progress</th>
                             <th className="thead">Action</th>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y">
                             {showFilter && (
                                 <tr className="border-b bg-gray-100">
-                                    <td></td>
-                                    <td className="p-4">
+                                    <td className="px-4 py-2"></td>
+                                    <td className="px-4 py-2">
                                         <input
                                             type="text"
                                             name="title"
@@ -247,7 +247,7 @@ const ListClasses = () => {
                                             }
                                         />
                                     </td>
-                                    <td className="p-4">
+                                    <td className="px-4 py-2">
                                         <input
                                             type="text"
                                             name="trainer_name"
@@ -259,9 +259,9 @@ const ListClasses = () => {
                                             }
                                         />
                                     </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td className="p-4">
+                                    <td className="px-4 py-2"></td>
+                                    <td className="px-4 py-2"></td>
+                                    <td className="px-4 py-2">
                                         <select
                                             name="status"
                                             value={statusToFilter}
@@ -277,7 +277,7 @@ const ListClasses = () => {
                                             <option value={1}>Published</option>
                                         </select>
                                     </td>
-                                    <td className="p-4">
+                                    <td className="px-4 py-2">
                                         <select
                                             name="progress_state"
                                             value={progressToFilter}
@@ -316,7 +316,7 @@ const ListClasses = () => {
                                           key={key}
                                           className="transition-transform"
                                       >
-                                          <td nowrap className="p-4 w-4">
+                                          <td nowrap className="px-4 py-2 w-4">
                                               <input
                                                   className="checkbox"
                                                   type="checkbox"
@@ -334,7 +334,7 @@ const ListClasses = () => {
                                           >
                                               <td
                                                   nowrap
-                                                  className="p-4 w-1/2 space-y-2 text-truncate"
+                                                  className="px-4 py-2 w-1/2 space-y-2 text-truncate"
                                               >
                                                   <p className="text-slate-700">
                                                       {c.title}
@@ -353,7 +353,10 @@ const ListClasses = () => {
                                                   </p>
                                               </td>
                                           </Link>
-                                          <td nowrap className="p-4 text-sm">
+                                          <td
+                                              nowrap
+                                              className="px-4 py-2 text-sm"
+                                          >
                                               <Link
                                                   to={`/dashboard/trainers/view/${c.trainer_id}`}
                                                   className="hover:text-sky-500"
@@ -361,12 +364,18 @@ const ListClasses = () => {
                                                   {c.trainer_name}
                                               </Link>
                                           </td>
-                                          <td nowrap className="p-4 text-sm">
+                                          <td
+                                              nowrap
+                                              className="px-4 py-2 text-sm"
+                                          >
                                               {moment(c.start_time)
                                                   .tz('Asia/Kolkata')
                                                   .format('LL')}
                                           </td>
-                                          <td nowrap className="p-4 text-sm">
+                                          <td
+                                              nowrap
+                                              className="px-4 py-2 text-sm"
+                                          >
                                               {moment(c.start_time)
                                                   .tz('Asia/Kolkata')
                                                   .format('LT') +
@@ -375,7 +384,7 @@ const ListClasses = () => {
                                                       .tz('Asia/Kolkata')
                                                       .format('LT')}
                                           </td>
-                                          <td nowrap className="p-4">
+                                          <td nowrap className="px-4 py-2">
                                               {
                                                   <Badge
                                                       color={
@@ -391,7 +400,7 @@ const ListClasses = () => {
                                                   />
                                               }
                                           </td>
-                                          <td className="p-4 capitalize text-xs">
+                                          <td className="px-4 py-2 capitalize text-xs">
                                               {c.progress_state ===
                                                   'COMPLETED' && (
                                                   <Badge
@@ -414,7 +423,7 @@ const ListClasses = () => {
                                                   />
                                               )}
                                           </td>
-                                          <td nowrap className="p-4">
+                                          <td nowrap className="px-4 py-2">
                                               <div className="flex justify-end space-x-4">
                                                   <Link
                                                       to={`/dashboard/classes/edit/${c.id}`}
@@ -463,7 +472,10 @@ const ListClasses = () => {
                                       return (
                                           <tr key={key}>
                                               {[...Array(8)].map((key) => (
-                                                  <td key={key} className="p-4">
+                                                  <td
+                                                      key={key}
+                                                      className="px-4 py-2"
+                                                  >
                                                       <LoadingPlaceholder />
                                                   </td>
                                               ))}
