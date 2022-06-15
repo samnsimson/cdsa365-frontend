@@ -1,20 +1,7 @@
-import React, {
-    Children,
-    cloneElement,
-    isValidElement,
-    useEffect,
-    useState,
-} from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 
-const Items = ({ currentItems, children }) => {
-    return Children.map(children, (child) => {
-        if (!isValidElement(child)) return null
-        return cloneElement(child, { ...child.props, leads: currentItems })
-    })
-}
-
-const PaginatedItems = ({ items, itemsPerPage, children }) => {
+const PaginatedItems = ({ items, itemsPerPage, render }) => {
     const [currentItems, setCurrentItems] = useState(null)
     const [pageCount, setPageCount] = useState(0)
     const [itemOffset, setItemOffset] = useState(0)
@@ -23,18 +10,16 @@ const PaginatedItems = ({ items, itemsPerPage, children }) => {
         const endOffset = itemOffset + itemsPerPage
         setCurrentItems(items.slice(itemOffset, endOffset))
         setPageCount(Math.ceil(items.length / itemsPerPage))
-    }, [itemOffset, itemsPerPage])
+    }, [itemOffset, itemsPerPage, items])
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % items.length
-        const message = `User requested page number ${event.selected}, which is offset ${newOffset}`
-        console.log(message)
         setItemOffset(newOffset)
     }
 
     return (
         <>
-            <Items currentItems={currentItems} children={children} />
+            {currentItems && render(currentItems)}
             <ReactPaginate
                 breakLabel="..."
                 nextLabel=">>"
