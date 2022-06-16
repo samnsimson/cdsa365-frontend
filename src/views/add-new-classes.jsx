@@ -7,16 +7,26 @@ import { LightningBoltIcon, SaveIcon } from '@heroicons/react/solid'
 import Placeholder from '../components/placeholder'
 import Badge from '../components/badge'
 import ListStudentCategories from '../components/list-student-categories'
+import DatePicker, { DateObject } from 'react-multi-date-picker'
+import DatePanel from 'react-multi-date-picker/plugins/date_panel'
+import { ToggleSwitch } from '../components/switch'
+import weekends from 'react-multi-date-picker/plugins/highlight_weekends'
 
 const AddNewClasses = () => {
     const { state, pathname } = useLocation()
     const [trainers, setTrainers] = useState([])
     const [categories, setCategories] = useState([])
     const [showButton, setShowButton] = useState(false)
+    const [recurringDate, setRecurringDate] = useState()
+    const [isRecurring, setIsRecurring] = useState(false)
     const [formData, setFormData] = useState(() => {
         if (!state) {
             return {
                 type: 'phone',
+                recurring: false,
+                dateTime: [],
+                start: moment().format('HH:mm'),
+                end: moment().add(1, 'hour').format('HH:mm'),
             }
         } else {
             let timeFormat = 'yyyy-MM-DDThh:mm'
@@ -25,12 +35,14 @@ const AddNewClasses = () => {
                 title: state.class.title,
                 description: state.class.description,
                 type: state.class.type,
+                recurring: state.class.recurring,
                 start: moment(state.class.start_time).format(timeFormat),
                 end: moment(state.class.end_time).format(timeFormat),
                 video_link: state.class.video_link,
             }
         }
     })
+    const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     const handleChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -62,6 +74,26 @@ const AddNewClasses = () => {
             .catch((err) => console.log(err))
     }
 
+    const handlerecurranceChange = (key, value) => {
+        setIsRecurring(value)
+        setFormData((state) => ({ ...state, [key]: value }))
+    }
+
+    const convertTime = (value, railway = true) => {
+        const dateTime = moment(value, 'HH:mm').toDate()
+        const formatedTime = moment(dateTime).format(
+            railway ? 'HH:mm' : 'hh:mm A'
+        )
+        return formatedTime
+    }
+
+    const handleTimeChange = (e) => {
+        const { name, value } = e.target
+        const dateTime = moment(value, 'HH:mm').toDate()
+        const formatedTime = moment(dateTime).format('HH:mm')
+        setFormData((state) => ({ ...state, [name]: formatedTime }))
+    }
+
     useEffect(() => {
         axios
             .get(config.api.fetchTrainers)
@@ -73,17 +105,26 @@ const AddNewClasses = () => {
 
     useEffect(() => {
         if (pathname.includes('add-new')) {
-            setFormData({ type: 'phone' })
+            setFormData({
+                type: 'phone',
+                recurring: false,
+                dateTime: [],
+                start: moment().format('HH:mm'),
+                end: moment().add(1, 'hour').format('HH:mm'),
+            })
         }
     }, [pathname])
 
     useEffect(() => {
+        console.log(formData)
         let videoLinkOk = false
+
         if (formData.type === 'video') {
             if (formData.video_link) videoLinkOk = true
         } else {
             videoLinkOk = true
         }
+
         if (
             formData.title &&
             formData.description &&
@@ -91,13 +132,36 @@ const AddNewClasses = () => {
             formData.start &&
             formData.end &&
             formData.trainer &&
-            videoLinkOk
+            videoLinkOk &&
+            formData.dateTime.length
         ) {
             setShowButton(true)
         } else {
             setShowButton(false)
         }
     }, [formData])
+
+    useEffect(() => {
+        const dateTime = moment(formData.start, 'HH:mm').toDate()
+        const endTime = moment(dateTime).add(1, 'hour').format('HH:mm')
+        setFormData((state) => ({ ...state, end: endTime }))
+    }, [formData.start])
+
+    useEffect(() => {
+        if (recurringDate instanceof DateObject) {
+            let date = recurringDate.toDate()
+            setFormData((state) => ({
+                ...state,
+                dateTime: [moment(date).format()],
+            }))
+        } else {
+            let date = recurringDate?.map((rd) => moment(rd.toDate()).format())
+            setFormData((state) => ({
+                ...state,
+                dateTime: date || [],
+            }))
+        }
+    }, [recurringDate])
 
     return (
         <div className="px-6 py-4">
@@ -191,7 +255,47 @@ const AddNewClasses = () => {
                             </div>
                         </div>
                         <div className="flex space-x-6">
-                            <div className="w-1/2">
+                            <div className="w-2/12">
+                                <ToggleSwitch
+                                    label={'Recurring'}
+                                    className="block"
+                                    name="recurring"
+                                    value={formData.recurring || false}
+                                    action={(k, v) =>
+                                        handlerecurranceChange(k, v)
+                                    }
+                                />
+                            </div>
+                            <div className="w-4/12">
+                                <label
+                                    htmlFor="recurrence_start"
+                                    className="block mb-2 text-sm font-medium text-gray-900"
+                                >
+                                    Date
+                                </label>
+                                <DatePicker
+                                    multiple={isRecurring}
+                                    plugins={[
+                                        weekends(),
+                                        <DatePanel
+                                            markFocused
+                                            focusedClassName="bg-red-500"
+                                        />,
+                                    ]}
+                                    placeholder="YYYY/MM/DD"
+                                    value={recurringDate}
+                                    minDate={new Date()}
+                                    weekDays={weekDays}
+                                    sort
+                                    name="recurring_dates"
+                                    onChange={(value) =>
+                                        setRecurringDate(value)
+                                    }
+                                    inputClass="form-control"
+                                    containerClassName="block"
+                                />
+                            </div>
+                            <div className="w-3/12">
                                 <label
                                     htmlFor="name"
                                     className="block mb-2 text-sm font-medium text-gray-900"
@@ -199,17 +303,17 @@ const AddNewClasses = () => {
                                     Start Time
                                 </label>
                                 <input
-                                    type="datetime-local"
+                                    type="time"
                                     name="start"
                                     className="form-control"
-                                    value={formData.start ?? '0000-00-00T00:00'}
-                                    onChange={handleChange}
+                                    value={convertTime(formData.start)}
+                                    onChange={handleTimeChange}
                                 />
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                    Choose start time for the class
+                                    Class start time
                                 </p>
                             </div>
-                            <div className="w-1/2">
+                            <div className="w-3/12">
                                 <label
                                     htmlFor="name"
                                     className="block mb-2 text-sm font-medium text-gray-900"
@@ -217,14 +321,15 @@ const AddNewClasses = () => {
                                     End Time
                                 </label>
                                 <input
-                                    type="datetime-local"
+                                    type="time"
                                     name="end"
                                     className="form-control"
-                                    value={formData.end ?? '0000-00-00T00:00'}
-                                    onChange={handleChange}
+                                    min={convertTime(formData.start)}
+                                    value={convertTime(formData.end)}
+                                    onChange={handleTimeChange}
                                 />
                                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                                    Choose end time for the class
+                                    Class end time
                                 </p>
                             </div>
                         </div>
@@ -345,9 +450,7 @@ const AddNewClasses = () => {
                                             Start Time
                                         </h4>
                                         <p className="font-normal">
-                                            {moment(formData.start).format(
-                                                'LLLL'
-                                            )}
+                                            {convertTime(formData.start, false)}
                                         </p>
                                     </div>
                                 )}
@@ -357,9 +460,7 @@ const AddNewClasses = () => {
                                             End Time
                                         </h4>
                                         <p className="font-normal">
-                                            {moment(formData.end).format(
-                                                'LLLL'
-                                            )}
+                                            {convertTime(formData.end, false)}
                                         </p>
                                     </div>
                                 )}
