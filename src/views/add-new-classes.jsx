@@ -12,6 +12,14 @@ import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 import { ToggleSwitch } from '../components/switch'
 import weekends from 'react-multi-date-picker/plugins/highlight_weekends'
 
+const formDataDefaults = {
+    type: 'phone',
+    recurring: false,
+    date: [],
+    start: moment().format('HH:mm'),
+    end: moment().add(1, 'hour').format('HH:mm'),
+}
+
 const AddNewClasses = () => {
     const { state, pathname } = useLocation()
     const [trainers, setTrainers] = useState([])
@@ -21,13 +29,7 @@ const AddNewClasses = () => {
     const [isRecurring, setIsRecurring] = useState(false)
     const [formData, setFormData] = useState(() => {
         if (!state) {
-            return {
-                type: 'phone',
-                recurring: false,
-                dateTime: [],
-                start: moment().format('HH:mm'),
-                end: moment().add(1, 'hour').format('HH:mm'),
-            }
+            return formDataDefaults
         } else {
             let timeFormat = 'yyyy-MM-DDThh:mm'
             return {
@@ -62,7 +64,7 @@ const AddNewClasses = () => {
         const data = { ...formData, status: 1 }
         axios
             .post(config.api.createClass, data)
-            .then(({ data }) => setFormData({}))
+            .then(({ data }) => setFormData(formDataDefaults))
             .catch((err) => console.log(err))
     }
 
@@ -105,13 +107,7 @@ const AddNewClasses = () => {
 
     useEffect(() => {
         if (pathname.includes('add-new')) {
-            setFormData({
-                type: 'phone',
-                recurring: false,
-                dateTime: [],
-                start: moment().format('HH:mm'),
-                end: moment().add(1, 'hour').format('HH:mm'),
-            })
+            setFormData(formDataDefaults)
         }
     }, [pathname])
 
@@ -133,7 +129,7 @@ const AddNewClasses = () => {
             formData.end &&
             formData.trainer &&
             videoLinkOk &&
-            formData.dateTime.length
+            formData.date.length
         ) {
             setShowButton(true)
         } else {
@@ -152,13 +148,13 @@ const AddNewClasses = () => {
             let date = recurringDate.toDate()
             setFormData((state) => ({
                 ...state,
-                dateTime: [moment(date).format()],
+                date: [moment(date).format()],
             }))
         } else {
             let date = recurringDate?.map((rd) => moment(rd.toDate()).format())
             setFormData((state) => ({
                 ...state,
-                dateTime: date || [],
+                date: date || [],
             }))
         }
     }, [recurringDate])
