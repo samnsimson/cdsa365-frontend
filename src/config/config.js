@@ -59,5 +59,6 @@ export const config = {
         verifyToken: BASE_URL + '/verify-token',
         deletePaymentEntry: BASE_URL + '/payments/delete',
         updateLead: BASE_URL + '/leads/update',
+        getAllUsers: BASE_URL + '/admin/all',
     },
 }
