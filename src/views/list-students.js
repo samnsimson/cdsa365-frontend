@@ -16,10 +16,11 @@ import Modal from '../components/modal'
 import AddCategoryDropdown from '../components/add-category-dropdown'
 import LoadingPlaceholder from '../components/loading-placeholder'
 import Placeholder from '../components/placeholder'
-import Badge from '../components/badge'
 import AddClassDropdown from '../components/add-class-dropdown'
 import SetStudentFee from '../components/set-student-fee'
 import { Link } from 'react-router-dom'
+import { Table } from 'flowbite-react'
+import Badge from '../components/badge'
 
 const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ')
@@ -291,44 +292,46 @@ const ListStudents = () => {
                             <Tab.Panel
                                 key={idx}
                                 className={classNames(
-                                    'bg-white rounded-md p-3 shadow-md',
+                                    'rounded-md shadow-none',
                                     'focus:outline-none',
                                     'pt-0 px-0'
                                 )}
                             >
-                                <table className="table shadow-none border-0">
-                                    <thead>
-                                        <tr>
-                                            <th className="thead w-4">
-                                                <input
-                                                    name="select-all"
-                                                    type="checkbox"
-                                                    className="checkbox"
-                                                    onChange={handleAllChecked}
-                                                />
-                                                <label
-                                                    htmlFor="select-all"
-                                                    className="sr-only"
-                                                >
-                                                    checkbox
-                                                </label>
-                                            </th>
-                                            <th className="thead">Name</th>
-                                            <th className="thead">
-                                                Categories
-                                            </th>
-                                            <th className="thead">
-                                                Joining Date
-                                            </th>
-                                            <th className="thead">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y">
+                                <Table className="table shadow-none border-0 pb-4">
+                                    <Table.Head>
+                                        <Table.HeadCell className="thead w-4">
+                                            <input
+                                                name="select-all"
+                                                type="checkbox"
+                                                className="checkbox"
+                                                onChange={handleAllChecked}
+                                            />
+                                            <label
+                                                htmlFor="select-all"
+                                                className="sr-only"
+                                            >
+                                                checkbox
+                                            </label>
+                                        </Table.HeadCell>
+                                        <Table.HeadCell className="thead">
+                                            Name
+                                        </Table.HeadCell>
+                                        <Table.HeadCell className="thead">
+                                            Categories
+                                        </Table.HeadCell>
+                                        <Table.HeadCell className="thead">
+                                            Joining Date
+                                        </Table.HeadCell>
+                                        <Table.HeadCell className="thead">
+                                            Action
+                                        </Table.HeadCell>
+                                    </Table.Head>
+                                    <Table.Body className="divide-y">
                                         {!showLoader ? (
                                             student.length > 0 ? (
                                                 student.map((std) => (
-                                                    <tr>
-                                                        <td className="px-4 py-2">
+                                                    <Table.Row>
+                                                        <Table.Cell className="px-4 py-2">
                                                             <div className="flex items-center">
                                                                 <input
                                                                     name="select-one"
@@ -345,7 +348,7 @@ const ListStudents = () => {
                                                                     }
                                                                 />
                                                             </div>
-                                                        </td>
+                                                        </Table.Cell>
                                                         <Link
                                                             to={`/dashboard/students/view/${std.id}`}
                                                             state={{
@@ -353,7 +356,7 @@ const ListStudents = () => {
                                                             }}
                                                             className="group"
                                                         >
-                                                            <td className="px-4 py-2 flex flex-col">
+                                                            <Table.Cell className="px-4 py-2 flex flex-col">
                                                                 <span className="group-hover:text-sky-600">
                                                                     {
                                                                         std.first_name
@@ -370,26 +373,26 @@ const ListStudents = () => {
                                                                         }
                                                                     </span>
                                                                 </span>
-                                                            </td>
+                                                            </Table.Cell>
                                                         </Link>
-                                                        <td className="px-4 py-2">
+                                                        <Table.Cell className="px-4 py-2">
                                                             {std.categories.map(
                                                                 (cat) => (
                                                                     <Badge
-                                                                        color="gray"
+                                                                        color="blue"
                                                                         message={
                                                                             cat.name
                                                                         }
                                                                     />
                                                                 )
                                                             )}
-                                                        </td>
-                                                        <td className="px-4 py-2">
+                                                        </Table.Cell>
+                                                        <Table.Cell className="px-4 py-2">
                                                             {moment(
                                                                 std.created_at
                                                             ).format('LL')}
-                                                        </td>
-                                                        <td className="px-4 py-2 w-4">
+                                                        </Table.Cell>
+                                                        <Table.Cell className="px-4 py-2 w-4">
                                                             <span className="flex space-x-1">
                                                                 {std.status ===
                                                                     0 && (
@@ -422,7 +425,7 @@ const ListStudents = () => {
                                                                         <button
                                                                             className="btn btn-info btn-sm"
                                                                             onClick={() =>
-                                                                                triggerModal(
+                                                                                Table.RowiggerModal(
                                                                                     'category',
                                                                                     std.id
                                                                                 )
@@ -484,41 +487,41 @@ const ListStudents = () => {
                                                                     </>
                                                                 )}
                                                             </span>
-                                                        </td>
-                                                    </tr>
+                                                        </Table.Cell>
+                                                    </Table.Row>
                                                 ))
                                             ) : (
-                                                <tr>
-                                                    <td
+                                                <Table.Row>
+                                                    <Table.Cell
                                                         colSpan={6}
-                                                        className="p-4 pb-0"
+                                                        className="p-4"
                                                     >
                                                         <Placeholder
                                                             message={
                                                                 'No students to list'
                                                             }
                                                         />
-                                                    </td>
-                                                </tr>
+                                                    </Table.Cell>
+                                                </Table.Row>
                                             )
                                         ) : (
                                             [...Array(8)].map((key) => (
-                                                <tr key={key}>
+                                                <Table.Row key={key}>
                                                     {[...Array(6)].map(
                                                         (key) => (
-                                                            <td
+                                                            <Table.Cell
                                                                 className="p-4"
                                                                 key={key}
                                                             >
                                                                 <LoadingPlaceholder />
-                                                            </td>
+                                                            </Table.Cell>
                                                         )
                                                     )}
-                                                </tr>
+                                                </Table.Row>
                                             ))
                                         )}
-                                    </tbody>
-                                </table>
+                                    </Table.Body>
+                                </Table>
                             </Tab.Panel>
                         ))}
                     </Tab.Panels>
