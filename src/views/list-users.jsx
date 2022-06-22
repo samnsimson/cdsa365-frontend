@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Table } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import Badge from '../components/badge'
 import Card from '../components/card'
@@ -27,31 +28,37 @@ const ListUsers = () => {
     return (
         <div className="px-6 py-4">
             <Card title={'Users'} bodyClass="p-0">
-                <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300">
-                    <table className="items-center min-w-full bg-transparent border-collapse border-1 shadow-sm">
-                        <thead>
-                            <tr>
-                                <th className="thead">Name</th>
-                                <th className="thead">Email</th>
-                                <th className="thead">Phone</th>
-                                <th className="thead">Role</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y">
+                <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300 rounded-none">
+                    <Table hoverable>
+                        <Table.Head>
+                            <Table.HeadCell className="thead">
+                                Name
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Email
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Phone
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Role
+                            </Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
                             {users.map((user, key) => (
-                                <tr key={key}>
-                                    <td className="p-2">
+                                <Table.Row key={key}>
+                                    <Table.Cell>
                                         {user.first_name} {user.last_name}
-                                    </td>
-                                    <td className="p-2">{user.email}</td>
-                                    <td className="p-2">{user.phone}</td>
-                                    <td className="p-2">
+                                    </Table.Cell>
+                                    <Table.Cell>{user.email}</Table.Cell>
+                                    <Table.Cell>{user.phone}</Table.Cell>
+                                    <Table.Cell>
                                         <Badge message={roles[user.role]} />
-                                    </td>
-                                </tr>
+                                    </Table.Cell>
+                                </Table.Row>
                             ))}
-                        </tbody>
-                    </table>
+                        </Table.Body>
+                    </Table>
                 </div>
             </Card>
         </div>

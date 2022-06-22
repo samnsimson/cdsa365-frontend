@@ -15,6 +15,7 @@ import AddCategoryDropdown from '../components/add-category-dropdown'
 import Modal from '../components/modal'
 import { Link } from 'react-router-dom'
 import LoadingPlaceholder from '../components/loading-placeholder'
+import { Button, Table } from 'flowbite-react'
 
 const ListClasses = () => {
     const [classes, setClasses] = useState([])
@@ -180,63 +181,81 @@ const ListClasses = () => {
                     All Classes ({cls.length})
                 </h4>
                 <div className="action-section flex justify-end space-x-2">
-                    <button
-                        className="btn-sm btn-gray text-blue-400"
+                    <Button
+                        size="xs"
+                        color="light"
                         onClick={() => setShowFilter(!showFilter)}
                     >
                         <FilterIcon className="w-4 h-4" fill="currentColor" />
-                    </button>
+                    </Button>
                     {showActionButton && (
                         <>
-                            <button
-                                type="button"
-                                className="btn-sm btn-gray"
+                            <Button
                                 onClick={triggerModal}
+                                size="xs"
+                                color="light"
                             >
                                 <FolderAddIcon className="w-4 h-4 mr-2" />
                                 Add category
-                            </button>
-                            <button
-                                type="button"
-                                className="btn-sm btn-gray"
+                            </Button>
+                            <Button
                                 onClick={bulkDeleteClasses}
+                                size="xs"
+                                color="light"
                             >
                                 <TrashIcon
                                     className="w-4 h-4 mr-2 text-red-500"
                                     fill="currentColor"
                                 />
                                 Delete
-                            </button>
+                            </Button>
                         </>
                     )}
                 </div>
             </div>
             <div className="w-full">
                 <div className="table-card overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-300">
-                    <table className="items-center min-w-full bg-transparent border-collapse border-1 shadow-sm">
-                        <thead>
-                            <th className="thead w-4">
+                    {/* <table className="items-center min-w-full bg-transparent border-collapse border-1 shadow-sm"> */}
+                    <Table hoverable>
+                        <Table.Head>
+                            <Table.HeadCell className="thead w-4">
                                 <input
                                     className="checkbox"
                                     type="checkbox"
                                     name="sellect-all"
                                     onChange={handleAllChecked}
                                 />
-                            </th>
-                            <th className="thead">Title</th>
-                            <th className="thead">Category</th>
-                            <th className="thead">Trainer</th>
-                            <th className="thead">Date</th>
-                            <th className="thead">Time</th>
-                            <th className="thead">Status</th>
-                            <th className="thead">Progress</th>
-                            <th className="thead">Action</th>
-                        </thead>
-                        <tbody className="divide-y">
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Title
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Category
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Trainer
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Date
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Time
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Status
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Progress
+                            </Table.HeadCell>
+                            <Table.HeadCell className="thead">
+                                Action
+                            </Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
                             {showFilter && (
-                                <tr className="border-b bg-gray-100">
-                                    <td className="px-4 py-2"></td>
-                                    <td className="px-4 py-2">
+                                <Table.Row className="border-b bg-gray-100">
+                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>
                                         <input
                                             type="text"
                                             name="title"
@@ -247,8 +266,8 @@ const ListClasses = () => {
                                                 setTitleToFilter(e.target.value)
                                             }
                                         />
-                                    </td>
-                                    <td className="px-4 py-2">
+                                    </Table.Cell>
+                                    <Table.Cell>
                                         <input
                                             type="text"
                                             name="trainer_name"
@@ -259,10 +278,10 @@ const ListClasses = () => {
                                                 setNameToFilter(e.target.value)
                                             }
                                         />
-                                    </td>
-                                    <td className="px-4 py-2"></td>
-                                    <td className="px-4 py-2"></td>
-                                    <td className="px-4 py-2">
+                                    </Table.Cell>
+                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>
                                         <select
                                             name="status"
                                             value={statusToFilter}
@@ -277,8 +296,8 @@ const ListClasses = () => {
                                             <option value={0}>Draft</option>
                                             <option value={1}>Published</option>
                                         </select>
-                                    </td>
-                                    <td className="px-4 py-2">
+                                    </Table.Cell>
+                                    <Table.Cell>
                                         <select
                                             name="progress_state"
                                             value={progressToFilter}
@@ -300,24 +319,24 @@ const ListClasses = () => {
                                                 Completed
                                             </option>
                                         </select>
-                                    </td>
-                                    <td className="text-center text-sm text-red-400">
+                                    </Table.Cell>
+                                    <Table.Cell className="text-center text-sm text-red-400">
                                         <span
                                             onClick={clearFilter}
                                             className="cursor-pointer"
                                         >
                                             Clear filter
                                         </span>
-                                    </td>
-                                </tr>
+                                    </Table.Cell>
+                                </Table.Row>
                             )}
                             {classes.length > 0
                                 ? cls.map((c, key) => (
-                                      <tr
+                                      <Table.Row
                                           key={key}
                                           className="transition-transform"
                                       >
-                                          <td nowrap className="px-4 py-2 w-4">
+                                          <Table.Cell nowrap className="w-4">
                                               <div className="min-w-max">
                                                   <input
                                                       className="checkbox"
@@ -330,23 +349,23 @@ const ListClasses = () => {
                                                       }
                                                   />
                                               </div>
-                                          </td>
+                                          </Table.Cell>
                                           <Link
                                               to={`/dashboard/classes/view/${c.slug}`}
                                               state={{ class: c }}
                                           >
-                                              <td
+                                              <Table.Cell
                                                   nowrap
-                                                  className="px-4 py-2 w-1/2 space-y-2 text-truncate"
+                                                  className="w-1/2 space-y-2 text-truncate"
                                               >
                                                   <div className="min-w-max">
-                                                      <p className="text-slate-700">
+                                                      <p className="text-slate-700 font-semibold">
                                                           {c.title}
                                                       </p>
                                                   </div>
-                                              </td>
+                                              </Table.Cell>
                                           </Link>
-                                          <td className="px-4 py-2 text-sm">
+                                          <Table.Cell className="text-sm">
                                               <div className="min-w-max">
                                                   <p className="text-xs text-slate-400">
                                                       {c.categories.map(
@@ -361,10 +380,10 @@ const ListClasses = () => {
                                                       )}
                                                   </p>
                                               </div>
-                                          </td>
-                                          <td
+                                          </Table.Cell>
+                                          <Table.Cell
                                               nowrap
-                                              className="px-4 py-2 text-sm"
+                                              className="text-sm"
                                           >
                                               <div className="min-w-max">
                                                   <Link
@@ -374,20 +393,20 @@ const ListClasses = () => {
                                                       {c.trainer_name}
                                                   </Link>
                                               </div>
-                                          </td>
-                                          <td
+                                          </Table.Cell>
+                                          <Table.Cell
                                               nowrap
-                                              className="px-4 py-2 text-sm"
+                                              className="text-sm"
                                           >
                                               <div className="min-w-max">
                                                   {moment(c.start_time)
                                                       .tz('Asia/Kolkata')
                                                       .format('LL')}
                                               </div>
-                                          </td>
-                                          <td
+                                          </Table.Cell>
+                                          <Table.Cell
                                               nowrap
-                                              className="px-4 py-2 text-sm"
+                                              className="text-sm"
                                           >
                                               <div className="min-w-max">
                                                   {moment(c.start_time)
@@ -398,8 +417,8 @@ const ListClasses = () => {
                                                           .tz('Asia/Kolkata')
                                                           .format('LT')}
                                               </div>
-                                          </td>
-                                          <td nowrap className="px-4 py-2">
+                                          </Table.Cell>
+                                          <Table.Cell nowrap>
                                               <div className="min-w-max">
                                                   {
                                                       <Badge
@@ -416,8 +435,8 @@ const ListClasses = () => {
                                                       />
                                                   }
                                               </div>
-                                          </td>
-                                          <td className="px-4 py-2 capitalize text-xs">
+                                          </Table.Cell>
+                                          <Table.Cell className="capitalize text-xs">
                                               <div className="min-w-max">
                                                   {c.progress_state ===
                                                       'COMPLETED' && (
@@ -441,8 +460,8 @@ const ListClasses = () => {
                                                       />
                                                   )}
                                               </div>
-                                          </td>
-                                          <td nowrap className="px-4 py-2">
+                                          </Table.Cell>
+                                          <Table.Cell nowrap>
                                               <div className="flex justify-end space-x-4 min-w-max">
                                                   <Link
                                                       to={`/dashboard/classes/edit/${c.id}`}
@@ -484,29 +503,26 @@ const ListClasses = () => {
                                                       }
                                                   />
                                               </div>
-                                          </td>
-                                      </tr>
+                                          </Table.Cell>
+                                      </Table.Row>
                                   ))
                                 : [...Array(8)].map((key) => {
                                       return (
-                                          <tr key={key}>
+                                          <Table.Row key={key}>
                                               {[...Array(8)].map((key) => (
-                                                  <td
-                                                      key={key}
-                                                      className="px-4 py-2"
-                                                  >
+                                                  <Table.Cell key={key}>
                                                       <LoadingPlaceholder />
-                                                  </td>
+                                                  </Table.Cell>
                                               ))}
-                                          </tr>
+                                          </Table.Row>
                                       )
                                   })}
-                        </tbody>
-                    </table>
+                        </Table.Body>
+                    </Table>
                 </div>
             </div>
             {openModal && (
-                <Modal setOpenModel={setOpenModal}>
+                <Modal setOpenModal={setOpenModal}>
                     <AddCategoryDropdown
                         categories={categories}
                         selectedCategory={selectedCategory}

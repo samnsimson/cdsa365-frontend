@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useLocation } from 'react-router-dom'
+import DashboardFooter from '../components/footer'
 import Header from '../components/header'
 import NotAuthorzied from '../components/not-authorized'
 import Sidebar from '../components/sidebar'
@@ -26,8 +27,11 @@ const Dashboard = () => {
                     {isRestricted(pathname, user.role) ? (
                         <NotAuthorzied />
                     ) : (
-                        <Outlet />
+                        <div className="bg-slate-50 min-h-full">
+                            <Outlet />
+                        </div>
                     )}
+                    <DashboardFooter />
                 </div>
             </div>
         </div>
