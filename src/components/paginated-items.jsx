@@ -22,11 +22,11 @@ const PaginatedItems = ({ items = [], itemsPerPage = 10, render }) => {
             {currentItems && render(currentItems)}
             <ReactPaginate
                 breakLabel="..."
-                nextLabel=">>"
+                nextLabel="Next"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={5}
                 pageCount={pageCount}
-                previousLabel="<<"
+                previousLabel="Previous"
                 renderOnZeroPageCount={null}
                 className="pagination flex my-3 float-right"
             />

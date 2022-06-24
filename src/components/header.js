@@ -68,7 +68,7 @@ const Header = ({ className }) => {
                             </Menu.Button>
                             {open && (
                                 <Menu.Items
-                                    className={`origin-top-right absolute right-0 mt-8 w-44 p-3 bg-gray-50 shadow-md space-y-3`}
+                                    className={`origin-top-right absolute right-0 mt-8 w-44 p-3 bg-gray-50 shadow-md space-y-3 z-50`}
                                 >
                                     {userMenu.map((item) => (
                                         <Menu.Item

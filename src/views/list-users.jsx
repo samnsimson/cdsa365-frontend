@@ -72,15 +72,14 @@ const ListUsers = () => {
             axios
                 .post(config.api.createUser, formData)
                 .then(() => {
-                    // const message = `User created and an invite has been sent to ${formData.email} with temporary password`
-                    const message = `User created successfully`
+                    const message = `User created and an invite has been sent to ${formData.email} with temporary password`
                     setInfo(message)
                     error && setError(null)
                     fetchUsers()
                 })
                 .catch((err) => {
                     info && setInfo(null)
-                    setError(err.message)
+                    setError(err.response.data.message)
                 })
                 .finally(() => {
                     setShowModal(false)
@@ -122,6 +121,19 @@ const ListUsers = () => {
         if (!showModal) setFormData(formDefaults)
         if (createUserAlert) setCreateUserAlert(null)
     }, [showModal])
+
+    useEffect(() => {
+        if (info) {
+            setTimeout(() => {
+                setInfo(null)
+            }, 10000)
+        }
+        if (error) {
+            setTimeout(() => {
+                setError(null)
+            }, 10000)
+        }
+    }, [info, error])
 
     return (
         <div className="px-6 py-4">
