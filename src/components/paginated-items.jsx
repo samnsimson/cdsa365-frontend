@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 
-const PaginatedItems = ({ items, itemsPerPage, render }) => {
+const PaginatedItems = ({ items = [], itemsPerPage = 10, render }) => {
     const [currentItems, setCurrentItems] = useState(null)
     const [pageCount, setPageCount] = useState(0)
     const [itemOffset, setItemOffset] = useState(0)

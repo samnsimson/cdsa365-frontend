@@ -255,6 +255,7 @@ const ListClasses = () => {
                             {showFilter && (
                                 <Table.Row className="border-b bg-gray-100">
                                     <Table.Cell></Table.Cell>
+
                                     <Table.Cell>
                                         <input
                                             type="text"
@@ -267,6 +268,7 @@ const ListClasses = () => {
                                             }
                                         />
                                     </Table.Cell>
+                                    <Table.Cell></Table.Cell>
                                     <Table.Cell>
                                         <input
                                             type="text"
