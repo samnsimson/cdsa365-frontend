@@ -14,7 +14,6 @@ import Card from '../components/card'
 import { config } from '../config/config'
 import {
     InformationCircleIcon,
-    PencilIcon,
     PlusIcon,
     TrashIcon,
 } from '@heroicons/react/solid'
@@ -208,7 +207,7 @@ const ListUsers = () => {
                                                 />
                                             </Table.Cell>
                                             <Table.Cell className="flex flex-wrap gap-4">
-                                                <PencilIcon className="w-5 h-5" />
+                                                {/* <PencilIcon className="w-5 h-5" /> */}
                                                 {canDelete(user.id) && (
                                                     <TrashIcon
                                                         className="w-5 h-5 text-red-400 cursor-pointer"

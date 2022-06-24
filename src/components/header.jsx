@@ -4,12 +4,13 @@ import { LogoutIcon } from '@heroicons/react/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleLogin } from '../models'
 import { Menu } from '@headlessui/react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const userMenu = [
     {
         id: 1,
         name: 'Profile',
+        link: '/dashboard/profile',
         icon: (
             <UserCircleIcon className="h-5 w-5 text-gray-500 group-hover:text-white" />
         ),
@@ -17,6 +18,7 @@ const userMenu = [
     {
         id: 2,
         name: 'Sign out',
+        link: null,
         icon: (
             <LogoutIcon className="h-5 w-5 text-gray-500 group-hover:text-white" />
         ),
@@ -80,12 +82,12 @@ const Header = ({ className }) => {
                                             }
                                         >
                                             {({ active }) => (
-                                                <div>
+                                                <Link to={item.link || '#'}>
                                                     {item.icon}
                                                     <p className={`text-md`}>
                                                         {item.name}
                                                     </p>
-                                                </div>
+                                                </Link>
                                             )}
                                         </Menu.Item>
                                     ))}

@@ -1,5 +1,6 @@
 import { TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
 import axios from 'axios'
+import { Avatar, Button, Table } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AddCategoryDropdown from '../components/add-category-dropdown'
@@ -104,55 +105,53 @@ const ListTrainers = () => {
                 </div>
                 {showActions && (
                     <div className="inline-flex space-x-2" role="group">
-                        <button
-                            type="button"
-                            className="btn-sm btn-gray"
-                            onClick={triggerModal}
-                        >
+                        <Button color="light" size="xs" onClick={triggerModal}>
                             <UserGroupIcon
-                                className="w-3 h-3 mr-2 text-cyan-500"
+                                className="w-4 h-4 mr-2 text-cyan-500"
                                 fill="currentColor"
                             />
                             Add Category
-                        </button>
-                        <button type="button" className="btn-sm btn-gray">
+                        </Button>
+                        <Button color="light" size="xs">
                             <TrashIcon
-                                className="w-3 h-3 mr-2 text-red-500"
+                                className="w-4 h-4 mr-2 text-red-500"
                                 fill="currentColor"
                             />
                             Delete
-                        </button>
+                        </Button>
                     </div>
                 )}
             </div>
             <div className="w-full max-h-[75vh] table-card overflow-y-scroll">
-                <table className="items-center w-full bg-transparent border-collapse border-1 shadow-sm">
-                    <thead>
-                        <tr>
-                            <th className="thead">
-                                <input
-                                    id="checkbox-table-1"
-                                    type="checkbox"
-                                    className="checkbox"
-                                    onChange={handleAllChecked}
-                                />
-                                <label
-                                    for="checkbox-table-1"
-                                    className="sr-only"
-                                >
-                                    checkbox
-                                </label>
-                            </th>
-                            <th className="thead">Name</th>
-                            <th className="thead">Category</th>
-                            <th className="thead">Status</th>
-                            <th className="thead">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y">
+                <Table hoverable>
+                    <Table.Head>
+                        <Table.HeadCell className="thead">
+                            <input
+                                id="checkbox-table-1"
+                                type="checkbox"
+                                className="checkbox"
+                                onChange={handleAllChecked}
+                            />
+                            <label for="checkbox-table-1" className="sr-only">
+                                checkbox
+                            </label>
+                        </Table.HeadCell>
+                        <Table.HeadCell className="thead"></Table.HeadCell>
+                        <Table.HeadCell className="thead">Name</Table.HeadCell>
+                        <Table.HeadCell className="thead">
+                            Category
+                        </Table.HeadCell>
+                        <Table.HeadCell className="thead">
+                            Status
+                        </Table.HeadCell>
+                        <Table.HeadCell className="thead">
+                            Action
+                        </Table.HeadCell>
+                    </Table.Head>
+                    <Table.Body className="divide-y">
                         {trainers.map((trainer, key) => (
-                            <tr key={key} className="table-hover group">
-                                <td className="px-4 py-2 w-4">
+                            <Table.Row key={key}>
+                                <Table.Cell className="w-4 py-[12px]">
                                     <div className="flex items-center">
                                         <input
                                             name="checkbox"
@@ -163,32 +162,26 @@ const ListTrainers = () => {
                                             onChange={handleCheckboxChange}
                                         />
                                     </div>
-                                </td>
-                                <td className="px-4 py-2">
+                                </Table.Cell>
+                                <Table.Cell className="w-2 px-[0px] py-[12px]">
+                                    <Avatar rounded={true} />
+                                </Table.Cell>
+                                <Table.Cell className="py-[12px]">
                                     <Link
                                         to={`/dashboard/trainers/view/${trainer.id}`}
                                     >
-                                        <span className="flex">
-                                            <ProfilePicture
-                                                name={
-                                                    trainer.first_name +
-                                                    ' ' +
-                                                    trainer.last_name
-                                                }
-                                            />
-                                            <div className="ml-3 overflow-hidden">
-                                                <p className="text-sm font-medium text-slate-900 group-hover:text-sky-500">
-                                                    {trainer.first_name}{' '}
-                                                    {trainer.last_name}
-                                                </p>
-                                                <p className="text-sm text-slate-500 truncate">
-                                                    {trainer.email}
-                                                </p>
-                                            </div>
-                                        </span>
+                                        <div className="overflow-hidden">
+                                            <p className="text-sm font-medium text-slate-900 group-hover:text-sky-500">
+                                                {trainer.first_name}{' '}
+                                                {trainer.last_name}
+                                            </p>
+                                            <p className="text-sm text-slate-500 truncate">
+                                                {trainer.email}
+                                            </p>
+                                        </div>
                                     </Link>
-                                </td>
-                                <td className="px-4 py-2">
+                                </Table.Cell>
+                                <Table.Cell className="py-[12px]">
                                     {trainer.categories
                                         .slice(0, 2)
                                         .map((category, key) => (
@@ -206,8 +199,8 @@ const ListTrainers = () => {
                                             }`}
                                         />
                                     )}
-                                </td>
-                                <td className="px-4 py-2">
+                                </Table.Cell>
+                                <Table.Cell className="py-[12px]">
                                     <div className="flex justify-start">
                                         {trainer.invite_status === 1 &&
                                             trainer.status === 0 && (
@@ -228,8 +221,8 @@ const ListTrainers = () => {
                                             />
                                         )}
                                     </div>
-                                </td>
-                                <td className="px-4 py-2">
+                                </Table.Cell>
+                                <Table.Cell className="py-[12px]">
                                     <div className="flex justify-center">
                                         <TrashIcon
                                             className="h-5 w-5 text-red-400 hover:text-red-600 cursor-pointer hover:scale-110"
@@ -238,11 +231,11 @@ const ListTrainers = () => {
                                             }
                                         />
                                     </div>
-                                </td>
-                            </tr>
+                                </Table.Cell>
+                            </Table.Row>
                         ))}
-                    </tbody>
-                </table>
+                    </Table.Body>
+                </Table>
             </div>
             {openModal && (
                 <Modal setOpenModal={setOpenModal}>
