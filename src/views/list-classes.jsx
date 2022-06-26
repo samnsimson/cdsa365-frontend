@@ -542,7 +542,7 @@ const ListClasses = () => {
                                                   </Table.Cell>
                                               </Table.Row>
                                           ))
-                                        : [...Array(8)].map((key) => {
+                                        : [...Array(9)].map((key) => {
                                               return (
                                                   <Table.Row key={key}>
                                                       {[...Array(8)].map(
