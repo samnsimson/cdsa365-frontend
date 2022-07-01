@@ -9,17 +9,19 @@ import {
     FolderAddIcon,
     LightningBoltIcon,
     PencilIcon,
+    SearchIcon,
     TrashIcon,
 } from '@heroicons/react/solid'
 import AddCategoryDropdown from '../components/add-category-dropdown'
 import Modal from '../components/modal'
 import { Link } from 'react-router-dom'
 import LoadingPlaceholder from '../components/loading-placeholder'
-import { Button, Table } from 'flowbite-react'
+import { Button, Table, TextInput } from 'flowbite-react'
 import PaginatedItems from '../components/paginated-items'
 
 const ListClasses = () => {
     const [classes, setClasses] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
     const [cls, setCls] = useState(classes)
     const [showActionButton, setShowActionButton] = useState(false)
     const [showFilter, setShowFilter] = useState(false)
@@ -214,6 +216,13 @@ const ListClasses = () => {
                     )}
                 </div>
             </div>
+            <div className="w-full my-3">
+                <TextInput
+                    placeholder="Search classes"
+                    icon={SearchIcon}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
             <div className="w-full">
                 <PaginatedItems
                     items={cls}
@@ -352,196 +361,216 @@ const ListClasses = () => {
                                         </Table.Row>
                                     )}
                                     {classes.length > 0
-                                        ? data.map((c, key) => (
-                                              <Table.Row
-                                                  key={key}
-                                                  className="transition-transform"
-                                              >
-                                                  <Table.Cell
-                                                      nowrap
-                                                      className="w-4"
-                                                  >
-                                                      <div className="min-w-max">
-                                                          <input
-                                                              className="checkbox"
-                                                              type="checkbox"
-                                                              name="sellect-class"
-                                                              value={c.id}
-                                                              checked={
-                                                                  c.isChecked
-                                                              }
-                                                              onChange={
-                                                                  handleCheckboxChange
-                                                              }
-                                                          />
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Link
-                                                      to={`/dashboard/classes/view/${c.slug}`}
-                                                      state={{ class: c }}
+                                        ? data
+                                              .filter((c) =>
+                                                  c.title
+                                                      .toLowerCase()
+                                                      .includes(
+                                                          searchTerm.toLowerCase()
+                                                      )
+                                              )
+                                              .map((c, key) => (
+                                                  <Table.Row
+                                                      key={key}
+                                                      className="transition-transform"
                                                   >
                                                       <Table.Cell
                                                           nowrap
-                                                          className="w-1/2 space-y-2 text-truncate"
+                                                          className="w-4"
                                                       >
                                                           <div className="min-w-max">
-                                                              <p className="text-slate-700 font-semibold">
-                                                                  {c.title}
+                                                              <input
+                                                                  className="checkbox"
+                                                                  type="checkbox"
+                                                                  name="sellect-class"
+                                                                  value={c.id}
+                                                                  checked={
+                                                                      c.isChecked
+                                                                  }
+                                                                  onChange={
+                                                                      handleCheckboxChange
+                                                                  }
+                                                              />
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Link
+                                                          to={`/dashboard/classes/view/${c.slug}`}
+                                                          state={{ class: c }}
+                                                      >
+                                                          <Table.Cell
+                                                              nowrap
+                                                              className="w-1/2 space-y-2 text-truncate"
+                                                          >
+                                                              <div className="min-w-max">
+                                                                  <p className="text-slate-700 font-semibold">
+                                                                      {c.title}
+                                                                  </p>
+                                                              </div>
+                                                          </Table.Cell>
+                                                      </Link>
+                                                      <Table.Cell className="text-sm">
+                                                          <div className="min-w-max">
+                                                              <p className="text-xs text-slate-400">
+                                                                  {c.categories.map(
+                                                                      (cat) => (
+                                                                          <Badge
+                                                                              color="sky"
+                                                                              message={
+                                                                                  cat.name
+                                                                              }
+                                                                          />
+                                                                      )
+                                                                  )}
                                                               </p>
                                                           </div>
                                                       </Table.Cell>
-                                                  </Link>
-                                                  <Table.Cell className="text-sm">
-                                                      <div className="min-w-max">
-                                                          <p className="text-xs text-slate-400">
-                                                              {c.categories.map(
-                                                                  (cat) => (
-                                                                      <Badge
-                                                                          color="sky"
-                                                                          message={
-                                                                              cat.name
-                                                                          }
-                                                                      />
-                                                                  )
-                                                              )}
-                                                          </p>
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell
-                                                      nowrap
-                                                      className="text-sm"
-                                                  >
-                                                      <div className="min-w-max">
-                                                          <Link
-                                                              to={`/dashboard/trainers/view/${c.trainer_id}`}
-                                                              className="hover:text-sky-500"
-                                                          >
-                                                              {c.trainer_name}
-                                                          </Link>
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell
-                                                      nowrap
-                                                      className="text-sm"
-                                                  >
-                                                      <div className="min-w-max">
-                                                          {moment(c.start_time)
-                                                              .tz(
-                                                                  'Asia/Kolkata'
+                                                      <Table.Cell
+                                                          nowrap
+                                                          className="text-sm"
+                                                      >
+                                                          <div className="min-w-max">
+                                                              <Link
+                                                                  to={`/dashboard/trainers/view/${c.trainer_id}`}
+                                                                  className="hover:text-sky-500"
+                                                              >
+                                                                  {
+                                                                      c.trainer_name
+                                                                  }
+                                                              </Link>
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Table.Cell
+                                                          nowrap
+                                                          className="text-sm"
+                                                      >
+                                                          <div className="min-w-max">
+                                                              {moment(
+                                                                  c.start_time
                                                               )
-                                                              .format('LL')}
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell
-                                                      nowrap
-                                                      className="text-sm"
-                                                  >
-                                                      <div className="min-w-max">
-                                                          {moment(c.start_time)
-                                                              .tz(
-                                                                  'Asia/Kolkata'
-                                                              )
-                                                              .format('LT') +
-                                                              ' - ' +
-                                                              moment(c.end_time)
                                                                   .tz(
                                                                       'Asia/Kolkata'
                                                                   )
-                                                                  .format('LT')}
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell nowrap>
-                                                      <div className="min-w-max">
-                                                          {
-                                                              <Badge
-                                                                  color={
-                                                                      c.status
-                                                                          ? 'green'
-                                                                          : 'yellow'
-                                                                  }
-                                                                  message={
-                                                                      c.status
-                                                                          ? 'Published'
-                                                                          : 'Draft'
-                                                                  }
-                                                              />
-                                                          }
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell className="capitalize text-xs">
-                                                      <div className="min-w-max">
-                                                          {c.progress_state ===
-                                                              'COMPLETED' && (
-                                                              <Badge
-                                                                  color="red"
-                                                                  message={c.progress_state.toLowerCase()}
-                                                              />
-                                                          )}
-                                                          {c.progress_state ===
-                                                              'SCHEDULED' && (
-                                                              <Badge
-                                                                  color="blue"
-                                                                  message={c.progress_state.toLowerCase()}
-                                                              />
-                                                          )}
-                                                          {c.progress_state ===
-                                                              'IN PROGRESS' && (
-                                                              <Badge
-                                                                  color="green"
-                                                                  message={c.progress_state.toLowerCase()}
-                                                              />
-                                                          )}
-                                                      </div>
-                                                  </Table.Cell>
-                                                  <Table.Cell nowrap>
-                                                      <div className="flex justify-end space-x-4 min-w-max">
-                                                          <Link
-                                                              to={`/dashboard/classes/edit/${c.id}`}
-                                                              state={{
-                                                                  class: c,
-                                                              }}
-                                                          >
-                                                              <PencilIcon
-                                                                  className="h-5 w-5 cursor-pointer"
-                                                                  fill="currentColor"
-                                                              />
-                                                          </Link>
-                                                          {!c.status ? (
-                                                              <LightningBoltIcon
-                                                                  className="h-5 w-5 text-teal-500 hover:cursor-pointer"
-                                                                  fill="currentColor"
-                                                                  onClick={() =>
-                                                                      updateClassStatus(
-                                                                          c.id,
-                                                                          1
-                                                                      )
-                                                                  }
-                                                              />
-                                                          ) : (
-                                                              <EyeOffIcon
-                                                                  className="h-5 w-5 text-sky-500 hover:cursor-pointer"
-                                                                  fill="currentColor"
-                                                                  onClick={() =>
-                                                                      updateClassStatus(
-                                                                          c.id,
-                                                                          0
-                                                                      )
-                                                                  }
-                                                              />
-                                                          )}
-                                                          <TrashIcon
-                                                              className="h-5 w-5 text-red-500 hover:cursor-pointer"
-                                                              fill="currentColor"
-                                                              onClick={() =>
-                                                                  deleteClass(
-                                                                      c.id
+                                                                  .format('LL')}
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Table.Cell
+                                                          nowrap
+                                                          className="text-sm"
+                                                      >
+                                                          <div className="min-w-max">
+                                                              {moment(
+                                                                  c.start_time
+                                                              )
+                                                                  .tz(
+                                                                      'Asia/Kolkata'
                                                                   )
+                                                                  .format(
+                                                                      'LT'
+                                                                  ) +
+                                                                  ' - ' +
+                                                                  moment(
+                                                                      c.end_time
+                                                                  )
+                                                                      .tz(
+                                                                          'Asia/Kolkata'
+                                                                      )
+                                                                      .format(
+                                                                          'LT'
+                                                                      )}
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Table.Cell nowrap>
+                                                          <div className="min-w-max">
+                                                              {
+                                                                  <Badge
+                                                                      color={
+                                                                          c.status
+                                                                              ? 'green'
+                                                                              : 'yellow'
+                                                                      }
+                                                                      message={
+                                                                          c.status
+                                                                              ? 'Published'
+                                                                              : 'Draft'
+                                                                      }
+                                                                  />
                                                               }
-                                                          />
-                                                      </div>
-                                                  </Table.Cell>
-                                              </Table.Row>
-                                          ))
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Table.Cell className="capitalize text-xs">
+                                                          <div className="min-w-max">
+                                                              {c.progress_state ===
+                                                                  'COMPLETED' && (
+                                                                  <Badge
+                                                                      color="red"
+                                                                      message={c.progress_state.toLowerCase()}
+                                                                  />
+                                                              )}
+                                                              {c.progress_state ===
+                                                                  'SCHEDULED' && (
+                                                                  <Badge
+                                                                      color="blue"
+                                                                      message={c.progress_state.toLowerCase()}
+                                                                  />
+                                                              )}
+                                                              {c.progress_state ===
+                                                                  'IN PROGRESS' && (
+                                                                  <Badge
+                                                                      color="green"
+                                                                      message={c.progress_state.toLowerCase()}
+                                                                  />
+                                                              )}
+                                                          </div>
+                                                      </Table.Cell>
+                                                      <Table.Cell nowrap>
+                                                          <div className="flex justify-end space-x-4 min-w-max">
+                                                              <Link
+                                                                  to={`/dashboard/classes/edit/${c.id}`}
+                                                                  state={{
+                                                                      class: c,
+                                                                  }}
+                                                              >
+                                                                  <PencilIcon
+                                                                      className="h-5 w-5 cursor-pointer"
+                                                                      fill="currentColor"
+                                                                  />
+                                                              </Link>
+                                                              {!c.status ? (
+                                                                  <LightningBoltIcon
+                                                                      className="h-5 w-5 text-teal-500 hover:cursor-pointer"
+                                                                      fill="currentColor"
+                                                                      onClick={() =>
+                                                                          updateClassStatus(
+                                                                              c.id,
+                                                                              1
+                                                                          )
+                                                                      }
+                                                                  />
+                                                              ) : (
+                                                                  <EyeOffIcon
+                                                                      className="h-5 w-5 text-sky-500 hover:cursor-pointer"
+                                                                      fill="currentColor"
+                                                                      onClick={() =>
+                                                                          updateClassStatus(
+                                                                              c.id,
+                                                                              0
+                                                                          )
+                                                                      }
+                                                                  />
+                                                              )}
+                                                              <TrashIcon
+                                                                  className="h-5 w-5 text-red-500 hover:cursor-pointer"
+                                                                  fill="currentColor"
+                                                                  onClick={() =>
+                                                                      deleteClass(
+                                                                          c.id
+                                                                      )
+                                                                  }
+                                                              />
+                                                          </div>
+                                                      </Table.Cell>
+                                                  </Table.Row>
+                                              ))
                                         : [...Array(9)].map((key) => {
                                               return (
                                                   <Table.Row key={key}>

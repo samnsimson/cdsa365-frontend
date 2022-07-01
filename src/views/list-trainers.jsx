@@ -1,6 +1,6 @@
-import { TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
+import { SearchIcon, TrashIcon, UserGroupIcon } from '@heroicons/react/solid'
 import axios from 'axios'
-import { Avatar, Button, Table } from 'flowbite-react'
+import { Avatar, Button, Table, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AddCategoryDropdown from '../components/add-category-dropdown'
@@ -18,6 +18,7 @@ const ListTrainers = () => {
     const defaultCategory = { name: 'Select a category', disabled: true }
     const [categories, setCategories] = useState([defaultCategory])
     const [selectedCategory, setSelectedCategory] = useState(categories[0])
+    const [searchKey, setSearchKey] = useState('')
 
     const fetchAllTrainers = () => {
         axios
@@ -97,7 +98,7 @@ const ListTrainers = () => {
 
     return (
         <div className="py-4 px-6">
-            <div className="py-4 w-full flex items-center justify-between">
+            <div className="py-4 w-full flex-row items-center justify-between">
                 <div>
                     <h4 className="font-semibold text-gray-500">
                         All trainers
@@ -121,6 +122,14 @@ const ListTrainers = () => {
                         </Button>
                     </div>
                 )}
+            </div>
+            <div className="w-full mb-5">
+                <TextInput
+                    onChange={(e) => setSearchKey(e.target.value)}
+                    className="bg-white"
+                    icon={SearchIcon}
+                    placeholder="Search trainer"
+                />
             </div>
             <div className="w-full max-h-[75vh] table-card overflow-y-scroll">
                 <Table hoverable>
@@ -149,91 +158,99 @@ const ListTrainers = () => {
                         </Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {trainers.map((trainer, key) => (
-                            <Table.Row key={key}>
-                                <Table.Cell className="w-4 py-[12px]">
-                                    <div className="flex items-center">
-                                        <input
-                                            name="checkbox"
-                                            type="checkbox"
-                                            className="checkbox"
-                                            checked={trainer.isChecked}
-                                            value={trainer.id}
-                                            onChange={handleCheckboxChange}
-                                        />
-                                    </div>
-                                </Table.Cell>
-                                <Table.Cell className="w-2 px-[0px] py-[12px]">
-                                    <Avatar rounded={true} />
-                                </Table.Cell>
-                                <Table.Cell className="py-[12px]">
-                                    <Link
-                                        to={`/dashboard/trainers/view/${trainer.id}`}
-                                    >
-                                        <div className="overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 group-hover:text-sky-500">
-                                                {trainer.first_name}{' '}
-                                                {trainer.last_name}
-                                            </p>
-                                            <p className="text-sm text-slate-500 truncate">
-                                                {trainer.email}
-                                            </p>
+                        {trainers
+                            .filter((t) => {
+                                const name = `${t.first_name} ${t.last_name}`
+                                return name
+                                    .toLowerCase()
+                                    .includes(searchKey.toLowerCase())
+                            })
+                            .map((trainer, key) => (
+                                <Table.Row key={key}>
+                                    <Table.Cell className="w-4 py-[12px]">
+                                        <div className="flex items-center">
+                                            <input
+                                                name="checkbox"
+                                                type="checkbox"
+                                                className="checkbox"
+                                                checked={trainer.isChecked}
+                                                value={trainer.id}
+                                                onChange={handleCheckboxChange}
+                                            />
                                         </div>
-                                    </Link>
-                                </Table.Cell>
-                                <Table.Cell className="py-[12px]">
-                                    {trainer.categories
-                                        .slice(0, 2)
-                                        .map((category, key) => (
-                                            <Badge
-                                                key={key}
-                                                color="gray"
-                                                message={category.name}
-                                            />
-                                        ))}
-                                    {trainer.categories.length > 2 && (
-                                        <Badge
-                                            color="gray"
-                                            message={`+${
-                                                trainer.categories.length - 1
-                                            }`}
-                                        />
-                                    )}
-                                </Table.Cell>
-                                <Table.Cell className="py-[12px]">
-                                    <div className="flex justify-start">
-                                        {trainer.invite_status === 1 &&
-                                            trainer.status === 0 && (
+                                    </Table.Cell>
+                                    <Table.Cell className="w-2 px-[0px] py-[12px]">
+                                        <Avatar rounded={true} />
+                                    </Table.Cell>
+                                    <Table.Cell className="py-[12px]">
+                                        <Link
+                                            to={`/dashboard/trainers/view/${trainer.id}`}
+                                        >
+                                            <div className="overflow-hidden">
+                                                <p className="text-sm font-medium text-slate-900 group-hover:text-sky-500">
+                                                    {trainer.first_name}{' '}
+                                                    {trainer.last_name}
+                                                </p>
+                                                <p className="text-sm text-slate-500 truncate">
+                                                    {trainer.email}
+                                                </p>
+                                            </div>
+                                        </Link>
+                                    </Table.Cell>
+                                    <Table.Cell className="py-[12px]">
+                                        {trainer.categories
+                                            .slice(0, 2)
+                                            .map((category, key) => (
                                                 <Badge
-                                                    color="yellow"
-                                                    message="Invite sent"
+                                                    key={key}
+                                                    color="gray"
+                                                    message={category.name}
                                                 />
-                                            )}
-                                        {trainer.status === 0 ? (
+                                            ))}
+                                        {trainer.categories.length > 2 && (
                                             <Badge
-                                                color="red"
-                                                message="Inactive"
-                                            />
-                                        ) : (
-                                            <Badge
-                                                color="green"
-                                                message="Active"
+                                                color="gray"
+                                                message={`+${
+                                                    trainer.categories.length -
+                                                    1
+                                                }`}
                                             />
                                         )}
-                                    </div>
-                                </Table.Cell>
-                                <Table.Cell className="py-[12px]">
-                                    <div className="flex justify-center">
-                                        <TrashIcon
-                                            className="h-5 w-5 text-red-400 hover:text-red-600 cursor-pointer hover:scale-110"
-                                            onClick={() =>
-                                                deleteTrainer(trainer.id)
-                                            }
-                                        />
-                                    </div>
-                                </Table.Cell>
-                            </Table.Row>
-                        ))}
+                                    </Table.Cell>
+                                    <Table.Cell className="py-[12px]">
+                                        <div className="flex justify-start">
+                                            {trainer.invite_status === 1 &&
+                                                trainer.status === 0 && (
+                                                    <Badge
+                                                        color="yellow"
+                                                        message="Invite sent"
+                                                    />
+                                                )}
+                                            {trainer.status === 0 ? (
+                                                <Badge
+                                                    color="red"
+                                                    message="Inactive"
+                                                />
+                                            ) : (
+                                                <Badge
+                                                    color="green"
+                                                    message="Active"
+                                                />
+                                            )}
+                                        </div>
+                                    </Table.Cell>
+                                    <Table.Cell className="py-[12px]">
+                                        <div className="flex justify-center">
+                                            <TrashIcon
+                                                className="h-5 w-5 text-red-400 hover:text-red-600 cursor-pointer hover:scale-110"
+                                                onClick={() =>
+                                                    deleteTrainer(trainer.id)
+                                                }
+                                            />
+                                        </div>
+                                    </Table.Cell>
+                                </Table.Row>
+                            ))}
                     </Table.Body>
                 </Table>
             </div>

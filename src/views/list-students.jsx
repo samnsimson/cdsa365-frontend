@@ -7,6 +7,7 @@ import {
     CheckIcon,
     FolderIcon,
     MailIcon,
+    SearchIcon,
     ThumbDownIcon,
     ThumbUpIcon,
     UserGroupIcon,
@@ -19,7 +20,7 @@ import Placeholder from '../components/placeholder'
 import AddClassDropdown from '../components/add-class-dropdown'
 import SetStudentFee from '../components/set-student-fee'
 import { Link } from 'react-router-dom'
-import { Table } from 'flowbite-react'
+import { Table, TextInput } from 'flowbite-react'
 import Badge from '../components/badge'
 
 const classNames = (...classes) => {
@@ -27,6 +28,7 @@ const classNames = (...classes) => {
 }
 
 const ListStudents = () => {
+    const [searchTerm, setSearchTerm] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedStudents, setSelectedStudents] = useState([])
     const [targetStudent, setTargetStudent] = useState(null)
@@ -287,6 +289,13 @@ const ListStudents = () => {
                             </Tab>
                         ))}
                     </Tab.List>
+                    <div className="w-full my-3">
+                        <TextInput
+                            icon={SearchIcon}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder="Search students"
+                        />
+                    </div>
                     <Tab.Panels className="mt-2">
                         {Object.values(students).map((student, idx) => (
                             <Tab.Panel
@@ -329,167 +338,177 @@ const ListStudents = () => {
                                     <Table.Body className="divide-y">
                                         {!showLoader ? (
                                             student.length > 0 ? (
-                                                student.map((std) => (
-                                                    <Table.Row>
-                                                        <Table.Cell className="px-4 py-2">
-                                                            <div className="flex items-center">
-                                                                <input
-                                                                    name="select-one"
-                                                                    type="checkbox"
-                                                                    className="checkbox"
-                                                                    checked={
-                                                                        std.isChecked
-                                                                    }
-                                                                    value={
-                                                                        std.id
-                                                                    }
-                                                                    onChange={
-                                                                        handleCheckboxChange
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        </Table.Cell>
-                                                        <Link
-                                                            to={`/dashboard/students/view/${std.id}`}
-                                                            state={{
-                                                                student: std,
-                                                            }}
-                                                            className="group"
-                                                        >
-                                                            <Table.Cell className="px-4 py-2 flex flex-col">
-                                                                <span className="group-hover:text-sky-600">
-                                                                    {
-                                                                        std.first_name
-                                                                    }{' '}
-                                                                    {
-                                                                        std.last_name
-                                                                    }
-                                                                </span>
-                                                                <span className="text-sm text-gray-400 flex space-x-2 items-center ">
-                                                                    <MailIcon className="w-4 h-4" />
-                                                                    <span>
-                                                                        {
-                                                                            std.email
+                                                student
+                                                    .filter((s) => {
+                                                        const name = `${s.first_name} ${s.last_name}`
+                                                        return name
+                                                            .toLowerCase()
+                                                            .includes(
+                                                                searchTerm.toLowerCase()
+                                                            )
+                                                    })
+                                                    .map((std) => (
+                                                        <Table.Row>
+                                                            <Table.Cell className="px-4 py-2">
+                                                                <div className="flex items-center">
+                                                                    <input
+                                                                        name="select-one"
+                                                                        type="checkbox"
+                                                                        className="checkbox"
+                                                                        checked={
+                                                                            std.isChecked
                                                                         }
-                                                                    </span>
-                                                                </span>
-                                                            </Table.Cell>
-                                                        </Link>
-                                                        <Table.Cell className="px-4 py-2">
-                                                            {std.categories.map(
-                                                                (cat) => (
-                                                                    <Badge
-                                                                        color="blue"
-                                                                        message={
-                                                                            cat.name
+                                                                        value={
+                                                                            std.id
+                                                                        }
+                                                                        onChange={
+                                                                            handleCheckboxChange
                                                                         }
                                                                     />
-                                                                )
-                                                            )}
-                                                        </Table.Cell>
-                                                        <Table.Cell className="px-4 py-2">
-                                                            {moment(
-                                                                std.created_at
-                                                            ).format('LL')}
-                                                        </Table.Cell>
-                                                        <Table.Cell className="px-4 py-2 w-4">
-                                                            <span className="flex space-x-1">
-                                                                {std.status ===
-                                                                    0 && (
-                                                                    <>
-                                                                        <button
-                                                                            className="btn btn-success btn-sm"
-                                                                            onClick={() =>
-                                                                                handleThumbsUp(
-                                                                                    std.id
-                                                                                )
+                                                                </div>
+                                                            </Table.Cell>
+                                                            <Link
+                                                                to={`/dashboard/students/view/${std.id}`}
+                                                                state={{
+                                                                    student:
+                                                                        std,
+                                                                }}
+                                                                className="group"
+                                                            >
+                                                                <Table.Cell className="px-4 py-2 flex flex-col">
+                                                                    <span className="group-hover:text-sky-600">
+                                                                        {
+                                                                            std.first_name
+                                                                        }{' '}
+                                                                        {
+                                                                            std.last_name
+                                                                        }
+                                                                    </span>
+                                                                    <span className="text-sm text-gray-400 flex space-x-2 items-center ">
+                                                                        <MailIcon className="w-4 h-4" />
+                                                                        <span>
+                                                                            {
+                                                                                std.email
                                                                             }
-                                                                        >
-                                                                            <ThumbUpIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                        <button
-                                                                            className="btn btn-danger btn-sm"
-                                                                            onClick={() =>
-                                                                                rejectStudent(
-                                                                                    std.id
-                                                                                )
+                                                                        </span>
+                                                                    </span>
+                                                                </Table.Cell>
+                                                            </Link>
+                                                            <Table.Cell className="px-4 py-2">
+                                                                {std.categories.map(
+                                                                    (cat) => (
+                                                                        <Badge
+                                                                            color="blue"
+                                                                            message={
+                                                                                cat.name
                                                                             }
-                                                                        >
-                                                                            <ThumbDownIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                    </>
+                                                                        />
+                                                                    )
                                                                 )}
-                                                                {std.status ===
-                                                                    1 && (
-                                                                    <>
-                                                                        <button
-                                                                            className="btn btn-info btn-sm"
-                                                                            onClick={() =>
-                                                                                Table.RowiggerModal(
-                                                                                    'category',
-                                                                                    std.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <FolderIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                        <button
-                                                                            className="btn btn-primary btn-sm"
-                                                                            onClick={() =>
-                                                                                triggerModal(
-                                                                                    'class',
-                                                                                    std.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <UserGroupIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                        <button
-                                                                            className="btn btn-danger btn-sm"
-                                                                            onClick={() =>
-                                                                                putOnHold(
-                                                                                    std.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <BanIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                    </>
-                                                                )}
-                                                                {std.status ===
-                                                                    2 && (
-                                                                    <>
-                                                                        <button
-                                                                            className="btn btn-success btn-sm"
-                                                                            onClick={() =>
-                                                                                handleThumbsUp(
-                                                                                    std.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <UserGroupIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                    </>
-                                                                )}
-                                                                {std.status ===
-                                                                    3 && (
-                                                                    <>
-                                                                        <button
-                                                                            className="btn btn-success btn-sm"
-                                                                            onClick={() =>
-                                                                                activateStudent(
-                                                                                    std.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <CheckIcon className="w-4 h-4" />
-                                                                        </button>
-                                                                    </>
-                                                                )}
-                                                            </span>
-                                                        </Table.Cell>
-                                                    </Table.Row>
-                                                ))
+                                                            </Table.Cell>
+                                                            <Table.Cell className="px-4 py-2">
+                                                                {moment(
+                                                                    std.created_at
+                                                                ).format('LL')}
+                                                            </Table.Cell>
+                                                            <Table.Cell className="px-4 py-2 w-4">
+                                                                <span className="flex space-x-1">
+                                                                    {std.status ===
+                                                                        0 && (
+                                                                        <>
+                                                                            <button
+                                                                                className="btn btn-success btn-sm"
+                                                                                onClick={() =>
+                                                                                    handleThumbsUp(
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <ThumbUpIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                            <button
+                                                                                className="btn btn-danger btn-sm"
+                                                                                onClick={() =>
+                                                                                    rejectStudent(
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <ThumbDownIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+                                                                    {std.status ===
+                                                                        1 && (
+                                                                        <>
+                                                                            <button
+                                                                                className="btn btn-info btn-sm"
+                                                                                onClick={() =>
+                                                                                    Table.RowiggerModal(
+                                                                                        'category',
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <FolderIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                            <button
+                                                                                className="btn btn-primary btn-sm"
+                                                                                onClick={() =>
+                                                                                    triggerModal(
+                                                                                        'class',
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <UserGroupIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                            <button
+                                                                                className="btn btn-danger btn-sm"
+                                                                                onClick={() =>
+                                                                                    putOnHold(
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <BanIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+                                                                    {std.status ===
+                                                                        2 && (
+                                                                        <>
+                                                                            <button
+                                                                                className="btn btn-success btn-sm"
+                                                                                onClick={() =>
+                                                                                    handleThumbsUp(
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <UserGroupIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+                                                                    {std.status ===
+                                                                        3 && (
+                                                                        <>
+                                                                            <button
+                                                                                className="btn btn-success btn-sm"
+                                                                                onClick={() =>
+                                                                                    activateStudent(
+                                                                                        std.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <CheckIcon className="w-4 h-4" />
+                                                                            </button>
+                                                                        </>
+                                                                    )}
+                                                                </span>
+                                                            </Table.Cell>
+                                                        </Table.Row>
+                                                    ))
                                             ) : (
                                                 <Table.Row>
                                                     <Table.Cell
