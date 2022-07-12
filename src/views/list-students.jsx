@@ -444,7 +444,7 @@ const ListStudents = () => {
                                                                             <button
                                                                                 className="btn btn-info btn-sm"
                                                                                 onClick={() =>
-                                                                                    Table.RowiggerModal(
+                                                                                    triggerModal(
                                                                                         'category',
                                                                                         std.id
                                                                                     )
