@@ -35,7 +35,7 @@ const Stats = ({ data }) => {
                         </div>
                     </div>
                     <div className="flex p-4 space-x-4 rounded-lg md:space-x-6 border-1 border-purple-300 bg-purple-50 text-gray-900">
-                        <div className="flex justify-center p-2 align-middle rounded-lg sm:p-4 bg-purple-400">
+                        <div className="flex justify-center p-2 align-middle rounded-lg sm:p-4 bg-purple-300">
                             <PresentationChartBarIcon className="h-9 w-9 text-purple-700" />
                         </div>
                         <div className="flex flex-col justify-center align-middle">
