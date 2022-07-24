@@ -31,6 +31,8 @@ import ResetPassword from './views/reset-password'
 import ViewLeadDetail from './views/view-lead-detail'
 import ViewCategory from './views/view-category'
 import ListUsers from './views/list-users'
+import SEOSettings from './views/seo-settings'
+import Profile from './views/profile'
 
 // ROUTE PATHS
 const path = {
@@ -61,6 +63,8 @@ const path = {
     resetPassword: '/reset-password/:token',
     viewLeadDetail: '/dashboard/leads/view/:id',
     users: '/dashboard/users',
+    seo: '/dashboard/seo',
+    profile: '/dashboard/profile',
 }
 
 // APPLICATION
@@ -188,6 +192,8 @@ const App = () => {
                         path={path.announcements}
                         element={<Announcements />}
                     />
+                    <Route exact path={path.seo} element={<SEOSettings />} />
+                    <Route exact path={path.profile} element={<Profile />} />
                 </Route>
                 <Route
                     path="*"

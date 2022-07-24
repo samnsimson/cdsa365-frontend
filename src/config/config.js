@@ -62,5 +62,9 @@ export const config = {
         deletePaymentEntry: BASE_URL + '/payments/delete',
         updateLead: BASE_URL + '/leads/update',
         getAllUsers: BASE_URL + '/admin/all',
+        createSeoConfig: BASE_URL + '/seo/create',
+        readAllSeoConfig: BASE_URL + '/seo/read-all',
+        activateSeo: BASE_URL + '/seo/activate',
+        deleteSeo: BASE_URL + '/seo/delete',
     },
 }

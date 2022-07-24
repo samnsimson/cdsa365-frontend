@@ -53,5 +53,6 @@ module.exports = {
         require('tw-elements/dist/plugin'),
         require('tailwind-scrollbar'),
         require('flowbite/plugin'),
+        require('@tailwindcss/typography'),
     ],
 }

@@ -32,7 +32,8 @@ const Login = () => {
                     dispatch(toggleLogin(true))
                     dispatch(updateUser(data))
                 })
-                navigate('/authenticate', { state: { id: data.id } })
+                // navigate('/authenticate', { state: { id: data.id } })
+                navigate('/')
             }
         } catch (error) {
             if (error.response) {

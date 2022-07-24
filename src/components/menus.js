@@ -4,6 +4,7 @@ import {
     BookOpenIcon,
     CalendarIcon,
     ChevronRightIcon,
+    CogIcon,
     CreditCardIcon,
     PlusIcon,
     SpeakerphoneIcon,
@@ -180,6 +181,28 @@ const Menus = () => {
                                     </li>
                                 </Link>
                             )}
+                        </ul>
+                    </div>
+                </li>
+                <li className=" p-2">
+                    <div className="w-full font-semibold">
+                        <p>SEO</p>
+                    </div>
+                    <div>
+                        <ul className="py-2">
+                            {currentUser &&
+                                (currentUser.role === 'super' ||
+                                    currentUser.role === 'editor') && (
+                                    <Link to="dashboard/seo">
+                                        <li className="p-2 group flex justify-between text-sm text-gray-400 hover:bg-sky-500 hover:text-white rounded-sm">
+                                            <div className="flex justify-start items-center space-x-2">
+                                                <CogIcon className="h-5 w-5 text-yellow-500 group-hover:text-white" />
+                                                <p>Settings</p>
+                                            </div>
+                                            <ChevronRightIcon className="h-5 w-5" />
+                                        </li>
+                                    </Link>
+                                )}
                         </ul>
                     </div>
                 </li>
