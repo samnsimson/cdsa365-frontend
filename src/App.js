@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 
 // VIEWS
 import Login from './views/login'
-import Register from './views/register'
 import Home from './views/home'
 import Authenticate from './views/authenticate'
 import AuthSetup from './views/auth-setup'
@@ -85,7 +84,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route exact path={path.login} element={<Login />} />
-                <Route exact path={path.register} element={<Register />} />
+                <Route exact path={path.register} element={<Login />} />
                 <Route exact path={path.authSetup} element={<AuthSetup />} />
                 <Route exact path={path.auth} element={<Authenticate />} />
                 <Route exact path={path.pageNotFound} element={<ErrorPage />} />
