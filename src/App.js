@@ -36,7 +36,6 @@ import Profile from './views/profile'
 // ROUTE PATHS
 const path = {
     login: '/login',
-    register: '/register',
     authSetup: '/auth-setup',
     auth: '/authenticate',
     pageNotFound: '/page-not-found',
@@ -84,7 +83,6 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route exact path={path.login} element={<Login />} />
-                <Route exact path={path.register} element={<Login />} />
                 <Route exact path={path.authSetup} element={<AuthSetup />} />
                 <Route exact path={path.auth} element={<Authenticate />} />
                 <Route exact path={path.pageNotFound} element={<ErrorPage />} />
