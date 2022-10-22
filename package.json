@@ -36,7 +36,8 @@
         "build:dev": "env-cmd -e dev react-scripts build",
         "build": "env-cmd -e prod react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "sync": "git push -u https://github.com/CDSA365/admin-portal.git"
     },
     "eslintConfig": {
         "extends": [
