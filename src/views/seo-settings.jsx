@@ -1,5 +1,6 @@
+import { CheckIcon } from '@heroicons/react/solid'
 import axios from 'axios'
-import { Button, Tabs, TextInput } from 'flowbite-react'
+import { Alert, Button, Tabs, TextInput } from 'flowbite-react'
 import { startCase } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { config } from '../config/config'
@@ -16,6 +17,14 @@ const tabs = [
     {
         url: 'courses',
         name: 'Courses',
+    },
+    {
+        url: 'kids',
+        name: 'Kids',
+    },
+    {
+        url: 'adults',
+        name: 'Adults',
     },
     {
         url: 'contact-us',
@@ -40,6 +49,7 @@ const tabs = [
 ]
 
 const SeoForm = ({ records, page, fetchSeoRecords }) => {
+    const [alert, setAlert] = useState(null)
     const [seoData, setSeoData] = useState(null)
     const [canEdit, setCanEdit] = useState(false)
     const [formData, setFormData] = useState({
@@ -53,17 +63,31 @@ const SeoForm = ({ records, page, fetchSeoRecords }) => {
         setFormData((state) => ({ ...state, [name]: value }))
     }
 
+    const handleCancel = () => {
+        setFormData((state) => ({ ...state, ...seoData }))
+        setCanEdit(!canEdit)
+    }
+
     const updateSeo = () => {
-        const data = { ...formData, page }
         axios
-            .post(config.api.createSeoConfig, data)
-            .then(() => fetchSeoRecords())
-            .catch((err) => console.log(err))
+            .post(config.api.createSeoConfig, { ...formData, page })
+            .then(() => {
+                setAlert({ type: 'success', message: 'Published SEO Data' })
+                fetchSeoRecords()
+            })
+            .catch((err) =>
+                setAlert({ type: 'error', message: err.response.data.message })
+            )
             .finally(() => setCanEdit(!canEdit))
     }
 
     useEffect(() => {
-        setSeoData(records.find((x) => x.page === page))
+        const result = records.find((x) => x.page === page)
+        if (result) {
+            setSeoData(result)
+        } else {
+            setSeoData({ title: '', description: '', keywords: '' })
+        }
     }, [records, page])
 
     useEffect(() => {
@@ -75,6 +99,14 @@ const SeoForm = ({ records, page, fetchSeoRecords }) => {
             })
         }
     }, [seoData])
+
+    useEffect(() => {
+        if (!null) {
+            setTimeout(() => {
+                setAlert(null)
+            }, 3000)
+        }
+    }, [alert])
 
     return (
         <div className="mb-6 flex flex-col gap-6">
@@ -126,7 +158,7 @@ const SeoForm = ({ records, page, fetchSeoRecords }) => {
                     disabled={!canEdit}
                 />
             </div>
-            <div>
+            <div className="flex gap-6 items-center">
                 {canEdit ? (
                     <div className="flex gap-3">
                         <Button onClick={updateSeo}>Publish</Button>
@@ -134,11 +166,24 @@ const SeoForm = ({ records, page, fetchSeoRecords }) => {
                             color="light"
                             onClick={() => setCanEdit(!canEdit)}
                         >
-                            <span className="text-red-500">Cancel</span>
+                            <span
+                                className="text-red-500"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </span>
                         </Button>
                     </div>
                 ) : (
                     <Button onClick={() => setCanEdit(!canEdit)}>Edit</Button>
+                )}
+                {alert && (
+                    <Alert
+                        color={alert?.type === 'error' ? 'failure' : 'success'}
+                        icon={CheckIcon}
+                    >
+                        {alert.message}
+                    </Alert>
                 )}
             </div>
         </div>
