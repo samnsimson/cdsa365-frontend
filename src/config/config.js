@@ -66,5 +66,6 @@ export const config = {
         readAllSeoConfig: BASE_URL + '/seo/read-all',
         activateSeo: BASE_URL + '/seo/activate',
         deleteSeo: BASE_URL + '/seo/delete',
+        updateImageMeta: BASE_URL + '/seo/images/update',
     },
 }
