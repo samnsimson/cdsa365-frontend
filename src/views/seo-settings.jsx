@@ -46,6 +46,14 @@ const tabs = [
         url: 'request-a-demo',
         name: 'Request a Demo',
     },
+    {
+        url: 'public-speaking-for-kids',
+        name: 'Public Speaking for Kids',
+    },
+    {
+        url: 'public-speaking-for-adults',
+        name: 'Public Speaking for Adults',
+    },
 ]
 
 const ImageComponent = ({ record }) => {
